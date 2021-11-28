@@ -7,3 +7,5 @@ We need to implement four algorithms: <br>
 3. Is connected - is there a path between every two nodes in the graph 
 4. Traveling Sales Man problem 
 
+First we will implement the Node, Edge and the Location classes.
+
