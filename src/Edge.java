@@ -1,3 +1,5 @@
+import com.google.gson.internal.LinkedTreeMap;
+
 public class Edge implements EdgeData{
     private int src;
     private int dest;
@@ -11,6 +13,25 @@ public class Edge implements EdgeData{
         this.weight = weight;
         this.info = "source of edge: " + src +" destination of edge: " + dest + " weight of edge "+ weight;
     }
+
+    public Edge(LinkedTreeMap<?,?> edge){
+        String dest = edge.get("dest").toString();
+        String src =  edge.get("src").toString();
+        String w = edge.get("w").toString();
+        this.dest = Integer.parseInt(dest);
+        this.src = Integer.parseInt(src);
+        this.weight = Double.parseDouble(w);
+        this.info = "source of edge: " + src +" destination of edge: " + dest + " weight of edge "+ this.weight;
+
+    }
+
+    public Edge(Edge other){
+        this.dest = other.getDest();
+        this.src = other.getSrc();
+        this.weight = other.getWeight();
+        this.info = other.getInfo();
+    }
+
 
     @Override
     public int getSrc() {

@@ -1,3 +1,7 @@
+import com.google.gson.internal.LinkedTreeMap;
+
+import java.util.ArrayList;
+
 public class Node implements NodeData{
     private int key;
     private Location loc;
@@ -5,10 +9,53 @@ public class Node implements NodeData{
     private int tag;
 //    private double weight;
 
-    public Node(int key,int x, int y, int z){
+    public Node(int key,double x, double y, double z){
+        this.fromNode = new ArrayList<>();
+        this.toNode = new ArrayList<>();
         this.loc = new Location(x,y,z);
         this.key = key;
         this.info = "Location of node: x = " + x + " y = " + y + " z = "+ z;
+    }
+
+    public Node(LinkedTreeMap<?,?> node) {
+        this.fromNode = new ArrayList<>();
+        this.toNode = new ArrayList<>();
+        String pos =node.get("pos").toString();
+        String id = node.get("id").toString();
+        System.out.println(pos);
+        System.out.println(id);
+        String[] posValues = pos.split(",");
+        this.key = Integer.parseInt(id);
+        Location loc = new Location(Double.parseDouble(posValues[0]),Double.parseDouble(posValues[1]),Double.parseDouble(posValues[2]));
+        this.loc = loc;
+        this.info = "Location of node #"+ this.key +" : x = " + loc.x() + " y = " + loc.y() + " z = "+ loc.z();
+        this.tag = 0;
+    }
+
+    public Node(Node other){
+        this.key = other.getKey();
+        this.loc = new Location(other.getLoc().x(),other.getLoc().y(),other.getLoc().z());
+        this.info = other.getInfo();
+        this.fromNode = new ArrayList<Edge>(other.getFromNode());
+        this.toNode = new ArrayList<Edge>(other.getToNode());
+        this.tag = other.getTag();
+    }
+
+    public ArrayList<Edge> getToNode(){
+        return this.toNode;
+    }
+    public ArrayList<Edge> getFromNode(){
+        return this.fromNode;
+    }
+    public void addEdge(Edge edge) {
+        if(edge.getSrc() == this.key)
+        {
+            fromNode.add(edge);
+        }
+        else if(edge.getDest() == this.key)
+        {
+            toNode.add(edge);
+        }
     }
 
 
@@ -34,7 +81,6 @@ public class Node implements NodeData{
 
     @Override
     public void setWeight(double w) {
-
     }
 
     @Override
