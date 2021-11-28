@@ -6,7 +6,9 @@ public class Node implements NodeData{
     private int key;
     private Location loc;
     private String info;
-    private int tag;
+    private ArrayList<Edge> fromNode;
+    private ArrayList<Edge> toNode;
+    private int tag; // 0 - white, 1 - gray, 2 - black
 //    private double weight;
 
     public Node(int key,double x, double y, double z){
@@ -59,6 +61,9 @@ public class Node implements NodeData{
     }
 
 
+    public Location getLoc(){
+        return this.loc;
+    }
     @Override
     public int getKey() {
         return this.key;
