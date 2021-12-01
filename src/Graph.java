@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph{
     private HashMap<Integer,NodeData> nodes;
-    private  ArrayList<Edge> edges;
+    private ArrayList<Edge> edges;
     private String name;
 
     public Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name){
@@ -15,6 +15,13 @@ public class Graph implements DirectedWeightedGraph{
         for(NodeData node:nodes)
         {
             this.nodes.put(node.getKey(),node);
+        }
+        for(Edge edge:this.edges)
+        {
+            Node src = (Node)this.nodes.get(edge.getSrc());
+            Node dest = (Node)this.nodes.get(edge.getDest());
+            src.addEdge(edge);
+            dest.addEdge(edge);
         }
         this.name = name;
     }
@@ -43,7 +50,7 @@ public class Graph implements DirectedWeightedGraph{
 
     @Override
     public NodeData getNode(int key) {
-        return null;
+        return this.nodes.get(key);
     }
 
     @Override

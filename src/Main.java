@@ -2,6 +2,6 @@ public class Main {
     public static void main(String[] args) {
         GraphAlgorithms graph = new GraphAlgorithms();
         graph.load("data/G1.json");
-        System.out.println(graph.bfs(graph.getGraph().getNode(0)));
+        System.out.println(graph.bfs(0));
     }
 }

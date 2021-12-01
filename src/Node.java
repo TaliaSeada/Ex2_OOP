@@ -107,11 +107,12 @@ public class Node implements NodeData{
 
     @Override
     public int getTag() {
-        return 0;
+        return this.tag;
     }
 
     @Override
     public void setTag(int t) {
+        this.tag = t;
 
     }
 }
