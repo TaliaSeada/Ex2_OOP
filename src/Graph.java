@@ -1,4 +1,3 @@
-import com.google.gson.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +9,8 @@ public class Graph implements DirectedWeightedGraph{
     private String name;
 
     public Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name){
+        this.edges = new ArrayList<>();
+        this.nodes = new HashMap<>();
         this.edges.addAll(edges);
         for(NodeData node:nodes)
         {

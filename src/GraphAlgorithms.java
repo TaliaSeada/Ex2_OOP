@@ -22,7 +22,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public DirectedWeightedGraph getGraph() {
-        return null;
+       return this.graph;
     }
 
     @Override
@@ -87,7 +87,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
             for (Object node : nodes) {
                 nodeArrayList.add(new Node((LinkedTreeMap<?, ?>) node));
             }
-            Graph graph = new Graph(edgeArrayList,nodeArrayList,file.split(".")[0]);
+            Graph graph = new Graph(edgeArrayList,nodeArrayList,file.split("\\.")[0]);
             this.init(graph);
 
             reader.close();

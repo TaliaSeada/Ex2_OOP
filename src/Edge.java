@@ -18,8 +18,8 @@ public class Edge implements EdgeData{
         String dest = edge.get("dest").toString();
         String src =  edge.get("src").toString();
         String w = edge.get("w").toString();
-        this.dest = Integer.parseInt(dest);
-        this.src = Integer.parseInt(src);
+        this.dest = (int)Double.parseDouble(dest);
+        this.src = (int)Double.parseDouble(src);
         this.weight = Double.parseDouble(w);
         this.info = "source of edge: " + src +" destination of edge: " + dest + " weight of edge "+ this.weight;
 
