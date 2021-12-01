@@ -24,10 +24,10 @@ public class Node implements NodeData{
         this.EdgeTo = new ArrayList<>();
         String pos =node.get("pos").toString();
         String id = node.get("id").toString();
-        System.out.println(pos);
-        System.out.println(id);
+//        System.out.println(pos);
+//        System.out.println(id);
         String[] posValues = pos.split(",");
-        this.key = Integer.parseInt(id);
+        this.key = (int) Double.parseDouble(id);
         Location loc = new Location(Double.parseDouble(posValues[0]),Double.parseDouble(posValues[1]),Double.parseDouble(posValues[2]));
         this.loc = loc;
         this.info = "Location of node #"+ this.key +" : x = " + loc.x() + " y = " + loc.y() + " z = "+ loc.z();

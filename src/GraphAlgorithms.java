@@ -65,7 +65,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         try {
             Gson gson = new Gson();
             Reader reader = Files.newBufferedReader(Paths.get(file));
-            List<?> edges = null;
+            List<?> edges = null; // ? - we don't know the type yet
             List<?> nodes = null;
             Map<?,?> map = gson.fromJson(reader, Map.class);
             for (Map.Entry<?, ?> entry : map.entrySet()) {
@@ -75,8 +75,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
                 else {
                     nodes = (List<?>) entry.getValue();
                 }
-                System.out.println(entry.getKey());
+
             }
+//            System.out.println(edges);
+//            System.out.println(nodes);
             assert edges != null;
             ArrayList<Node> nodeArrayList = new ArrayList<>();
             ArrayList<Edge> edgeArrayList = new ArrayList<>();
