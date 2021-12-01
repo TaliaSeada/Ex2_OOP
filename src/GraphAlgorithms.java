@@ -75,8 +75,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
                 }
 
             }
-//            System.out.println(edges);
-//            System.out.println(nodes);
+
             assert edges != null;
             ArrayList<Node> nodeArrayList = new ArrayList<>();
             ArrayList<Edge> edgeArrayList = new ArrayList<>();
