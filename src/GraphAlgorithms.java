@@ -83,7 +83,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
             for (Object edge : edges) {
                 edgeArrayList.add(new Edge((LinkedTreeMap<?, ?>) edge));
            }
-            /** happy all about it. **/
             assert nodes != null;
             for (Object node : nodes) {
                 nodeArrayList.add(new Node((LinkedTreeMap<?, ?>) node));
