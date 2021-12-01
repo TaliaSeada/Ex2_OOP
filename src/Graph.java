@@ -48,6 +48,11 @@ public class Graph implements DirectedWeightedGraph{
 
     @Override
     public EdgeData getEdge(int src, int dest) {
+        for(Edge edge:this.edges){
+            if(edge.getDest() == dest && edge.getSrc() == dest){
+                return edge;
+            }
+        }
         return null;
     }
 

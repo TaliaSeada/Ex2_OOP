@@ -85,6 +85,16 @@ public class Node implements NodeData{
     public void setWeight(double w) {
     }
 
+    public ArrayList<Integer> getEdgeTo()
+    {
+        return this.EdgeTo;
+    }
+
+    public ArrayList<Integer> getEdgeFrom()
+    {
+        return this.EdgeFrom;
+    }
+
     @Override
     public String getInfo() {
         return this.info;
