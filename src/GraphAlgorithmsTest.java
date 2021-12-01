@@ -10,6 +10,5 @@ class GraphAlgorithmsTest {
         assertTrue(GA.load("data/G1.json"));
         assertNotNull(GA.getGraph());
 
-
     }
 }
