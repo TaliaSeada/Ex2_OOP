@@ -4,24 +4,24 @@ import java.util.ArrayList;
 
 public class Node implements NodeData{
     private int key;
-    private Location loc;
+    private GeoLocation loc;
     private String info;
-    private ArrayList<Edge> fromNode;
-    private ArrayList<Edge> toNode;
+    private ArrayList<Integer> EdgeTo;
+    private ArrayList<Integer> EdgeFrom;
     private int tag; // 0 - white, 1 - gray, 2 - black
 //    private double weight;
 
     public Node(int key,double x, double y, double z){
-        this.fromNode = new ArrayList<>();
-        this.toNode = new ArrayList<>();
+        this.EdgeFrom = new ArrayList<>();
+        this.EdgeTo = new ArrayList<>();
         this.loc = new Location(x,y,z);
         this.key = key;
         this.info = "Location of node: x = " + x + " y = " + y + " z = "+ z;
     }
 
     public Node(LinkedTreeMap<?,?> node) {
-        this.fromNode = new ArrayList<>();
-        this.toNode = new ArrayList<>();
+        this.EdgeFrom = new ArrayList<>();
+        this.EdgeTo = new ArrayList<>();
         String pos =node.get("pos").toString();
         String id = node.get("id").toString();
         System.out.println(pos);
@@ -36,34 +36,31 @@ public class Node implements NodeData{
 
     public Node(Node other){
         this.key = other.getKey();
-        this.loc = new Location(other.getLoc().x(),other.getLoc().y(),other.getLoc().z());
+        this.loc = new Location(other.getLocation().x(),other.getLocation().y(),other.getLocation().z());
         this.info = other.getInfo();
-        this.fromNode = new ArrayList<Edge>(other.getFromNode());
-        this.toNode = new ArrayList<Edge>(other.getToNode());
+        this.EdgeFrom = new ArrayList<Integer>(other.getFromNode());
+        this.EdgeTo = new ArrayList<Integer>(other.getToNode());
         this.tag = other.getTag();
     }
 
-    public ArrayList<Edge> getToNode(){
-        return this.toNode;
+    public ArrayList<Integer> getToNode(){
+        return this.EdgeTo;
     }
-    public ArrayList<Edge> getFromNode(){
-        return this.fromNode;
+    public ArrayList<Integer> getFromNode(){
+        return this.EdgeFrom;
     }
     public void addEdge(Edge edge) {
         if(edge.getSrc() == this.key)
         {
-            fromNode.add(edge);
+            EdgeFrom.add(edge.getDest());
         }
         else if(edge.getDest() == this.key)
         {
-            toNode.add(edge);
+            EdgeTo.add(edge.getSrc());
         }
     }
 
 
-    public Location getLoc(){
-        return this.loc;
-    }
     @Override
     public int getKey() {
         return this.key;

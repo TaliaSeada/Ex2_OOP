@@ -1,22 +1,29 @@
 import com.google.gson.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Graph implements DirectedWeightedGraph{
-    private ArrayList<Edge> edges;
-    private ArrayList<Node> nodes;
+    private HashMap<Integer,NodeData> nodes;
+    private  ArrayList<Edge> edges;
     private String name;
 
     public Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name){
         this.edges.addAll(edges);
-        this.nodes.addAll(nodes);
+        for(NodeData node:nodes)
+        {
+            this.nodes.put(node.getKey(),node);
+        }
         this.name = name;
     }
 
     public Graph(Graph other){
         this.edges = new ArrayList<Edge>(other.getEdges());
-        this.nodes = new ArrayList<Node>(other.getNodes());
+        for(Integer key:other.getNodes().keySet())
+        {
+            this.nodes.put(key,other.getNodes().get(key));
+        }
         this.name = other.getName();
     }
 
@@ -26,7 +33,7 @@ public class Graph implements DirectedWeightedGraph{
         return this.edges;
     }
 
-    public ArrayList<Node> getNodes(){
+    public HashMap<Integer,NodeData> getNodes(){
         return this.nodes;
     }
     public String getName(){
