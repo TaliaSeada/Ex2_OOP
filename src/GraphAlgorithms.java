@@ -154,4 +154,31 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         }
         return maxDistance;
     }
+    
+    public Graph createOppositeGraph()
+    {
+        
+        ArrayList<Edge> edges = new ArrayList<>();
+        ArrayList<Node> nodes = new ArrayList<>();
+        
+        Iterator<EdgeData> edgeIter = this.graph.edgeIter();
+        while(edgeIter.hasNext())
+        {
+            Edge currEdge = (Edge)edgeIter.next();
+            Edge newEdge = new Edge(currEdge.getDest(),currEdge.getSrc(),currEdge.getWeight());
+            edges.add(newEdge);
+        }
+        Iterator<NodeData> nodeIter = this.graph.nodeIter();
+        while(nodeIter.hasNext())
+        {
+            NodeData node = nodeIter.next();
+            Node newNode = new Node(node.getKey(), node.getLocation());
+            nodes.add(newNode);
+        }
+
+        Graph opposite = new Graph(edges,nodes,this.graph.getName());
+
+        return opposite;
+    }
+
 }
