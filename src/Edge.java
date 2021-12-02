@@ -1,6 +1,6 @@
 import com.google.gson.internal.LinkedTreeMap;
 
-public class Edge implements EdgeData{
+public class Edge implements EdgeData, Comparable<Edge>{
     private int src;
     private int dest;
     private double weight;
@@ -67,5 +67,18 @@ public class Edge implements EdgeData{
     @Override
     public void setTag(int t) {
 
+    }
+
+    @Override
+    public int compareTo(Edge o) {
+        if(this.weight > o.getWeight())
+        {
+            return 1;
+        }
+        else if(this.weight < o.getWeight())
+        {
+            return -1;
+        }
+        return 0;
     }
 }
