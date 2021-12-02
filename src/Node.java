@@ -23,9 +23,7 @@ public class Node implements NodeData{
         this.EdgeFrom = new ArrayList<>();
         this.EdgeTo = new ArrayList<>();
         String pos =node.get("pos").toString();
-        String id = node.get("id").toString();
-//        System.out.println(pos);
-//        System.out.println(id);
+        String id = node.get("id").toString();;
         String[] posValues = pos.split(",");
         this.key = (int) Double.parseDouble(id);
         Location loc = new Location(Double.parseDouble(posValues[0]),Double.parseDouble(posValues[1]),Double.parseDouble(posValues[2]));
@@ -64,11 +62,11 @@ public class Node implements NodeData{
     {
         if(type.equals("dest"))
         {
-            this.EdgeFrom.remove(node);
+            this.EdgeFrom.remove((Integer)node);
         }
         else
         {
-            this.EdgeTo.remove(node);
+            this.EdgeTo.remove((Integer)node);
         }
     }
 
