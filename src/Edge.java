@@ -55,7 +55,7 @@ public class Edge implements EdgeData, Comparable<Edge>{
 
     @Override
     public void setInfo(String s) {
-        this.info = info;
+        this.info = s;
 
     }
 

@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GraphAlgorithmsTest {
 
     @Test
-    void load() {
+    void testLoad() {
         GraphAlgorithms GA = new GraphAlgorithms();
         assertTrue(GA.load("data/G1.json"));
         assertNotNull(GA.getGraph());

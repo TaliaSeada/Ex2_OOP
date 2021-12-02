@@ -60,6 +60,18 @@ public class Node implements NodeData{
         }
     }
 
+    public void removeEdge(int node,String type)
+    {
+        if(type.equals("dest"))
+        {
+            this.EdgeFrom.remove(node);
+        }
+        else
+        {
+            this.EdgeTo.remove(node);
+        }
+    }
+
 
     @Override
     public int getKey() {
