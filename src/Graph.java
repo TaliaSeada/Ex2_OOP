@@ -99,20 +99,16 @@ public class Graph implements DirectedWeightedGraph{
         String key = src + "-" + dest;
         this.nodeEdges.get(src).put(key,edgeData);
         Node source = (Node)this.nodes.get(src);
-        Node destination = (Node)this.nodes.get(src);
+        Node destination = (Node)this.nodes.get(dest);
         source.addEdge(edgeData);
         destination.addEdge(edgeData);
+        this.allEdges.add(edgeData);
         MC++;
     }
 
     @Override
     public Iterator<NodeData> nodeIter() throws RuntimeException{
-        ArrayList<NodeData> thisNodes = new ArrayList<>();
-        for(Integer i:this.nodes.keySet())
-        {
-            thisNodes.add(this.nodes.get(i));
-        }
-        return thisNodes.iterator();
+        return this.nodes.values().iterator();
     }
 
     @Override
