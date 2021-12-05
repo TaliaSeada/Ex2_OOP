@@ -99,51 +99,59 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         }
     }
 
-//    public HashMap<Integer, Double> Dijkstra(int sourceNode) {
-//        // hashMap of the nodes and their path length from the node
-//        HashMap<Integer, Double> dist = new HashMap<Integer, Double>();
-//        // hashMap of the path from some node to the current node
-////        HashMap<Integer, String> prev = new HashMap<Integer, String>();
-//        for (Integer v : this.graph.getNodes().keySet()){
-//            double dist_v = Double.MAX_VALUE;
-//
-//        }
+    public ArrayList<HashMap> Dijkstra(int sourceNode) {
+        ArrayList<HashMap> res = new ArrayList<>();
 
+        // hashMap of the nodes and their path length from the node
+        HashMap<Integer, Double> dist = new HashMap<Integer, Double>();
+        // hashMap of the path from some node to the current node
+        HashMap<Integer, Node> prev = new HashMap<Integer, Node>();
 
+        ArrayList<Integer> q = new ArrayList<Integer>();
+        for (Integer v : this.graph.getNodes().keySet()){
+            dist.put(v, Double.MAX_VALUE);
+            prev.put(v, null);
+            q.add(v);
+        }
 
-//        int size = this.graph.getNodes().size();
-//        boolean[] visited = new boolean[size];
-//        // initialize all nodes to be NOT visited
-//        for(int i = 0; i < size; i++){
-//            visited[i] = false;
-//        }
-//        int[] distances = new int[size];
-//        // initialize all sizes to be infinity (max value)
-//        for(int i = 0; i < size; i++){
-//            distances[i] = Integer.MAX_VALUE;
-//        }
-//        distances[sourceNode] = 0;
-//        // empty priority queue
-//        PriorityQueue<pairs> pq = new PriorityQueue<>();
-//        // the length of the path from node to itself is 0
-//        pq.add(new pairs(sourceNode, 0));
-//        while(pq.size() != 0){
-//            int index = pq.poll().getIndex();
-//            int minVal = pq.poll().getPathLen();
-//            // mark as visited
-//            visited[index] = true;
-//            // if found shorter path, continue
-//            if(distances[index] < minVal) continue;
-//            // iterate all edges that come out of the current node (index)
-//            for(String key : this.graph.getNodeEdges().get(index).keySet()){
-//                EdgeData edge = this.graph.getNodeEdges().get(index).get(key);
-//                if(visited[edge])
-//            }
-//        }
-//
-//        return distances;
+        dist.put(sourceNode, 0.0);
 
-//    }
+        while(q.size() != 0){
+            int min = getMinPath(dist);
+            Node node = (Node) this.graph.getNode(min);
+            q.remove(min);
+
+            for(Integer key : node.getEdgeFrom()){
+                if(dist.get(key) == Double.MAX_VALUE){
+                    dist.put(key, dist.get(min) + (this.graph.getEdge(min, key).getWeight()));
+                }
+                else {
+                    double tmp = dist.get(min) + (this.graph.getEdge(min, key).getWeight());
+
+                    if (dist.get(key) > tmp) {
+                        dist.put(key, tmp);
+                        prev.put(key, node);
+                    }
+                }
+            }
+
+        }
+        res.add(dist);
+        res.add(prev);
+        return res;
+
+    }
+    private int getMinPath(HashMap<Integer, Double> dist) {
+        double min = Double.MAX_VALUE;
+        int res = 0;
+        for(Integer key : dist.keySet()){
+            if(dist.get(key) < min){
+                min = dist.get(key);
+                res = key;
+            }
+        }
+        return res;
+    }
 
 
     public int bfs(int nodeKey) {
