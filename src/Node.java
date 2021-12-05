@@ -50,9 +50,11 @@ public class Node implements NodeData{
     public ArrayList<Integer> getToNode(){
         return this.EdgesToNode;
     }
+
     public ArrayList<Integer> getFromNode(){
         return this.EdgesFromNode;
     }
+
     public void addEdge(Edge edge) {
         if(edge.getSrc() == this.key) {
             EdgesFromNode.add(edge.getDest());

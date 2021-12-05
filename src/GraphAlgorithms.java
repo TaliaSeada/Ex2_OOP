@@ -99,16 +99,16 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         }
     }
 
-//    public ArrayList<Integer> Dijkstra(int sourceNode) {
-//        ArrayList<Integer> distances = new ArrayList<>();
-//        LinkedList<EdgeData> edges = new LinkedList<>();
-//        for(int i =0; i < this.graph.getNodes().size();i++)
-//        {
-//
-//        }
-//
-//        return distances;
-//    }
+    public ArrayList<Integer> Dijkstra(int sourceNode) {
+        ArrayList<Integer> distances = new ArrayList<>();
+        ArrayList<Boolean> visited = new ArrayList<>();
+//        visited.add()
+        for(int i =0; i < this.graph.getNodes().size();i++) {
+
+        }
+
+        return distances;
+    }
 
 
     public int bfs(int nodeKey)
