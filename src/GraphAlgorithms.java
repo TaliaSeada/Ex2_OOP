@@ -99,15 +99,51 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         }
     }
 
-    public ArrayList<Integer> Dijkstra(int sourceNode) {
-        ArrayList<Integer> distances = new ArrayList<>();
-        ArrayList<Boolean> visited = new ArrayList<>();
-        for(int i =0; i < this.graph.getNodes().size();i++) {
+//    public HashMap<Integer, Double> Dijkstra(int sourceNode) {
+//        // hashMap of the nodes and their path length from the node
+//        HashMap<Integer, Double> dist = new HashMap<Integer, Double>();
+//        // hashMap of the path from some node to the current node
+////        HashMap<Integer, String> prev = new HashMap<Integer, String>();
+//        for (Integer v : this.graph.getNodes().keySet()){
+//            double dist_v = Double.MAX_VALUE;
+//
+//        }
 
-        }
 
-        return distances;
-    }
+
+//        int size = this.graph.getNodes().size();
+//        boolean[] visited = new boolean[size];
+//        // initialize all nodes to be NOT visited
+//        for(int i = 0; i < size; i++){
+//            visited[i] = false;
+//        }
+//        int[] distances = new int[size];
+//        // initialize all sizes to be infinity (max value)
+//        for(int i = 0; i < size; i++){
+//            distances[i] = Integer.MAX_VALUE;
+//        }
+//        distances[sourceNode] = 0;
+//        // empty priority queue
+//        PriorityQueue<pairs> pq = new PriorityQueue<>();
+//        // the length of the path from node to itself is 0
+//        pq.add(new pairs(sourceNode, 0));
+//        while(pq.size() != 0){
+//            int index = pq.poll().getIndex();
+//            int minVal = pq.poll().getPathLen();
+//            // mark as visited
+//            visited[index] = true;
+//            // if found shorter path, continue
+//            if(distances[index] < minVal) continue;
+//            // iterate all edges that come out of the current node (index)
+//            for(String key : this.graph.getNodeEdges().get(index).keySet()){
+//                EdgeData edge = this.graph.getNodeEdges().get(index).get(key);
+//                if(visited[edge])
+//            }
+//        }
+//
+//        return distances;
+
+//    }
 
 
     public int bfs(int nodeKey) {
@@ -158,15 +194,13 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         ArrayList<Node> nodes = new ArrayList<>();
         
         Iterator<EdgeData> edgeIter = this.graph.edgeIter();
-        while(edgeIter.hasNext())
-        {
+        while(edgeIter.hasNext()) {
             Edge currEdge = (Edge)edgeIter.next();
             Edge newEdge = new Edge(currEdge.getDest(),currEdge.getSrc(),currEdge.getWeight());
             edges.add(newEdge);
         }
         Iterator<NodeData> nodeIter = this.graph.nodeIter();
-        while(nodeIter.hasNext())
-        {
+        while(nodeIter.hasNext()) {
             NodeData node = nodeIter.next();
             Node newNode = new Node(node.getKey(), node.getLocation());
             nodes.add(newNode);
@@ -178,20 +212,4 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     }
 
 }
-class pairs {
-    private int index;
-    private int pathLen;
 
-    public pairs(int index, int pathLen){
-        this.index = index;
-        this.pathLen = pathLen;
-    }
-
-    public int getIndex(){
-        return this.index;
-    }
-
-    public int getPathLen(){
-        return this.pathLen;
-    }
-}
