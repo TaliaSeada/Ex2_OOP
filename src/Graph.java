@@ -1,4 +1,5 @@
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,29 +9,30 @@ public class Graph implements DirectedWeightedGraph{
     private HashMap<Integer,HashMap<String,EdgeData>> nodeEdges;
     private ArrayList<EdgeData> allEdges;
     private String name;
-    private int MC = 0;
 
     public Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name){
         this.nodeEdges = new HashMap<>();
         this.nodes = new HashMap<>();
-        for(NodeData node:nodes) {
+        for(NodeData node:nodes)
+        {
             this.nodes.put(node.getKey(),node);
-            this.MC++;
         }
-        for(Integer key: this.nodes.keySet()) {
+        for(Integer key: this.nodes.keySet())
+        {
             HashMap<String,EdgeData> edgesFrom = new HashMap<>();
-            for(EdgeData edge: edges) {
-                if(edge.getSrc() == key) {
+            for(EdgeData edge: edges)
+            {
+                if(edge.getSrc() == key)
+                {
                     edgesFrom.put(key +"-"+edge.getDest(),edge);
-
                 }
             }
             this.nodeEdges.put(key,edgesFrom);
-            this.MC++;
-
         }
-        for(Integer key:this.nodeEdges.keySet()) {
-            for(String edgeKey:this.nodeEdges.get(key).keySet()) {
+        for(Integer key:this.nodeEdges.keySet())
+        {
+            for(String edgeKey:this.nodeEdges.get(key).keySet())
+            {
                 Node srcNode = (Node)this.nodes.get(key);
                 Node destNode = (Node)this.nodes.get(Integer.parseInt(edgeKey.split("-")[1]));
                 srcNode.getFromNode().add(destNode.getKey());
@@ -39,29 +41,25 @@ public class Graph implements DirectedWeightedGraph{
         }
         this.allEdges = new ArrayList<>(edges);
         this.name = name;
-        this.MC++;
-
     }
 
     public Graph(Graph other){
         this.nodes = new HashMap<>();
         this.nodeEdges = new HashMap<>();
-        for(Integer key:other.getNodeEdges().keySet()) {
+        for(Integer key:other.getNodeEdges().keySet())
+        {
             HashMap<String,EdgeData> edgesTo = new HashMap<>();
-            for(String edgeKey:other.getNodeEdges().get(key).keySet()) {
+            for(String edgeKey:other.getNodeEdges().get(key).keySet())
+            {
                 edgesTo.put(edgeKey,other.getNodeEdges().get(key).get(edgeKey));
             }
             this.nodeEdges.put(key,edgesTo);
-            this.MC++;
-
         }
-        for(Integer key:other.getNodes().keySet()) {
+        for(Integer key:other.getNodes().keySet())
+        {
             this.nodes.put(key,other.getNodes().get(key));
-            this.MC++;
-
         }
         this.name = other.getName();
-        this.MC++;
         this.allEdges = new ArrayList<>(other.allEdges);
     }
 
@@ -69,8 +67,9 @@ public class Graph implements DirectedWeightedGraph{
         return this.allEdges;
     }
 
+
     public HashMap<Integer, HashMap<String, EdgeData>> getNodeEdges() {
-        return this.nodeEdges;
+        return nodeEdges;
     }
 
     public HashMap<Integer,NodeData> getNodes(){
@@ -87,15 +86,13 @@ public class Graph implements DirectedWeightedGraph{
 
     @Override
     public EdgeData getEdge(int src, int dest) {
-        String key = src + "-" + dest;
+        String key = src +"-"+dest;
         return this.nodeEdges.get(src).get(key);
     }
 
     @Override
     public void addNode(NodeData n) {
         this.nodes.put(n.getKey(),n);
-        this.MC++;
-
     }
 
     @Override
@@ -104,17 +101,19 @@ public class Graph implements DirectedWeightedGraph{
         String key = src + "-" + dest;
         this.nodeEdges.get(src).put(key,edgeData);
         Node source = (Node)this.nodes.get(src);
-        Node destination = (Node)this.nodes.get(dest);
+        Node destination = (Node)this.nodes.get(src);
         source.addEdge(edgeData);
         destination.addEdge(edgeData);
-        this.allEdges.add(edgeData);
-        this.MC++;
-
     }
 
     @Override
     public Iterator<NodeData> nodeIter() throws RuntimeException{
-        return this.nodes.values().iterator();
+        ArrayList<NodeData> thisNodes = new ArrayList<>();
+        for(Integer i:this.nodes.keySet())
+        {
+            thisNodes.add(this.nodes.get(i));
+        }
+        return thisNodes.iterator();
     }
 
     @Override
@@ -131,35 +130,33 @@ public class Graph implements DirectedWeightedGraph{
     @Override
     public NodeData removeNode(int key) {
         Node node = (Node)this.nodes.get(key);
+        HashMap<Integer, HashMap<String,EdgeData>> edgesToRemove;
         ArrayList<Integer> nodesConnectedTo = new ArrayList<>();
         nodesConnectedTo.addAll(node.getToNode());
-        for(int i = 0; i < nodesConnectedTo.size();i++) {
+        for(int i = 0; i < nodesConnectedTo.size();i++)
+        {
             removeEdge(nodesConnectedTo.get(i),key);
         }
         nodesConnectedTo.clear();
         nodesConnectedTo.addAll(node.getFromNode());
-        for(int i = 0; i < nodesConnectedTo.size();i++) {
+        for(int i = 0; i < nodesConnectedTo.size();i++)
+        {
             removeEdge(key,nodesConnectedTo.get(i));
         }
         this.nodes.remove(key);
         this.nodeEdges.remove(key);
-        this.MC++;
         return node;
     }
 
     @Override
     public EdgeData removeEdge(int src, int dest) {
-        EdgeData edge = this.nodeEdges.get(src).get(src + "-" + dest);
-        if(edge == null) {
-            return null;
-        }
-        Node nodeSrc = (Node) this.nodes.get(src);
-        Node nodeDest = (Node) this.nodes.get(dest);
+        EdgeData edge = this.nodeEdges.get(src).get(src+"-"+dest);
+        Node nodeSrc = (Node)this.nodes.get(src);
+        Node nodeDest = (Node)this.nodes.get(dest);
         nodeSrc.removeEdge(dest, "dest");
         nodeDest.removeEdge(src, "src");
         this.nodeEdges.get(src).remove(src+"-"+dest);
         this.allEdges.remove(edge);
-        this.MC++;
         return edge;
     }
 
