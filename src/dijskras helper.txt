@@ -1,0 +1,23 @@
+int dijskara helper(source, dest)
+
+{
+	int[] distances = dijkstra(source)
+	int[] id's = new array[this.nodes.size()]
+	int i = 0;
+	for(Integer key: this.nodes.keyset())
+	{
+		ids[i] = key;
+		i++
+	}
+	for(int i =0; i < ids.len;i++
+	{
+		if(ids[i] == dest)
+		return distances[i]
+	}
+
+
+
+
+
+
+}
