@@ -115,12 +115,12 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         }
 
         dist.put(sourceNode, 0.0);
-
+        ArrayList<Integer> visited = new ArrayList<>();
         while(q.size() != 0){
-            int min = getMinPath(dist);
+            int min = getMinPath(dist,visited);
             Node node = (Node) this.graph.getNode(min);
-            q.remove(min);
-
+            q.remove((Integer)min);
+            visited.add(min);
             for(Integer key : node.getEdgeFrom()){
                 if(dist.get(key) == Double.MAX_VALUE){
                     dist.put(key, dist.get(min) + (this.graph.getEdge(min, key).getWeight()));
@@ -141,11 +141,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         return res;
 
     }
-    private int getMinPath(HashMap<Integer, Double> dist) {
+    private int getMinPath(HashMap<Integer, Double> dist,ArrayList<Integer> visited) {
         double min = Double.MAX_VALUE;
         int res = 0;
         for(Integer key : dist.keySet()){
-            if(dist.get(key) < min){
+            if(dist.get(key) < min && !visited.contains(key)){
                 min = dist.get(key);
                 res = key;
             }
