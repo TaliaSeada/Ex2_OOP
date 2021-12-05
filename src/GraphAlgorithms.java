@@ -15,7 +15,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     @Override
     public void init(DirectedWeightedGraph g) {
         this.graph = (Graph) g;
-
     }
 
     @Override
@@ -35,12 +34,15 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        return 0;
+        ArrayList<HashMap> result = Dijkstra(src);
+        HashMap<Integer,Double> dists = result.get(0);
+        return dists.get(dest);
     }
 
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
-        return null;
+        List<NodeData> path = new ArrayList<>();
+        return path;
     }
 
     @Override
@@ -124,6 +126,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
             for(Integer key : node.getEdgeFrom()){
                 if(dist.get(key) == Double.MAX_VALUE){
                     dist.put(key, dist.get(min) + (this.graph.getEdge(min, key).getWeight()));
+                    prev.put(key, node);
                 }
                 else {
                     double tmp = dist.get(min) + (this.graph.getEdge(min, key).getWeight());
