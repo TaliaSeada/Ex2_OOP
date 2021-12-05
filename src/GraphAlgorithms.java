@@ -102,7 +102,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     public ArrayList<Integer> Dijkstra(int sourceNode) {
         ArrayList<Integer> distances = new ArrayList<>();
         ArrayList<Boolean> visited = new ArrayList<>();
-//        visited.add()
         for(int i =0; i < this.graph.getNodes().size();i++) {
 
         }
@@ -111,8 +110,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     }
 
 
-    public int bfs(int nodeKey)
-    {
+    public int bfs(int nodeKey) {
         /*
             for bfs algorithm, we will change the tags of the graphs
             0 for Undiscovered nodes "white"
@@ -146,8 +144,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
             this.graph.getNode(currNode.getKey()).setTag(2);
         }
         int maxDistance = Integer.MIN_VALUE;
-        for(Integer distance:distances)
-        {
+        for(Integer distance:distances) {
             if(distance>maxDistance){
                 maxDistance = distance;
             }
@@ -155,8 +152,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         return maxDistance;
     }
     
-    public Graph createOppositeGraph()
-    {
+    public Graph createOppositeGraph() {
         
         ArrayList<Edge> edges = new ArrayList<>();
         ArrayList<Node> nodes = new ArrayList<>();
@@ -181,4 +177,21 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         return opposite;
     }
 
+}
+class pairs {
+    private int index;
+    private int pathLen;
+
+    public pairs(int index, int pathLen){
+        this.index = index;
+        this.pathLen = pathLen;
+    }
+
+    public int getIndex(){
+        return this.index;
+    }
+
+    public int getPathLen(){
+        return this.pathLen;
+    }
 }
