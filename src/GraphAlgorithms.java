@@ -42,6 +42,13 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         List<NodeData> path = new ArrayList<>();
+        HashMap<Integer,Node> lastPath = Dijkstra(src).get(1);
+        int firstInPath = lastPath.get(dest).getKey();
+        path.add(lastPath.get(dest));
+        while(firstInPath!=src){
+            path.add(lastPath.get(firstInPath));
+            firstInPath = lastPath.get(firstInPath).getKey();
+        }
         return path;
     }
 
