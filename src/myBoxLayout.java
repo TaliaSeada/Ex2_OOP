@@ -2,9 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 public class myBoxLayout{
-    public final boolean loaded = false;
+    public static boolean loaded = false;
+    private static GraphAlgorithms GA = new GraphAlgorithms();
+
     public static void createMainWindow(Container pane) {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
         JButton fileActions = new JButton("Files");
@@ -31,17 +34,30 @@ public class myBoxLayout{
 
     public static void CreateFileWindow(){
         JFrame frame = new JFrame("file actions window");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setSize(500, 500);
 
-        String Path = "";
         GroupLayout layout = new GroupLayout(frame.getContentPane());
+        frame.getContentPane().setLayout(layout);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
         JTextField path = new JTextField("Enter path of file (instead of this)");
 
         JButton load = new JButton("load from file");
+        load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String Path = path.getText();
+                if(!GA.load(Path)) {
+                    path.setText("invalid path!");
+                }
+                else {
+                    loaded = true;
+                    frame.dispose();
+                }
+            }
+        });
 
 
 
@@ -49,7 +65,6 @@ public class myBoxLayout{
 
         layout.setHorizontalGroup(
                 layout.createSequentialGroup()
-                        .addComponent(save)
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addComponent(path)
                                 .addComponent(load))
