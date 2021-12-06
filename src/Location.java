@@ -32,4 +32,8 @@ public class Location implements  GeoLocation{
         double zDist = Math.pow(this.z - g.z(),2);
         return Math.sqrt(xDist + yDist + zDist);
     }
+
+    public String toString() {
+        return this.x + "," + this.y + "," + this.z;
+    }
 }
