@@ -47,6 +47,12 @@ public class Node implements NodeData{
         this.tag = other.getTag();
     }
 
+    public Node(int key, GeoLocation pos, String happy) {
+        this.key = key;
+        this.loc = pos;
+        System.out.println(happy);
+    }
+
     public ArrayList<Integer> getToNode(){
         return this.EdgesToNode;
     }

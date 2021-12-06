@@ -10,6 +10,21 @@ public class Graph implements DirectedWeightedGraph{
     private final String name;
     private int MC =0;
 
+    public Graph(){
+        this.name = "testStuff";
+        this.nodeEdges = new HashMap<>();
+        this.nodes = new HashMap<>();
+        this.allEdges = new ArrayList<>();
+        for(Integer key: this.nodes.keySet()) {
+            HashMap<String,EdgeData> edgesFrom = new HashMap<>();
+            this.nodeEdges.put(key,edgesFrom);
+            MC++;
+        }
+    }
+
+
+
+
     public Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name){
         this.nodeEdges = new HashMap<>();
         this.nodes = new HashMap<>();
@@ -89,6 +104,11 @@ public class Graph implements DirectedWeightedGraph{
 
     @Override
     public void addNode(NodeData n) {
+        if(this.nodeEdges.get(n) == null)
+        {
+            HashMap<String,EdgeData> edges = new HashMap<>();
+            this.nodeEdges.put(n.getKey(),edges);
+        }
         this.nodes.put(n.getKey(),n);
         MC++;
     }
