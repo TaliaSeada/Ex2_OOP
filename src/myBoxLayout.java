@@ -42,7 +42,7 @@ public class myBoxLayout{
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
-        JTextField path = new JTextField("Enter path of file (instead of this)");
+        JTextField path = new JTextField("Enter path of file");
 
         JButton load = new JButton("load from file");
         load.addActionListener(new ActionListener() {
@@ -66,8 +66,11 @@ public class myBoxLayout{
         layout.setHorizontalGroup(
                 layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(path)
-                                .addComponent(load))
+                                .addComponent(load)
+                                .addComponent(path))
+                        .addComponent(save)
+
+
         );
         layout.setVerticalGroup(
                 layout.createSequentialGroup()
