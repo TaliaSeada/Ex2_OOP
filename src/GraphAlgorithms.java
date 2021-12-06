@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -119,7 +121,13 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean save(String file) {
-        return false;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+            gson.toJson(this.graph, new FileWriter(file));
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     @Override
@@ -206,7 +214,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         res.add(dist);
         res.add(prev);
         return res;
-
     }
     private int getMinPath(HashMap<Integer, Double> dist,ArrayList<Integer> visited) {
         double min = Double.MAX_VALUE;
