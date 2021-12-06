@@ -103,7 +103,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             return false;
         }
     }
