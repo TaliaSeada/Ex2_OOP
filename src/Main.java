@@ -4,11 +4,15 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) {
         GraphAlgorithms graph = new GraphAlgorithms();
-        graph.load("/home/bravo8234/Desktop/study/OOP/Ex2/Json_files/G4.json");
+        graph.load("data/G1.json");
         long startTime = System.currentTimeMillis();
-        System.out.println(graph.center().getKey());
+//        System.out.println(graph.center().getKey());
         long finishTime = System.currentTimeMillis();
-        System.out.println((finishTime - startTime));
+//        System.out.println((finishTime - startTime));
 
+
+
+        boolean con = graph.isConnected();
+        System.out.println(con);
     }
 }

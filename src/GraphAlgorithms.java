@@ -27,7 +27,24 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public boolean isConnected() {
-        return false;
+        /*
+            bfs from a node, reverse edges, again bfs from the same node
+            if we got integer smaller than infinity in both, it means the graph is strongly connected
+         */
+        Node n = (Node) this.graph.getNode(0);
+        int bfs = bfs(n.getKey());
+        if(bfs == Integer.MAX_VALUE) return false;
+        Graph g = createOppositeGraph();
+        Graph temp = this.graph;
+        this.graph = g;
+        int bfs_reverse = bfs(n.getKey());
+        if(bfs_reverse == Integer.MAX_VALUE){
+            this.graph = temp;
+            return false;
+        }
+        // else
+        this.graph = temp;
+        return true;
     }
 
     @Override
@@ -246,7 +263,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     }
 
     public Graph createOppositeGraph() {
-
         ArrayList<Edge> edges = new ArrayList<>();
         ArrayList<Node> nodes = new ArrayList<>();
 
