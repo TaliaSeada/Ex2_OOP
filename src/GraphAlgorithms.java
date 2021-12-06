@@ -22,7 +22,8 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public DirectedWeightedGraph copy() {
-        return null;
+        Graph g = new Graph(this.graph);
+        return g;
     }
 
     @Override
