@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -6,7 +5,6 @@ import java.util.*;
 
 import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.stream.JsonToken;
 
 public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     private Graph graph;
@@ -66,9 +64,12 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
             then take the minimum longest path of all the nodes
          */
         HashMap<Integer,Double> maxDistances = new HashMap<>();
-        for(Integer Key : this.graph.getNodes().keySet()) {
-            HashMap<Integer, Double> distances = Dijkstra(Key).get(0);
-            maxDistances.put(Key,getMaxValue(distances));
+        Iterator<NodeData> nodeIter = this.graph.nodeIter();
+        while(nodeIter.hasNext())
+        {
+            NodeData next = nodeIter.next();
+            HashMap<Integer, Double> distances = Dijkstra(next.getKey()).get(0);
+            maxDistances.put(next.getKey(),getMaxValue(distances));
         }
         return this.graph.getNode(getMinValueIndex(maxDistances));
     }
@@ -165,17 +166,20 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
             Node node = (Node) this.graph.getNode(min);
             q.remove((Integer)min);
             visited.add(min);
-            for(Integer key : node.getEdgeFrom()){
-                if(dist.get(key) == Double.MAX_VALUE){
-                    dist.put(key, dist.get(min) + (this.graph.getEdge(min, key).getWeight()));
-                    prev.put(key, node);
+            Iterator<EdgeData> iterFromNode = this.graph.edgeIter(min);
+            while(iterFromNode.hasNext())
+            {
+                EdgeData curr = iterFromNode.next();
+                if(dist.get(curr.getDest()) == Double.MAX_VALUE){
+                    dist.put(curr.getDest(), dist.get(min) + (this.graph.getEdge(min, curr.getDest()).getWeight()));
+                    prev.put(curr.getDest(), node);
                 }
                 else {
-                    double tmp = dist.get(min) + (this.graph.getEdge(min, key).getWeight());
+                    double tmp = dist.get(min) + (this.graph.getEdge(min, curr.getDest()).getWeight());
 
-                    if (dist.get(key) > tmp) {
-                        dist.put(key, tmp);
-                        prev.put(key, node);
+                    if (dist.get(curr.getDest()) > tmp) {
+                        dist.put(curr.getDest(), tmp);
+                        prev.put(curr.getDest(), node);
                     }
                 }
             }
