@@ -2,12 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 
 public class myBoxLayout{
     public static boolean loaded = false;
     private static GraphAlgorithms GA = new GraphAlgorithms();
-
     public static void createMainWindow(Container pane) {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
         JButton fileActions = new JButton("Files");
