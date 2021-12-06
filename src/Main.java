@@ -11,8 +11,8 @@ public class Main {
         long finishTime = System.currentTimeMillis();
 //        System.out.println((finishTime - startTime));
 
-        boolean con = graph.isConnected();
-        System.out.println(con);
+//        boolean con = graph.isConnected();
+//        System.out.println(con);
 
     }
 }

@@ -123,21 +123,27 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     public boolean save(String file) {
         try {
             HashMap<String, ArrayList<?>> toWrite = new HashMap<>();
-            ArrayList<NodeData> nodes = new ArrayList<>();
+            ArrayList<nodeToJson> nodes = new ArrayList<>();
             ArrayList<edgeToJson> edges = new ArrayList<>();
             for (Integer key : this.graph.getNodes().keySet()) {
                 NodeData CurrNode = this.graph.getNodes().get(key);
-                nodeToJson node = new nodeToJson(CurrNode);
-                nodes.add(CurrNode);
+//                nodeToJson node = new nodeToJson(CurrNode);
+                nodes.add(new nodeToJson(CurrNode));
             }
+            toWrite.put("Nodes", nodes);
+
             for (int i = 0; i < this.graph.getAllEdges().size(); i++) {
-                edgeToJson edge = new edgeToJson(this.graph.getAllEdges().get(i));
-                edges.add(edge);
+//                EdgeData e = this.graph.getAllEdges().get(i);
+//                edgeToJson edge = new edgeToJson(this.graph.getAllEdges().get(i));
+                edges.add(new edgeToJson(this.graph.getAllEdges().get(i)));
             }
             toWrite.put("Edges", edges);
-//            toWrite.put("Nodes", nodes);
+
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(toWrite, new FileWriter(file));
+            FileWriter writer =  new FileWriter(file);
+            gson.toJson(toWrite,writer);
+            writer.flush(); //flush data to file
+            writer.close(); //close write
             return true;
         } catch (IOException e) {
             return false;
