@@ -19,7 +19,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
 
     @Override
     public DirectedWeightedGraph getGraph() {
-       return this.graph;
+        return this.graph;
     }
 
     @Override
@@ -44,12 +44,18 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         List<NodeData> path = new ArrayList<>();
         HashMap<Integer,Node> lastPath = Dijkstra(src).get(1);
         int firstInPath = lastPath.get(dest).getKey();
+        path.add(this.graph.getNode(dest));
         path.add(lastPath.get(dest));
         while(firstInPath!=src){
             path.add(lastPath.get(firstInPath));
             firstInPath = lastPath.get(firstInPath).getKey();
         }
-        return path;
+        List<NodeData> pathReversed = new ArrayList<>();
+        for(int i = (path.size()) ; i >0 ; i--)
+        {
+            pathReversed.add(path.get(i-1));
+        }
+        return pathReversed;
     }
 
     @Override
@@ -90,7 +96,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
             ArrayList<Edge> edgeArrayList = new ArrayList<>();
             for (Object edge : edges) {
                 edgeArrayList.add(new Edge((LinkedTreeMap<?, ?>) edge));
-           }
+            }
             assert nodes != null;
             for (Object node : nodes) {
                 nodeArrayList.add(new Node((LinkedTreeMap<?, ?>) node));
@@ -204,12 +210,12 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
         }
         return maxDistance;
     }
-    
+
     public Graph createOppositeGraph() {
-        
+
         ArrayList<Edge> edges = new ArrayList<>();
         ArrayList<Node> nodes = new ArrayList<>();
-        
+
         Iterator<EdgeData> edgeIter = this.graph.edgeIter();
         while(edgeIter.hasNext()) {
             Edge currEdge = (Edge)edgeIter.next();
@@ -229,4 +235,3 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms{
     }
 
 }
-
