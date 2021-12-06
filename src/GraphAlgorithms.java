@@ -82,14 +82,21 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             then, from each hashMap of distances of every node we got we need to take the longest path
             then take the minimum longest path of all the nodes
          */
-        HashMap<Integer, Double> maxDistances = new HashMap<>();
-        Iterator<NodeData> nodeIter = this.graph.nodeIter();
-        while (nodeIter.hasNext()) {
-            NodeData next = nodeIter.next();
-            HashMap<Integer, Double> distances = Dijkstra(next.getKey()).get(0);
-            maxDistances.put(next.getKey(), getMaxValue(distances));
+
+        //if the graph is not connected we can't get a center
+        if(this.isConnected())
+        {
+            HashMap<Integer, Double> maxDistances = new HashMap<>();
+            Iterator<NodeData> nodeIter = this.graph.nodeIter();
+            while (nodeIter.hasNext()) {
+                NodeData next = nodeIter.next();
+                HashMap<Integer, Double> distances = Dijkstra(next.getKey()).get(0);
+                maxDistances.put(next.getKey(), getMaxValue(distances));
+            }
+            return this.graph.getNode(getMinValueIndex(maxDistances));
         }
-        return this.graph.getNode(getMinValueIndex(maxDistances));
+        //no center
+        return null;
     }
 
     private int getMinValueIndex(HashMap<Integer, Double> dist) {
@@ -204,7 +211,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         dist.put(sourceNode, 0.0);
         ArrayList<Integer> visited = new ArrayList<>();
-        while (q.size() != 0) {
+        while (q.size() != 0 && visited.size()!= this.graph.getNodes().size()) {
             int min = getMinPath(dist, visited);
             Node node = (Node) this.graph.getNode(min);
             q.remove((Integer) min);
@@ -235,10 +242,13 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         double min = Double.MAX_VALUE;
         int res = 0;
         for (Integer key : dist.keySet()) {
-            if (dist.get(key) < min && !visited.contains(key)) {
-                min = dist.get(key);
-                res = key;
+            if(!visited.contains(key)){
+                if (dist.get(key) < min) {
+                    min = dist.get(key);
+                    res = key;
+                }
             }
+
         }
         return res;
     }

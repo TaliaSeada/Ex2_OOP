@@ -82,9 +82,12 @@ public class myBoxLayout{
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!loaded)
-                {
+                if(!loaded) {
                     JOptionPane.showMessageDialog(frame, "You did not load any file!");
+                }
+                else {
+                    String Path = path.getText();
+                    GA.save(Path);
                 }
             }
         });
