@@ -7,7 +7,7 @@ public class myBoxLayout{
     public final boolean loaded = false;
     public static void createMainWindow(Container pane) {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-        JButton fileActions = new JButton("press to do actions from files");
+        JButton fileActions = new JButton("Files");
         fileActions.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(fileActions);
         pane.add(Box.createRigidArea(new Dimension(5, 20)));
@@ -19,12 +19,12 @@ public class myBoxLayout{
         });
 
 
-        JButton graphActions = new JButton("press to see actions on graph");
+        JButton graphActions = new JButton("Graph");
         graphActions.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(graphActions);
         pane.add(Box.createRigidArea(new Dimension(5, 20)));
 
-        JButton algoActions = new JButton("press to see algorithms to run on graph");
+        JButton algoActions = new JButton("Algorithms");
         algoActions.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(algoActions);
     }
