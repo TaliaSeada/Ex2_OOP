@@ -1,7 +1,6 @@
 //Usually you will require both swing and awt packages
 // even if you are working with just swings.
 import javax.swing.*;
-import java.awt.*;
 class GUI {
     public static void main(String args[]) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

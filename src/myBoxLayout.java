@@ -62,6 +62,15 @@ public class myBoxLayout{
 
 
         JButton save = new JButton("Save to file");
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!loaded)
+                {
+                    JOptionPane.showMessageDialog(frame, "You didnt load any file!");
+                }
+            }
+        });
 
         layout.setHorizontalGroup(
                 layout.createSequentialGroup()
