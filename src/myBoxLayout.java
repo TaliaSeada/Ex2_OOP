@@ -29,20 +29,31 @@ public class myBoxLayout extends JFrame implements ActionListener {
         cont = pane;
         GA.load(path);
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-        JButton fileActions = new JButton("file");
+
+
         fileActions.setAlignmentX(Component.CENTER_ALIGNMENT);
         fileActions.addActionListener(this);
         pane.add(fileActions);
         pane.add(Box.createRigidArea(new Dimension(5, 20)));
 
 
-        JButton graphActions = new JButton("Graph");
         graphActions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        graphActions.addActionListener(this);
         pane.add(graphActions);
         pane.add(Box.createRigidArea(new Dimension(5, 20)));
 
+
         algoActions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        algoActions.addActionListener(this);
         pane.add(algoActions);
+        pane.add((Box.createRigidArea(new Dimension(5, 20))));
+
+    }
+
+    public void CreateAlgoWindow() {
+        algoFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        algoFrame.setSize(500, 500);
+
     }
 
     public void CreateFileWindow() {
@@ -56,24 +67,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
 
-        JTextField path = new JTextField("Enter path of file");
-        JButton save = new JButton("Save to file");
-        save.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String Path = path.getText();
-                String[] split = Path.split("\\.");
-                if(split.length == 0 || !split[split.length-1].equals("json")) {
-                    path.setText("invalid path");
-                }
-                else {
-                    GA.save(Path);
-                    JOptionPane.showMessageDialog(frame, "Saved!");
-                    frame.dispose();
-                }
-
-            }
-        });
+        save.addActionListener(this);
 
         layout.setHorizontalGroup(
                 layout.createSequentialGroup()

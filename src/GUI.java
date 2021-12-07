@@ -4,20 +4,21 @@ import javax.swing.*;
 class GUI {
     public static void main(String args[]) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            String path = "data/G1.json";
             public void run() {
-                createMainWindow();
+                createMainWindow(path);
             }
         });
 
 
     }
 
-    public static void createMainWindow() {
+    public static void createMainWindow(String path) {
         JFrame frame = new JFrame("Graph gui");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
-
-        myBoxLayout.createMainWindow(frame.getContentPane());
+        myBoxLayout layout = new myBoxLayout();
+        layout.createMainWindow(frame.getContentPane(), path);
 
         //frame.pack();
         frame.setVisible(true);
