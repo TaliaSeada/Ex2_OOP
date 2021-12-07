@@ -123,7 +123,72 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return null;
+        /*
+            iterate over the given list and run the Dijkstra function on the first node
+            after running once on a node, take the shortest path to a node (that is in the list)
+            then, run again but now on the node we took from the last iteration
+            stops when we passed all the nodes
+         */
+        ArrayList<ArrayList<NodeData>> eachPath = new ArrayList<>();
+        ArrayList<Integer> cities_keys = new ArrayList<>();
+        for (NodeData city : cities) {
+            cities_keys.add(city.getKey());
+        }
+        ArrayList<Integer> passed = new ArrayList<>();
+        List<NodeData> res = new ArrayList<>();
+
+        ArrayList<HashMap> dijkstra = Dijkstra(cities.get(0).getKey());
+        HashMap<Integer, Double> dist = dijkstra.get(0);
+        HashMap<Integer, Node> path = dijkstra.get(1);
+
+        passed.add(cities.get(0).getKey());
+
+
+        ArrayList<NodeData> currPath = new ArrayList<>();
+
+
+        int dest = getMinPath(dist, passed, cities_keys);
+        int firstInPath = path.get(dest).getKey();
+        currPath.add(0, this.graph.getNode(dest));
+        currPath.add(0, path.get(dest));
+        while (firstInPath != cities.get(0).getKey()) {
+            currPath.add(0, path.get(firstInPath));
+            firstInPath = path.get(firstInPath).getKey();
+        }
+        eachPath.add(currPath);
+
+
+        while(passed.size() != cities.size() -1){
+            int prevDest = dest;
+            dijkstra = Dijkstra(dest);
+            dist = dijkstra.get(0);
+            path = dijkstra.get(1);
+            passed.add(dest);
+
+            currPath = new ArrayList<>();
+            dest = getMinPath(dist, passed, cities_keys);
+            firstInPath = path.get(dest).getKey();
+            currPath.add( this.graph.getNode(dest));
+            currPath.add( path.get(dest));
+            while (firstInPath != prevDest) {
+                currPath.add( path.get(firstInPath));
+                firstInPath = path.get(firstInPath).getKey();
+            }
+            eachPath.add(currPath);
+        }
+        List<NodeData> correctPath = new ArrayList<>();
+        int counter = 0;
+        for(int i =0; i < eachPath.size();i++)
+        {
+            for(int j =0; j< eachPath.get(i).size();j++)
+            {
+                if(!(correctPath.get(counter) == eachPath.get(i).get(j))){
+                    correctPath.add(eachPath.get(i).get(j));
+                    counter++;
+                }
+            }
+        }
+        return correctPath;
     }
 
     @Override
@@ -237,8 +302,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         res.add(prev);
         return res;
     }
-
-    private int getMinPath(HashMap<Integer, Double> dist, ArrayList<Integer> visited,ArrayList<Integer> q) {
+    private int getMinPath(HashMap<Integer, Double> dist, ArrayList<Integer> visited, ArrayList<Integer> q) {
         double min = Double.MAX_VALUE;
         int res = 0;
         for (Integer key : q) {
