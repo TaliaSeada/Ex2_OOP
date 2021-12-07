@@ -20,6 +20,28 @@ public class Main {
         for(int i =0; i < path.size();i++){
             System.out.println(path.get(i).getKey());
         }
+        System.out.println("---------");
+
+
+
+        path = graph.shortestPath(0,3);
+        for(int i =0; i < path.size();i++){
+            System.out.println(path.get(i).getKey());
+        }
+        System.out.println("---------");
+        path = graph.shortestPath(3,8);
+        for(int i =0; i < path.size();i++){
+            System.out.println(path.get(i).getKey());
+        }
+        System.out.println("---------");
+        path = graph.shortestPath(8,12);
+        for(int i =0; i < path.size();i++){
+            System.out.println(path.get(i).getKey());
+        }
+        System.out.println("---------");
+
+
+
 //        graph.save("data/myGraph.json");
 
 

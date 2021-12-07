@@ -129,6 +129,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             then, run again but now on the node we took from the last iteration
             stops when we passed all the nodes
          */
+        ArrayList<ArrayList<NodeData>> eachPath = new ArrayList<>();
         ArrayList<Integer> cities_keys = new ArrayList<>();
         for (NodeData city : cities) {
             cities_keys.add(city.getKey());
@@ -142,35 +143,52 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         passed.add(cities.get(0).getKey());
 
+
+        ArrayList<NodeData> currPath = new ArrayList<>();
+
+
         int dest = getMinPath(dist, passed, cities_keys);
         int firstInPath = path.get(dest).getKey();
-        res.add(0, this.graph.getNode(dest));
-        res.add(0, path.get(dest));
+        currPath.add(0, this.graph.getNode(dest));
+        currPath.add(0, path.get(dest));
         while (firstInPath != cities.get(0).getKey()) {
-            res.add(0, path.get(firstInPath));
+            currPath.add(0, path.get(firstInPath));
             firstInPath = path.get(firstInPath).getKey();
         }
+        eachPath.add(currPath);
 
 
-        while(passed.size() != cities.size()){
+        while(passed.size() != cities.size() -1){
             int prevDest = dest;
             dijkstra = Dijkstra(dest);
             dist = dijkstra.get(0);
             path = dijkstra.get(1);
             passed.add(dest);
 
+            currPath = new ArrayList<>();
             dest = getMinPath(dist, passed, cities_keys);
             firstInPath = path.get(dest).getKey();
-            res.add(0, this.graph.getNode(dest));
-            res.add(0, path.get(dest));
+            currPath.add( this.graph.getNode(dest));
+            currPath.add( path.get(dest));
             while (firstInPath != prevDest) {
-                res.add(0, path.get(firstInPath));
+                currPath.add( path.get(firstInPath));
                 firstInPath = path.get(firstInPath).getKey();
             }
-
+            eachPath.add(currPath);
         }
-
-        return res;
+        List<NodeData> correctPath = new ArrayList<>();
+        int counter = 0;
+        for(int i =0; i < eachPath.size();i++)
+        {
+            for(int j =0; j< eachPath.get(i).size();j++)
+            {
+                if(!(correctPath.get(counter) == eachPath.get(i).get(j))){
+                    correctPath.add(eachPath.get(i).get(j));
+                    counter++;
+                }
+            }
+        }
+        return correctPath;
     }
 
     @Override
