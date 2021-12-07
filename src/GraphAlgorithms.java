@@ -285,7 +285,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
                     queue.add(key);
                 }
             }
-            this.graph.getNode(currNode.getKey()).setTag(2);
+            graph.getNode(currNode.getKey()).setTag(2);
         }
         int maxDistance = Integer.MIN_VALUE;
         for (Integer distance : distances) {
