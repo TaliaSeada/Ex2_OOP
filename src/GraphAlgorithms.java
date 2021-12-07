@@ -11,7 +11,6 @@ import com.google.gson.internal.LinkedTreeMap;
 public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     private Graph graph;
 
-
     @Override
     public void init(DirectedWeightedGraph g) {
         this.graph = (Graph) g;
@@ -34,19 +33,20 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             bfs from a node, reverse edges, again bfs from the same node
             if we got integer smaller than infinity in both, it means the graph is strongly connected
          */
-        Node n = (Node) this.graph.getNode(0);
-        int bfs = bfs(n.getKey());
-        if (bfs == Integer.MAX_VALUE) return false;
-        Graph g = createOppositeGraph();
-        Graph temp = this.graph;
-        this.graph = g;
-        int bfs_reverse = bfs(n.getKey());
+        int key = 0;
+        for(Integer i : this.graph.getNodes().keySet()) {
+            key = i;
+            break;
+        }
+        int bfs = bfs(key,this.graph);
+        if (bfs == Integer.MAX_VALUE){
+            return false;
+        }
+        int bfs_reverse = bfs(key,createOppositeGraph());
         if (bfs_reverse == Integer.MAX_VALUE) {
-            this.graph = temp;
             return false;
         }
         // else
-        this.graph = temp;
         return true;
     }
 
@@ -84,8 +84,8 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
          */
 
         //if the graph is not connected we can't get a center
-        if(this.isConnected())
-        {
+        boolean flag = isConnected();
+        if(flag) {
             HashMap<Integer, Double> maxDistances = new HashMap<>();
             Iterator<NodeData> nodeIter = this.graph.nodeIter();
             while (nodeIter.hasNext()) {
@@ -212,7 +212,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         dist.put(sourceNode, 0.0);
         ArrayList<Integer> visited = new ArrayList<>();
         while (q.size() != 0 && visited.size()!= this.graph.getNodes().size()) {
-            int min = getMinPath(dist, visited);
+            int min = getMinPath(dist, visited,q);
             Node node = (Node) this.graph.getNode(min);
             q.remove((Integer) min);
             visited.add(min);
@@ -238,10 +238,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         return res;
     }
 
-    private int getMinPath(HashMap<Integer, Double> dist, ArrayList<Integer> visited) {
+    private int getMinPath(HashMap<Integer, Double> dist, ArrayList<Integer> visited,ArrayList<Integer> q) {
         double min = Double.MAX_VALUE;
         int res = 0;
-        for (Integer key : dist.keySet()) {
+        for (Integer key : q) {
             if(!visited.contains(key)){
                 if (dist.get(key) < min) {
                     min = dist.get(key);
@@ -254,7 +254,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     }
 
 
-    public int bfs(int nodeKey) {
+    public int bfs(int nodeKey,Graph graph) {
         /*
             for bfs algorithm, we will change the tags of the graphs
             0 for Undiscovered nodes "white"
@@ -264,24 +264,24 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         ArrayList<Integer> distances = new ArrayList<>();
         ArrayList<EdgeData> lastEdge = new ArrayList<>();
         //lastEdge.get(i) represents the last edge in the path from node i to the node we do bfs on
-        for (int i = 0; i < this.graph.getNodes().size(); i++) {
+        for (int i = 0; i < graph.getNodes().size(); i++) {
             distances.add(Integer.MAX_VALUE); //infinite
             lastEdge.add(null);
         }
         // mark the node as visit (now)
-        this.graph.getNode(nodeKey).setTag(1);
+        graph.getNode(nodeKey).setTag(1);
         distances.set(nodeKey, 0);
         LinkedList<Integer> queue = new LinkedList<>();
 
         queue.add(nodeKey);
 
         while (!queue.isEmpty()) {
-            Node currNode = (Node) this.graph.getNodes().get(queue.poll());
+            Node currNode = (Node) graph.getNodes().get(queue.poll());
             for (Integer key : currNode.getEdgeTo()) {
-                if (this.graph.getNodes().get(key).getTag() != 1 && this.graph.getNodes().get(key).getTag() != 2) {
-                    this.graph.getNodes().get(key).setTag(1);
+                if (graph.getNodes().get(key).getTag() != 1 && graph.getNodes().get(key).getTag() != 2) {
+                    graph.getNodes().get(key).setTag(1);
                     distances.set(key, distances.get(currNode.getKey()) + 1);
-                    lastEdge.set(key, this.graph.getEdge(currNode.getKey(), key));
+                    lastEdge.set(key, graph.getEdge(currNode.getKey(), key));
                     queue.add(key);
                 }
             }
@@ -292,6 +292,9 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             if (distance > maxDistance) {
                 maxDistance = distance;
             }
+        }
+        for(Integer key : graph.getNodes().keySet()){
+            this.graph.getNode(key).setTag(0);
         }
         return maxDistance;
     }
