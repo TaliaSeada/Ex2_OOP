@@ -23,8 +23,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public DirectedWeightedGraph copy() {
-        Graph g = new Graph(this.graph);
-        return g;
+        return new Graph(this.graph);
     }
 
     @Override
@@ -43,11 +42,8 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             return false;
         }
         int bfs_reverse = bfs(key,createOppositeGraph());
-        if (bfs_reverse == Integer.MAX_VALUE) {
-            return false;
-        }
+        return bfs_reverse != Integer.MAX_VALUE;
         // else
-        return true;
     }
 
     @Override
@@ -135,7 +131,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             cities_keys.add(city.getKey());
         }
         ArrayList<Integer> passed = new ArrayList<>();
-        List<NodeData> res = new ArrayList<>();
 
         ArrayList<HashMap> dijkstra = Dijkstra(cities.get(0).getKey());
         HashMap<Integer, Double> dist = dijkstra.get(0);
@@ -177,18 +172,27 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             eachPath.add(currPath);
         }
         List<NodeData> correctPath = new ArrayList<>();
-        int counter = 0;
-        for(int i =0; i < eachPath.size();i++)
-        {
-            for(int j =0; j< eachPath.get(i).size();j++)
-            {
-                if(!(correctPath.get(counter) == eachPath.get(i).get(j))){
-                    correctPath.add(eachPath.get(i).get(j));
-                    counter++;
+        for(int i =0; i < eachPath.size();i++) {
+            if(i == 0) {
+                correctPath.addAll(eachPath.get(i));
+            }
+            else{
+                ArrayList<NodeData> pathReversed = new ArrayList<>();
+                for(int j = eachPath.get(i).size()-1; j >= 0; j--){
+                    pathReversed.add(eachPath.get(i).get(j));
                 }
+                correctPath.addAll(pathReversed);
             }
         }
-        return correctPath;
+        ArrayList<NodeData> finalList = new ArrayList<>();
+        for(int i =0; i < correctPath.size();i++) {
+            if(i < correctPath.size()-1 && correctPath.get(i).getKey() == correctPath.get(i+1).getKey()){
+                continue;
+            }
+            finalList.add(correctPath.get(i));
+        }
+
+        return finalList;
     }
 
     @Override
@@ -263,11 +267,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         ArrayList<HashMap> res = new ArrayList<>();
 
         // hashMap of the nodes and their path length from the node
-        HashMap<Integer, Double> dist = new HashMap<Integer, Double>();
+        HashMap<Integer, Double> dist = new HashMap<>();
         // hashMap of the path from some node to the current node
-        HashMap<Integer, Node> prev = new HashMap<Integer, Node>();
+        HashMap<Integer, Node> prev = new HashMap<>();
 
-        ArrayList<Integer> q = new ArrayList<Integer>();
+        ArrayList<Integer> q = new ArrayList<>();
         for (Integer v : this.graph.getNodes().keySet()) {
             dist.put(v, Double.MAX_VALUE);
             prev.put(v, null);
@@ -380,9 +384,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             nodes.add(newNode);
         }
 
-        Graph opposite = new Graph(edges, nodes, this.graph.getName());
-
-        return opposite;
+        return new Graph(edges, nodes, this.graph.getName());
     }
 
 }
