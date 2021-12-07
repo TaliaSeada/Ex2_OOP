@@ -26,26 +26,9 @@ public class myBoxLayout{
         pane.add(graphActions);
         pane.add(Box.createRigidArea(new Dimension(5, 20)));
 
-//        graphActions.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(!loaded){
-//                    JOptionPane.showMessageDialog(pane, "You did not load any file!");
-//                }
-//            }
-//        });
-
         JButton algoActions = new JButton("Algorithms");
         algoActions.setAlignmentX(Component.CENTER_ALIGNMENT);
         pane.add(algoActions);
-//        algoActions.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(!loaded){
-//                    JOptionPane.showMessageDialog(pane, "You did not load any file!");
-//                }
-//            }
-//        });
     }
 
     public static void CreateFileWindow(){
