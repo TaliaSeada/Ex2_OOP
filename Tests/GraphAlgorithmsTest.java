@@ -55,6 +55,7 @@ class GraphAlgorithmsTest {
 
     }
 
+    @Test
     private void extractPath(List<NodeData> path, String path2, String actual) {
         for(int i =0; i < path.size();i++)
         {
