@@ -123,7 +123,54 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
-        return null;
+        /*
+            iterate over the given list and run the Dijkstra function on the first node
+            after running once on a node, take the shortest path to a node (that is in the list)
+            then, run again but now on the node we took from the last iteration
+            stops when we passed all the nodes
+         */
+        ArrayList<Integer> cities_keys = new ArrayList<>();
+        for (NodeData city : cities) {
+            cities_keys.add(city.getKey());
+        }
+        ArrayList<Integer> passed = new ArrayList<>();
+        List<NodeData> res = new ArrayList<>();
+
+        ArrayList<HashMap> dijkstra = Dijkstra(cities.get(0).getKey());
+        HashMap<Integer, Double> dist = dijkstra.get(0);
+        HashMap<Integer, Node> path = dijkstra.get(1);
+
+        passed.add(cities.get(0).getKey());
+
+        int dest = getMinPath(dist, passed, cities_keys);
+        int firstInPath = path.get(dest).getKey();
+        res.add(0, this.graph.getNode(dest));
+        res.add(0, path.get(dest));
+        while (firstInPath != cities.get(0).getKey()) {
+            res.add(0, path.get(firstInPath));
+            firstInPath = path.get(firstInPath).getKey();
+        }
+
+
+        while(passed.size() != cities.size()){
+            int prevDest = dest;
+            dijkstra = Dijkstra(dest);
+            dist = dijkstra.get(0);
+            path = dijkstra.get(1);
+            passed.add(dest);
+
+            dest = getMinPath(dist, passed, cities_keys);
+            firstInPath = path.get(dest).getKey();
+            res.add(0, this.graph.getNode(dest));
+            res.add(0, path.get(dest));
+            while (firstInPath != prevDest) {
+                res.add(0, path.get(firstInPath));
+                firstInPath = path.get(firstInPath).getKey();
+            }
+
+        }
+
+        return res;
     }
 
     @Override
@@ -237,8 +284,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         res.add(prev);
         return res;
     }
-
-    private int getMinPath(HashMap<Integer, Double> dist, ArrayList<Integer> visited,ArrayList<Integer> q) {
+    private int getMinPath(HashMap<Integer, Double> dist, ArrayList<Integer> visited, ArrayList<Integer> q) {
         double min = Double.MAX_VALUE;
         int res = 0;
         for (Integer key : q) {
