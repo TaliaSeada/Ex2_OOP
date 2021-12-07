@@ -19,15 +19,14 @@ public class Graph implements DirectedWeightedGraph {
         this.nodeEdges = new HashMap<>();
         this.nodes = new HashMap<>();
         this.allEdges = new ArrayList<>();
+
+        //for each node we have in this graph, we add the edges that this node is their src
         for(Integer key: this.nodes.keySet()) {
             HashMap<String,EdgeData> edgesFrom = new HashMap<>();
             this.nodeEdges.put(key,edgesFrom);
             MC++;
         }
     }
-
-
-
 
     public Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name){
         this.nodeEdges = new HashMap<>();
@@ -82,7 +81,6 @@ public class Graph implements DirectedWeightedGraph {
     public ArrayList<EdgeData> getAllEdges(){
         return this.allEdges;
     }
-
 
     public HashMap<Integer, HashMap<String, EdgeData>> getNodeEdges() {
         return nodeEdges;
@@ -190,6 +188,6 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public int getMC() {
-        return 0;
+        return MC;
     }
 }

@@ -8,6 +8,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class GraphAlgorithmsTest {
 
     @Test
+    void test_isConnected(){
+
+    }
+
+    @Test
     void testLoad() {
         GraphAlgorithms GA = new GraphAlgorithms();
         assertTrue(GA.load("data/G1.json"));
