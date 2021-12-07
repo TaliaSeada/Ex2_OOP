@@ -200,6 +200,8 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     @Override
     public boolean save(String file) {
         try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            FileWriter writer =  new FileWriter(file);
             HashMap<String, ArrayList<?>> toWrite = new HashMap<>();
             ArrayList<nodeToJson> nodes = new ArrayList<>();
             ArrayList<edgeToJson> edges = new ArrayList<>();
@@ -217,8 +219,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             }
             toWrite.put("Edges", edges);
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            FileWriter writer =  new FileWriter(file);
             gson.toJson(toWrite,writer);
             writer.flush(); //flush data to file
             writer.close(); //close write

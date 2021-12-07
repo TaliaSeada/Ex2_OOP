@@ -7,6 +7,7 @@ public class myBoxLayout{
     public static boolean loaded = false;
     private static GraphAlgorithms GA = new GraphAlgorithms();
     public static void createMainWindow(Container pane) {
+        GA.load("data/G1.json");
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
         JButton fileActions = new JButton("Files");
         fileActions.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -58,35 +59,21 @@ public class myBoxLayout{
         layout.setAutoCreateContainerGaps(true);
 
         JTextField path = new JTextField("Enter path of file");
-
-        JButton load = new JButton("load from file");
-        load.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String Path = path.getText();
-                if(!GA.load(Path)) {
-                    path.setText("invalid path!");
-                }
-                else {
-                    loaded = true;
-                    frame.dispose();
-                }
-            }
-        });
-
-
-
         JButton save = new JButton("Save to file");
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!loaded) {
-                    JOptionPane.showMessageDialog(frame, "You did not load any file!");
+                String Path = path.getText();
+                String[] split = Path.split("\\.");
+                if(split.length == 0 || !split[split.length-1].equals("json")) {
+                    path.setText("invalid path");
                 }
                 else {
-                    String Path = path.getText();
                     GA.save(Path);
+                    JOptionPane.showMessageDialog(frame, "Saved!");
+                    frame.dispose();
                 }
+
             }
         });
 
