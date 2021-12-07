@@ -138,9 +138,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         passed.add(cities.get(0).getKey());
 
-
         ArrayList<NodeData> currPath = new ArrayList<>();
-
 
         int dest = getMinPath(dist, passed, cities_keys);
         int firstInPath = path.get(dest).getKey();
