@@ -5,6 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
+import api.DirectedWeightedGraph;
+import api.DirectedWeightedGraphAlgorithms;
+import api.EdgeData;
+import api.NodeData;
 import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 
@@ -207,7 +211,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             toWrite.put("Nodes", nodes);
 
             for (int i = 0; i < this.graph.getAllEdges().size(); i++) {
-//                EdgeData e = this.graph.getAllEdges().get(i);
+//                api.EdgeData e = this.graph.getAllEdges().get(i);
 //                edgeToJson edge = new edgeToJson(this.graph.getAllEdges().get(i));
                 edges.add(new edgeToJson(this.graph.getAllEdges().get(i)));
             }

@@ -1,9 +1,13 @@
 
+import api.DirectedWeightedGraph;
+import api.EdgeData;
+import api.NodeData;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Graph implements DirectedWeightedGraph{
+public class Graph implements DirectedWeightedGraph {
     private HashMap<Integer,NodeData> nodes;
     private HashMap<Integer,HashMap<String,EdgeData>> nodeEdges;
     private ArrayList<EdgeData> allEdges;
@@ -84,7 +88,7 @@ public class Graph implements DirectedWeightedGraph{
         return nodeEdges;
     }
 
-    public HashMap<Integer,NodeData> getNodes(){
+    public HashMap<Integer, NodeData> getNodes(){
         return this.nodes;
     }
     public String getName(){
@@ -106,7 +110,7 @@ public class Graph implements DirectedWeightedGraph{
     public void addNode(NodeData n) {
         if(this.nodeEdges.get(n) == null)
         {
-            HashMap<String,EdgeData> edges = new HashMap<>();
+            HashMap<String, EdgeData> edges = new HashMap<>();
             this.nodeEdges.put(n.getKey(),edges);
         }
         this.nodes.put(n.getKey(),n);

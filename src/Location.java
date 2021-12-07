@@ -1,4 +1,6 @@
-public class Location implements  GeoLocation{
+import api.GeoLocation;
+
+public class Location implements GeoLocation {
     private double x;
     private double y;
     private double z;

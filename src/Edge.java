@@ -1,3 +1,4 @@
+import api.EdgeData;
 import com.google.gson.internal.LinkedTreeMap;
 
 public class Edge implements EdgeData, Comparable<Edge>{

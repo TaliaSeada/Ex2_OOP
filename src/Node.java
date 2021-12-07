@@ -1,8 +1,10 @@
+import api.GeoLocation;
+import api.NodeData;
 import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.ArrayList;
 
-public class Node implements NodeData{
+public class Node implements NodeData {
     private int key;
     private GeoLocation loc;
     private String info;

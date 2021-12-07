@@ -1,3 +1,5 @@
+import api.NodeData;
+
 public class nodeToJson {
     private String pos;
     private int id;

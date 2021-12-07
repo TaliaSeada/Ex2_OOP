@@ -1,3 +1,5 @@
+import api.EdgeData;
+
 public class edgeToJson {
     private int src;
     private double w;
