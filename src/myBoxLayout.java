@@ -23,6 +23,12 @@ public class myBoxLayout extends JFrame implements ActionListener {
     JFrame algoFrame = new JFrame("Algorithm");
     Container cont;
 
+    //layouts
+    GroupLayout fileLayout = new GroupLayout(fileFrame.getContentPane());
+    BoxLayout graphLayout = new BoxLayout(graphFrame.getContentPane(),BoxLayout.Y_AXIS);
+
+    //dialogs
+    JDialog notImplemented = new JDialog(graphFrame,"not implemented yet");
 
 
     public void createMainWindow(Container pane, String path) {
@@ -47,7 +53,12 @@ public class myBoxLayout extends JFrame implements ActionListener {
         algoActions.addActionListener(this);
         pane.add(algoActions);
         pane.add((Box.createRigidArea(new Dimension(5, 20))));
-
+        CreateAlgoWindow();
+        CreateFileWindow();
+        CreateGraphWindow();
+        fileFrame.setVisible(false);
+        algoFrame.setVisible(false);
+        graphFrame.setVisible(false);
     }
 
     public void CreateAlgoWindow() {
@@ -60,26 +71,23 @@ public class myBoxLayout extends JFrame implements ActionListener {
         fileFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         fileFrame.setSize(500, 500);
 
-
-
-        GroupLayout layout = new GroupLayout(fileFrame.getContentPane());
-        fileFrame.getContentPane().setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
+        fileFrame.getContentPane().setLayout(fileLayout);
+        fileLayout.setAutoCreateGaps(true);
+        fileLayout.setAutoCreateContainerGaps(true);
 
         save.addActionListener(this);
 
-        layout.setHorizontalGroup(
-                layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        fileLayout.setHorizontalGroup(
+                fileLayout.createSequentialGroup()
+                        .addGroup(fileLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addComponent(filePath))
                         .addComponent(save)
 
 
         );
-        layout.setVerticalGroup(
-                layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+        fileLayout.setVerticalGroup(
+                fileLayout.createSequentialGroup()
+                        .addGroup(fileLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addComponent(save))
                         .addComponent(filePath)
         );
@@ -90,43 +98,34 @@ public class myBoxLayout extends JFrame implements ActionListener {
     }
 
     public void CreateGraphWindow() {
-        graphFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        graphFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
         graphFrame.setSize(500, 500);
 
-//        GroupLayout layout = new GroupLayout(fileFrame.getContentPane());
-//        graphFrame.getContentPane().setLayout(layout);
-//        layout.setAutoCreateGaps(true);
-//        layout.setAutoCreateContainerGaps(true);
-        graphFrame.getContentPane().setLayout(new BoxLayout(graphFrame.getContentPane(), BoxLayout.Y_AXIS));
+
+        graphFrame.getContentPane().setLayout(graphLayout);
 
 
         show.setAlignmentX(Component.CENTER_ALIGNMENT);
         show.addActionListener(this);
         graphFrame.getContentPane().add(show);
-        graphFrame.getContentPane().add(Box.createRigidArea(new Dimension(5, 20)));
 
         AddNode.setAlignmentX(Component.CENTER_ALIGNMENT);
         AddNode.addActionListener(this);
         graphFrame.getContentPane().add(AddNode);
-        graphFrame.getContentPane().add((Box.createRigidArea(new Dimension(5, 20))));
 
         RemoveNode.setAlignmentX(Component.CENTER_ALIGNMENT);
         RemoveNode.addActionListener(this);
         graphFrame.getContentPane().add(RemoveNode);
-        graphFrame.getContentPane().add(Box.createRigidArea(new Dimension(5, 20)));
+
 
         Connect2Nodes.setAlignmentX(Component.CENTER_ALIGNMENT);
         Connect2Nodes.addActionListener(this);
         graphFrame.getContentPane().add(Connect2Nodes);
-        graphFrame.getContentPane().add(Box.createRigidArea(new Dimension(5, 20)));
 
 
         removeEdges.setAlignmentX(Component.CENTER_ALIGNMENT);
         removeEdges.addActionListener(this);
         graphFrame.getContentPane().add(removeEdges);
-        graphFrame.getContentPane().add(Box.createRigidArea(new Dimension(5, 20)));
-
-        graphFrame.setVisible(true);
 
     }
 
@@ -134,7 +133,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.fileActions){
-            CreateFileWindow();
+            fileFrame.setVisible(true);
         }
         if(e.getSource() == this.save){
             String Path = filePath.getText();
@@ -144,16 +143,16 @@ public class myBoxLayout extends JFrame implements ActionListener {
             }
             else {
                 GA.save(Path);
-                JOptionPane.showMessageDialog(fileFrame, "Saved!");
-                fileFrame.dispose();
+                JOptionPane.showMessageDialog(null, "Saved!");
+                filePath.setText("enter path file");
+                fileFrame.setVisible(false);
             }
         }
         if(e.getSource() == this.graphActions){
-            CreateGraphWindow();
+            graphFrame.setVisible(true);
         }
         if(e.getSource() == this.show){
-            JOptionPane.showMessageDialog(graphFrame,"not implemented yet");
-            graphFrame.dispose();
+
         }
         if(e.getSource() == this.removeEdges){
 
