@@ -80,22 +80,7 @@ class GraphAlgorithmsTest {
     }
 
     @Test
-    void test_getMinPath(){
-
-    }
-
-    @Test
     void test_shortestPathDist(){
-
-    }
-
-    @Test
-    void test_getMinValueIndex(){
-
-    }
-
-    @Test
-    void test_getMaxValue(){
 
     }
 

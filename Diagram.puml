@@ -1,0 +1,143 @@
+@startuml
+
+Ex2 o-- GUI
+GUI o-- GraphAlgorithms
+GUI o-- myBoxLayout
+GUI o-- paintGraph
+GraphAlgorithms o-- Graph
+GraphAlgorithms o-- nodeToJson
+GraphAlgorithms o-- edgeToJson
+GraphAlgorithms o-- minHeap
+Graph o-- Edge
+Graph o-- Node
+Node o-- Location
+
+class Ex2{
++getGrapg(String json_file)
++getGrapgAlgo(String json_file)
++runGUI(String json_file)
+}
+
+class GUI{
++createMainWindow(String path)
+}
+
+class GraphAlgorithms {
++init(DirectedWeightedGraph g)
++getGraph()
++copy()
++isConnected()
++shortestPathDist(int src, int dest)
++shortestPath(int src, int dest)
++center()
++tsp(List<NodeData> cities)
++save(String file)
++load(String file)
++Dijkstra(int sourceNode)
++bfs(int nodeKey,Graph graph)
++createOppositeGraph()
+}
+
+class myBoxLayout {
++createMainWindow(Container pane, String path)
++CreateAlgoWindow()
++CreateFileWindow()
++CreateGraphWindow()
++actionPerformed(ActionEvent e)
+}
+
+class paintGraph {
+}
+
+class Graph {
++Graph()
++Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name)
++Graph(Graph other)
++getAllEdges()
++getNodeEdges()
++getNodes()
++getName()
++getNode(int key)
++getEdge(int src, int dest)
++addNode(NodeData n)
++connect(int src, int dest, double w)
++nodeIter()
++edgeIter()
++edgeIter(int node_id)
++removeNode(int key)
++removeEdge(int src, int dest)
++nodeSize()
++edgeSize()
++getMC()
+}
+
+class nodeToJson {
++nodeToJson(NodeData node)
++getPos()
++getId()
++setPos(String pos)
++setId(int id)
++toString()
+}
+
+class edgeToJson {
++edgeToJson(EdgeData edge)
++getSrc()
++w()
++getDest()
++setSrc(int src)
++setW(double w)
++setDest(int dest)
++toString()
+}
+
+class minHeap {
+}
+
+class Node {
++Node(int key, GeoLocation location)
++Node(int key,double x, double y, double z)
++Node(LinkedTreeMap<?,?> node)
++Node(Node other)
++Node(int key, GeoLocation pos, String happy)
++getToNode()
++getFromNode()
++addEdge(Edge edge)
++removeEdge(int node,String type)
++getKey()
++getLocation()
++setLocation(GeoLocation p)
++getWeight()
++setWeight(double w)
++getEdgeTo()
++getEdgeFrom()
++getInfo()
++setInfo(String s)
++getTag()
++setTag(int t)
+}
+
+class Edge {
++Edge(int src, int dest, double weight)
++Edge(LinkedTreeMap<?,?> edge)
++Edge(Edge other)
++getSrc()
++getDest()
++getWeight()
++getInfo()
++setInfo(String s)
++getTag()
++setTag(int t)
++compareTo(Edge o)
+}
+
+class Location {
++Location(double x, double y, double z)
++x()
++y()
++z()
++distance(GeoLocation g)
++toString()
+}
+
+@enduml
