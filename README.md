@@ -1,9 +1,8 @@
 # Second Assignment - OOP Course
 ## Table Of Content:
-#### - Credits
-#### - Intro
-
-#### - Implementation
+### Credits
+### Intro
+### Implementation
 - Class Node
 - Class Edge
 - Class Location
@@ -11,6 +10,14 @@
 - Class edgeToJson
 - Class Graph
 - Class GraphAlgorithms
+- Class GUI
+- Class myBoxLayout
+- Class paintGraph
+- Class minHeap
+### Results
+### How to interact with the project
+### Tests
+
 
 ## Credits:
 This Projects was made by: Talia Seada (ID:), Lior Breitman (ID:), Dana Zorohov (ID: 207817529)
@@ -19,7 +26,7 @@ This Projects was made by: Talia Seada (ID:), Lior Breitman (ID:), Dana Zorohov 
 This project is about Weighted Directional Graphs. <br>
 More info - https://github.com/benmoshe/OOP_2021/tree/main/Assignments/Ex2/src/api <br>
 
-#### The main Task:
+### The main Task:
 The main task of this project is to ...
 We achieve it by implementing these four algorithms: <br>
 
@@ -202,5 +209,46 @@ bfs from a node, reverse edges, again bfs from the same node. If we got an integ
    - 1 for discovered but not finished "grey".
    - 2 for finished nodes "black".
 3. __createOppositeGraph()__ - This method creates an opposite graph of this graph.
+
+
+### Class GUI:
+This class is used to draw a graph.
+
+#### The function in this class:
+__createMainWindow(String path)__ - In this function we create the main window.
+
+
+### Class myBoxLayout:
+In this class we create the appearance of the main window.
+
+#### The parameter of the class:
+- GraphAlgorithms GA = new GraphAlgorithms()
+
+#### The functions in this class:
+1. __createMainWindow(Container pane, String path)__ - In this method we create the main window.
+2. __CreateAlgoWindow()__ - In this method we create the algorithms window.
+3. __CreateFileWindow()__ - In this method we create the file window.
+4. __CreateGraphWindow()__ - In this method we create the graph window.
+5. __actionPerformed(ActionEvent e)__ - In this method we receive the action that occurs (what button was pushed) and by the event we make the action to happen.
+
+
+### Class paintGraph:
+In this class we draw a graph in the graph's window.
+
+### Class minHeap: 
+
+
+## How to interact with the project:
+### Download:
+In order to download the project 
+
+## Run:
+In order to run the project 
+
+## GUI:
+In order to use GUI
+
+
+## Tests:
 
 
