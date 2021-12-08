@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 public class myBoxLayout extends JFrame implements ActionListener {
     private GraphAlgorithms GA = new GraphAlgorithms();
@@ -28,10 +29,10 @@ public class myBoxLayout extends JFrame implements ActionListener {
 
     //layouts
     GroupLayout fileLayout = new GroupLayout(fileFrame.getContentPane());
-    BoxLayout graphLayout = new BoxLayout(graphFrame.getContentPane(),BoxLayout.Y_AXIS);
+    BoxLayout graphLayout = new BoxLayout(graphFrame.getContentPane(), BoxLayout.Y_AXIS);
 
     //dialogs
-    JDialog notImplemented = new JDialog(graphFrame,"not implemented yet");
+    JDialog notImplemented = new JDialog(graphFrame, "not implemented yet");
 
 
     public void createMainWindow(Container pane, String path) {
@@ -135,43 +136,80 @@ public class myBoxLayout extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.fileActions){
+        if (e.getSource() == this.fileActions) {
             fileFrame.setVisible(true);
         }
-        if(e.getSource() == this.save){
+        if (e.getSource() == this.save) {
             String Path = filePath.getText();
             String[] split = Path.split("\\.");
             if (split.length == 0 || !split[split.length - 1].equals("json")) {
                 filePath.setText("invalid path");
-            }
-            else {
+            } else {
                 GA.save(Path);
                 JOptionPane.showMessageDialog(null, "Saved!");
                 filePath.setText("enter path file");
                 fileFrame.setVisible(false);
             }
         }
-        if(e.getSource() == this.graphActions){
+        if (e.getSource() == this.graphActions) {
             graphFrame.setVisible(true);
         }
-        if(e.getSource() == this.show){
+        if (e.getSource() == this.show) {
             showGraph.createAndShowGui(this.GA.getGraph());
         }
-        if(e.getSource() == this.removeEdges){
-            this.GA.getGraph().removeEdge(1,0);
-            this.GA.getGraph().removeEdge(0,1);
+        if (e.getSource() == this.removeEdges) {
+            String src = openSrc();
+            String dest = openDest();
+            this.GA.getGraph().removeEdge(Integer.parseInt(src), Integer.parseInt(dest));
         }
-        if(e.getSource() == this.RemoveNode){
+        if (e.getSource() == this.RemoveNode) {
+            String node = openNode();
+            this.GA.getGraph().removeNode(Integer.parseInt(node));
+        }
+        if (e.getSource() == this.Connect2Nodes) {
 
         }
-        if(e.getSource() == this.Connect2Nodes){
+        if (e.getSource() == this.AddNode) {
 
         }
-        if(e.getSource() == this.AddNode){
-
-        }
-        if(e.getSource() == this.algoActions){
+        if (e.getSource() == this.algoActions) {
             CreateAlgoWindow();
         }
+    }
+
+    public String openSrc() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert source node:\n",
+                "Source",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
+    }
+
+    public String openDest() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert destination node:\n",
+                "Destination",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
+    }
+
+    public String openNode() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert node:\n",
+                "Node",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
     }
 }
