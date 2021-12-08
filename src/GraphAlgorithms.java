@@ -78,12 +78,12 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     @Override
     public NodeData center() {
         /*
-            iterate over the nodes of the graph and run the Dijkstra function on each one of them
-            then, from each hashMap of distances of every node we got we need to take the longest path
-            then take the minimum longest path of all the nodes
+            iterate over the nodes of the graph and run the Dijkstra function on each one of them.
+            then, from each hashMap of distances of every node we got, we need to take the longest path.
+            then take the minimum longest path of all the nodes.
          */
 
-        //if the graph is not connected we can't get a center
+        //if the graph is not connected we can't get a center.
         boolean flag = isConnected();
         if(flag) {
             HashMap<Integer, Double> maxDistances = new HashMap<>();
@@ -124,10 +124,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     @Override
     public List<NodeData> tsp(List<NodeData> cities) {
         /*
-            iterate over the given list and run the Dijkstra function on the first node
-            after running once on a node, take the shortest path to a node (that is in the list)
-            then, run again but now on the node we took from the last iteration
-            stops when we passed all the nodes
+            Iterate over the given list and run the Dijkstra function on the first node.
+            After running once on a node, take the shortest path to a node (it's inside the list).
+            Then, run again, but now on the node we took from the last iteration.
+            The function stops when we passed all the nodes.
          */
         ArrayList<ArrayList<NodeData>> eachPath = new ArrayList<>();
         ArrayList<Integer> cities_keys = new ArrayList<>();
