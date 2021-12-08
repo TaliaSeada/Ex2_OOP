@@ -1,3 +1,5 @@
+import api.DirectedWeightedGraph;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,12 +7,13 @@ import java.awt.event.ActionListener;
 
 public class myBoxLayout extends JFrame implements ActionListener {
     private GraphAlgorithms GA = new GraphAlgorithms();
+
     // Buttons
     JButton fileActions = new JButton("file");
     JButton graphActions = new JButton("Graph");
     JButton algoActions = new JButton("algorithms");
     JButton save = new JButton("save to file");
-    JButton show = new JButton("show button");
+    JButton show = new JButton("show graph");
     JButton AddNode = new JButton("Add node");
     JButton RemoveNode = new JButton("remove Node");
     JButton Connect2Nodes = new JButton("Connect between 2 nodes");
@@ -152,10 +155,11 @@ public class myBoxLayout extends JFrame implements ActionListener {
             graphFrame.setVisible(true);
         }
         if(e.getSource() == this.show){
-
+            showGraph.createAndShowGui(this.GA.getGraph());
         }
         if(e.getSource() == this.removeEdges){
-
+            this.GA.getGraph().removeEdge(1,0);
+            this.GA.getGraph().removeEdge(0,1);
         }
         if(e.getSource() == this.RemoveNode){
 
