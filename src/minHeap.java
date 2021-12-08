@@ -1,140 +1,97 @@
-import api.NodeData;
-
-import java.util.ArrayList;
-
 public class minHeap {
-    ArrayList<pair> data;
-    int heapSize;
+    int capacity;
+    int currentSize;
+    pair[] mH;
+    int[] indexes; //will be used to decrease the distance
 
-    minHeap() {
-        data = new ArrayList<>();
-        heapSize = 0;
+
+    public minHeap(int capacity) {
+        this.capacity = capacity;
+        mH = new pair[capacity + 1];
+        indexes = new int[capacity];
+        mH[0] = new pair();
+        mH[0].dist = Integer.MIN_VALUE;
+        mH[0].node = -1;
+        currentSize = 0;
     }
 
-    void heapify(int i) {
-        if (i * 2 + 1 > heapSize - 1)
-            return;
-        int smallest = i;
-        if (data.get(i).getDist() > data.get(2 * i + 1).getDist())
-            smallest = 2 * i + 1;
-        else if (2 * i + 2 <= heapSize - 1 && data.get(i).getDist() > data.get(2 * i + 2).getDist())
-            smallest = 2 * i + 2;
-
-        if (smallest != i) {
-            pair temp = data.get(smallest);
-            data.set(smallest, data.get(i));
-            data.set(i, temp);
-            heapify(smallest);
+    public void display() {
+        for (int i = 0; i <= currentSize; i++) {
+            System.out.println(" " + mH[i].node + " distance " + mH[i].dist);
         }
-
+        System.out.println("________________________");
     }
 
-    void heapifyUp(int i) {
-        int parent = (i - 1) / 2;
-        //check that the parent is still in the heap
-        if (parent >= 0) {
-            //if parent is bigger make a swap
-            if (data.get(parent).getDist() > data.get(i).getDist()) {
-                pair temp = data.get(parent);
-                data.set(parent, data.get(i));
-                data.set(i, temp);
-                //check if the parent should go up as well
-                heapifyUp(parent);
-            }
-        }
+    public void insert(pair x) {
+        currentSize++;
+        int idx = currentSize;
+        mH[idx] = x;
+        indexes[x.node] = idx;
+        bubbleUp(idx);
     }
 
-    pair getPair(int key){
-        for(int i = 0; i < this.data.size(); i++){
-            if(i == key){
-                return this.data.get(i);
-            }
-        }
-        return null;
-    }
+    public void bubbleUp(int pos) {
+        int parentIdx = pos / 2;
+        int currentIdx = pos;
+        while (currentIdx > 0 && mH[parentIdx].dist > mH[currentIdx].dist) {
+            pair currentNode = mH[currentIdx];
+            pair parentNode = mH[parentIdx];
 
-    int isIn(pair p){
-        int index = -1;
-        for(int i = 0; i < this.getData().size(); i++){
-            if(p.getNode() == this.getData().get(i).getNode()){
-                index = i;
-            }
-        }
-        return index;
-    }
-    void update(pair p, double distance){
-        if(p == null) {
-            System.out.println("ERROR");
-            return;
-        }
-        int index = isIn(p);
-        if(index != -1){
-            this.data.get(index).setDist(distance);
-            heapifyUp(heapSize);
-        }
-        else{
-            add(p);
+            //swap the positions
+            indexes[currentNode.node] = parentIdx;
+            indexes[parentNode.node] = currentIdx;
+            swap(currentIdx, parentIdx);
+            currentIdx = parentIdx;
+            parentIdx = parentIdx / 2;
         }
     }
 
-    void add(pair k) {
-        data.set(heapSize++, k);
-        heapifyUp(heapSize - 1);
+    public pair extractMin() {
+        pair min = mH[1];
+        pair lastNode = mH[currentSize];
+// update the indexes[] and move the last node to the top
+        indexes[lastNode.node] = 1;
+        mH[1] = lastNode;
+        mH[currentSize] = null;
+        sinkDown(1);
+        currentSize--;
+        return min;
     }
 
-    void delete(int index) {
-        //swap the element with the last element in the heap
-        //then fix the heap and resize the heap to n-1
-        data.set(index, data.get(heapSize-- - 1));
-        heapify(index);
+    public void sinkDown(int k) {
+        int smallest = k;
+        int leftChildIdx = 2 * k;
+        int rightChildIdx = 2 * k + 1;
+        if (leftChildIdx < heapSize() && mH[smallest].dist > mH[leftChildIdx].dist) {
+            smallest = leftChildIdx;
+        }
+        if (rightChildIdx < heapSize() && mH[smallest].dist > mH[rightChildIdx].dist) {
+            smallest = rightChildIdx;
+        }
+        if (smallest != k) {
+
+            pair smallestNode = mH[smallest];
+            pair kNode = mH[k];
+
+            //swap the positions
+            indexes[smallestNode.node] = k;
+            indexes[kNode.node] = smallest;
+            swap(k, smallest);
+            sinkDown(smallest);
+        }
     }
 
-    int getSize(){
-        return this.heapSize;
+    public void swap(int a, int b) {
+        pair temp = mH[a];
+        mH[a] = mH[b];
+        mH[b] = temp;
     }
 
-    ArrayList<pair> getData(){
-        return this.data;
+    public boolean isEmpty() {
+        return currentSize == 0;
     }
 
-}
-
-class pair implements Comparable<pair>{
-    private Integer node;
-    private double dist;
-
-    public pair(int n, double dist){
-        this.node = n;
-        this.dist = dist;
-    }
-
-    public pair(){
-        this.node = null;
-        this.dist = 0;
-    }
-
-    public int getNode() {
-        return node;
-    }
-
-    public double getDist() {
-        return dist;
-    }
-
-    public void setNode(int node) {
-        this.node = node;
-    }
-
-    public void setDist(double dist) {
-        this.dist = dist;
-    }
-
-    @Override
-    public int compareTo(pair other) {
-        if(other.getDist() > this.dist) return -1;
-        else if(other.getDist() == this.dist) return 0;
-        else{return 1;}
+    public int heapSize() {
+        return currentSize;
     }
 }
-
-

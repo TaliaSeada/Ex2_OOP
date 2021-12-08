@@ -12,6 +12,8 @@ import api.NodeData;
 import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 
+import javax.swing.text.html.HTMLDocument;
+
 public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     private Graph graph;
 
@@ -52,7 +54,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        ArrayList<HashMap> result = Dijkstra(src);
+        ArrayList<HashMap> result = dijkstra(src);
         HashMap<Integer, Double> dists = result.get(0);
         return dists.get(dest);
     }
@@ -60,7 +62,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     @Override
     public List<NodeData> shortestPath(int src, int dest) {
         List<NodeData> path = new ArrayList<>();
-        HashMap<Integer, Node> lastPath = Dijkstra(src).get(1);
+        HashMap<Integer, Node> lastPath = dijkstra(src).get(1);
         int firstInPath = lastPath.get(dest).getKey();
         path.add(this.graph.getNode(dest));
         path.add(lastPath.get(dest));
@@ -84,13 +86,15 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
          */
 
         //if the graph is not connected we can't get a center.
+        long startBFS = System.currentTimeMillis();
         boolean flag = isConnected();
+        long endBFS = System.currentTimeMillis();
         if(flag) {
             HashMap<Integer, Double> maxDistances = new HashMap<>();
             Iterator<NodeData> nodeIter = this.graph.nodeIter();
             while (nodeIter.hasNext()) {
                 NodeData next = nodeIter.next();
-                HashMap<Integer, Double> distances = Dijkstra(next.getKey()).get(0);
+                HashMap<Integer, Double> distances = dijkstra(next.getKey()).get(0);
                 maxDistances.put(next.getKey(), getMaxValue(distances));
             }
             return this.graph.getNode(getMinValueIndex(maxDistances));
@@ -136,9 +140,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
         ArrayList<Integer> passed = new ArrayList<>();
 
-        ArrayList<HashMap> dijkstra = Dijkstra(cities.get(0).getKey());
-        HashMap<Integer, Double> dist = dijkstra.get(0);
-        HashMap<Integer, Node> path = dijkstra.get(1);
+        ArrayList<HashMap> result = dijkstra(cities.get(0).getKey());
+        HashMap<Integer, Double> dist = result.get(0);
+        System.out.println(dist);
+        HashMap<Integer, Node> path = result.get(1);
 
         passed.add(cities.get(0).getKey());
 
@@ -157,9 +162,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         while(passed.size() != cities.size() -1){
             int prevDest = dest;
-            dijkstra = Dijkstra(dest);
-            dist = dijkstra.get(0);
-            path = dijkstra.get(1);
+            result = dijkstra(dest);
+            dist = result.get(0);
+            System.out.println(dist);
+            path = result.get(1);
             passed.add(dest);
 
             currPath = new ArrayList<>();
@@ -279,54 +285,59 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
     }
 
-    public ArrayList<HashMap> Dijkstra(int sourceNode) {
-        ArrayList<HashMap> res = new ArrayList<>();
+    public ArrayList<HashMap> dijkstra(int sourceNode){
+        ArrayList<HashMap> result = new ArrayList<>();
+        HashMap<Integer,Double> minDists = new HashMap<>();
+        HashMap<Integer,NodeData> lastPath = new HashMap<>();
 
-        // hashMap of the nodes and their path length from the node
-        HashMap<Integer, Double> dist = new HashMap<>();
-        // hashMap of the path from some node to the current node
-        HashMap<Integer, Node> prev = new HashMap<>();
-
-        minHeap q = new minHeap();
-//        ArrayList<Integer> q = new ArrayList<>();
-        for (Integer v : this.graph.getNodes().keySet()) {
-            dist.put(v, Double.MAX_VALUE);
-            prev.put(v, null);
-            pair vertex = new pair(v, Double.MAX_VALUE);
-            q.add(vertex);
+        pair [] heapNodes = new pair[this.graph.getNodes().keySet().size()];
+        for (int i = 0; i < this.graph.getNodes().keySet().size() ; i++) {
+            if(i == sourceNode){
+                minDists.put(sourceNode,0.0);
+            }
+            else {
+                minDists.put(i,Double.MAX_VALUE);
+            }
+            lastPath.put(i,null);
+            heapNodes[i] = new pair();
+            heapNodes[i].node = i;
+            heapNodes[i].dist = Double.MAX_VALUE;
         }
 
-        dist.put(sourceNode, 0.0);
-        ArrayList<Integer> visited = new ArrayList<>();
-        while (q.getSize() != 0 && visited.size()!= this.graph.getNodes().size()) {
-            int min = q.getData().get(0).getNode();
-            Node node = (Node) this.graph.getNode(min);
-            q.delete(min);
-            visited.add(min);
-            Iterator<EdgeData> iterFromNode = this.graph.edgeIter(min);
-            while (iterFromNode.hasNext()) {
-                EdgeData curr = iterFromNode.next();
-                if (dist.get(curr.getDest()) == Double.MAX_VALUE) {
-                    dist.put(curr.getDest(), dist.get(min) + (this.graph.getEdge(min, curr.getDest()).getWeight()));
-                    prev.put(curr.getDest(), node);
-                    q.update(q.getPair(curr.getDest()), dist.get(min) + (this.graph.getEdge(min, curr.getDest()).getWeight()));
-                } else {
-                    double tmp = dist.get(min) + (this.graph.getEdge(min, curr.getDest()).getWeight());
+        heapNodes[sourceNode].dist = 0;
 
-                    if (dist.get(curr.getDest()) > tmp) {
-                        dist.put(curr.getDest(), tmp);
-                        prev.put(curr.getDest(), node);
-                        q.update(q.getPair(curr.getDest()), tmp);
-                    }
+        minHeap MinHeap = new minHeap(this.graph.getNodes().keySet().size());
+        for (int i = 0; i < this.graph.getNodes().keySet().size() ; i++) {
+            MinHeap.insert(heapNodes[i]);
+        }
+        while(!MinHeap.isEmpty()){
+            pair extractedNode = MinHeap.extractMin();
+            int curr = extractedNode.node;
+            Iterator<EdgeData> edges = this.graph.edgeIter(curr);
+            while(edges.hasNext()){
+                EdgeData edge = edges.next();
+                int dest = edge.getDest();
+                double newDist = heapNodes[curr].dist + edge.getWeight();
+                if(heapNodes[dest].dist > newDist){
+                    decreaseKey(MinHeap, newDist, dest);
+                    heapNodes[dest].dist = newDist;
+                    minDists.put(dest,newDist);
+                    lastPath.put(dest,this.graph.getNode(curr));
                 }
             }
-
         }
-        res.add(dist);
-        res.add(prev);
-        return res;
+        result.add(minDists);
+        result.add(lastPath);
+        return result;
     }
 
+    public void decreaseKey(minHeap MinHeap, double newKey, int vertex){
+
+        int index = MinHeap.indexes[vertex];
+        pair node = MinHeap.mH[index];
+        node.dist = newKey;
+        MinHeap.bubbleUp(index);
+    }
 
 
     public int bfs(int nodeKey,Graph graph) {
