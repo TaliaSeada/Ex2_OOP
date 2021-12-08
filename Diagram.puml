@@ -3,11 +3,12 @@
 Ex2 o-- GUI
 GUI o-- GraphAlgorithms
 GUI o-- myBoxLayout
-GUI o-- paintGraph
+GUI o-- showGraph
 GraphAlgorithms o-- Graph
 GraphAlgorithms o-- nodeToJson
 GraphAlgorithms o-- edgeToJson
 GraphAlgorithms o-- minHeap
+minHeap o-- pair
 Graph o-- Edge
 Graph o-- Node
 Node o-- Location
@@ -46,7 +47,11 @@ class myBoxLayout {
 +actionPerformed(ActionEvent e)
 }
 
-class paintGraph {
+class showGraph {
++showGraph(List<GeoLocation> scores)
++paintComponent(Graphics g)
++createAndShowGui(DirectedWeightedGraph g)
++drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h)
 }
 
 class Graph {
@@ -92,6 +97,26 @@ class edgeToJson {
 }
 
 class minHeap {
++minHeap(int capacity)
++display()
++insert(pair x)
++bubbleUp(int pos)
++extractMin()
++sinkDown(int k)
++swap(int a, int b)
++isEmpty()
++heapSize()
+}
+
+class pair {
++pair(int n, double dist)
++pair()
++getNode()
++getDist()
++setNode(int node)
++setDist(double dist)
++compareTo(pair other)
++equals(Object o)
 }
 
 class Node {

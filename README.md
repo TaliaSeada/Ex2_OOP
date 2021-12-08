@@ -12,8 +12,9 @@
 - Class GraphAlgorithms
 - Class GUI
 - Class myBoxLayout
-- Class paintGraph
+- Class showGraph
 - Class minHeap
+- Class pair
 ### Results
 ### How to interact with the project
 ### Tests
@@ -232,23 +233,29 @@ In this class we create the appearance of the main window.
 5. __actionPerformed(ActionEvent e)__ - In this method we receive the action that occurs (what button was pushed) and by the event we make the action to happen.
 
 
-### Class paintGraph:
-In this class we draw a graph in the graph's window.
+### Class showGraph:
+In this class we display a graph in the graph's window.
+//to do
 
-### Class minHeap: 
+### Class minHeap:
+//to do
 
+### Class pair:
+//to do
 
 ## How to interact with the project:
 ### Download:
 In order to download the project 
+//to do
 
 ## Run:
 In order to run the project 
+//to do
 
 ## GUI:
 In order to use GUI
-
+//to do
 
 ## Tests:
-
+//to do
 
