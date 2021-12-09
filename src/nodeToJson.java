@@ -1,5 +1,8 @@
 import api.NodeData;
 
+/**
+ * this class convert the Nodes to be in the format of the json file
+ */
 public class nodeToJson {
     private String pos;
     private int id;

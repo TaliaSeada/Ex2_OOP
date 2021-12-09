@@ -106,8 +106,7 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public void addNode(NodeData n) {
-        if(this.nodeEdges.get(n) == null)
-        {
+        if(this.nodeEdges.get(n) == null) {
             HashMap<String, EdgeData> edges = new HashMap<>();
             this.nodeEdges.put(n.getKey(),edges);
         }
@@ -140,8 +139,7 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) throws RuntimeException{
-        if(!this.nodeEdges.containsKey(node_id))
-        {
+        if(!this.nodeEdges.containsKey(node_id)) {
             return null;
         }
         HashMap<String, EdgeData> edges = this.nodeEdges.get(node_id);
@@ -151,8 +149,7 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public NodeData removeNode(int key) {
         Node node = (Node)this.nodes.get(key);
-        if(node != null)
-        {
+        if(node != null) {
             ArrayList<Integer> nodesConnectedTo = new ArrayList<>();
             nodesConnectedTo.addAll(node.getToNode());
             for(int i = 0; i < nodesConnectedTo.size();i++) {
@@ -174,8 +171,7 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public EdgeData removeEdge(int src, int dest) {
         EdgeData edge = this.nodeEdges.get(src).get(src+"-"+dest);
-        if(edge != null)
-        {
+        if(edge != null) {
             Node nodeSrc = (Node)this.nodes.get(src);
             Node nodeDest = (Node)this.nodes.get(dest);
             nodeSrc.removeEdge(dest, "dest");

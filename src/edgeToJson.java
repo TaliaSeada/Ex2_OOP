@@ -1,5 +1,8 @@
 import api.EdgeData;
 
+/**
+ * this class convert the Edges to be in the format of the json file
+ */
 public class edgeToJson {
     private int src;
     private double w;

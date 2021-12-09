@@ -6,7 +6,6 @@ public class Edge implements EdgeData, Comparable<Edge>{
     private int dest;
     private double w;
     private String info;
-//    private int tag;
 
     public Edge(int src, int dest, double weight){
         this.dest = dest;
@@ -23,7 +22,6 @@ public class Edge implements EdgeData, Comparable<Edge>{
         this.src = (int)Double.parseDouble(src);
         this.w = Double.parseDouble(w);
         this.info = "source of edge: " + src +" destination of edge: " + dest + " weight of edge "+ this.w;
-
     }
 
     public Edge(Edge other){
