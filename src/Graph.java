@@ -151,32 +151,39 @@ public class Graph implements DirectedWeightedGraph {
     @Override
     public NodeData removeNode(int key) {
         Node node = (Node)this.nodes.get(key);
-        ArrayList<Integer> nodesConnectedTo = new ArrayList<>();
-        nodesConnectedTo.addAll(node.getToNode());
-        for(int i = 0; i < nodesConnectedTo.size();i++) {
-            removeEdge(nodesConnectedTo.get(i),key);
+        if(node != null)
+        {
+            ArrayList<Integer> nodesConnectedTo = new ArrayList<>();
+            nodesConnectedTo.addAll(node.getToNode());
+            for(int i = 0; i < nodesConnectedTo.size();i++) {
+                removeEdge(nodesConnectedTo.get(i),key);
+            }
+            nodesConnectedTo.clear();
+            nodesConnectedTo.addAll(node.getFromNode());
+            for(int i = 0; i < nodesConnectedTo.size();i++) {
+                removeEdge(key,nodesConnectedTo.get(i));
+            }
+            this.nodes.remove(key);
+            this.nodeEdges.remove(key);
+            MC++;
+            return node;
         }
-        nodesConnectedTo.clear();
-        nodesConnectedTo.addAll(node.getFromNode());
-        for(int i = 0; i < nodesConnectedTo.size();i++) {
-            removeEdge(key,nodesConnectedTo.get(i));
-        }
-        this.nodes.remove(key);
-        this.nodeEdges.remove(key);
-        MC++;
-        return node;
+        return null;
     }
 
     @Override
     public EdgeData removeEdge(int src, int dest) {
         EdgeData edge = this.nodeEdges.get(src).get(src+"-"+dest);
-        Node nodeSrc = (Node)this.nodes.get(src);
-        Node nodeDest = (Node)this.nodes.get(dest);
-        nodeSrc.removeEdge(dest, "dest");
-        nodeDest.removeEdge(src, "src");
-        this.nodeEdges.get(src).remove(src+"-"+dest);
-        this.allEdges.remove(edge);
-        MC++;
+        if(edge != null)
+        {
+            Node nodeSrc = (Node)this.nodes.get(src);
+            Node nodeDest = (Node)this.nodes.get(dest);
+            nodeSrc.removeEdge(dest, "dest");
+            nodeDest.removeEdge(src, "src");
+            this.nodeEdges.get(src).remove(src+"-"+dest);
+            this.allEdges.remove(edge);
+            MC++;
+        }
         return edge;
     }
 
