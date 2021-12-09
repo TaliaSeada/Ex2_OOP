@@ -93,6 +93,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             Iterator<NodeData> nodeIter = this.graph.nodeIter();
             while (nodeIter.hasNext()) {
                 NodeData next = nodeIter.next();
+                System.out.println(next.getKey());
                 HashMap<Integer, Double> distances = dijkstra(next.getKey()).get(0);
                 maxDistances.put(next.getKey(), getMaxValue(distances));
             }
