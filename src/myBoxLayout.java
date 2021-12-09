@@ -234,6 +234,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
         }
         if (e.getSource() == this.shortestPath) {
 
+            showGraph.createAndShowGui(this.GA.getGraph());
         }
         if (e.getSource() == this.center) {
 
