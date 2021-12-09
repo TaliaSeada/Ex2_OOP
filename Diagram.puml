@@ -20,10 +20,12 @@ class Ex2{
 }
 
 class GUI{
++activateGUI(String path)
 +createMainWindow(String path)
 }
 
 class GraphAlgorithms {
+-Graph graph
 +init(DirectedWeightedGraph g)
 +getGraph()
 +copy()
@@ -40,21 +42,50 @@ class GraphAlgorithms {
 }
 
 class myBoxLayout {
+-GraphAlgorithms GA = new GraphAlgorithms
+-List<NodeData> cities = new ArrayList<>
 +createMainWindow(Container pane, String path)
 +CreateAlgoWindow()
 +CreateFileWindow()
 +CreateGraphWindow()
 +actionPerformed(ActionEvent e)
++openSrc()
++openDest()
++openNode()
++openNode1()
++openNode2()
++openW()
++openLocX()
++openLocY()
++getEdgesOfPath(List<NodeData> path)
+
 }
 
 class showGraph {
-+showGraph(List<GeoLocation> scores)
+-static GraphAlgorithms GA = new GraphAlgorithms
+-List<GeoLocation> scores
+- int padding = 20
+- int labelPadding = 12
+- static int pointWidth = 7
+- Color pointColor = new Color
+- Color lineColor = new Color
+- Color indexColor = new Color
+- ArrayList<EdgeData> paintEdges = new ArrayList<>
+- NodeData center
+- HashMap<Integer,GeoLocation> locations = new HashMap<>()
+- HashMap<Integer,Point> points = new HashMap<>()
++showGraph(List<GeoLocation> scores,ArrayList<EdgeData> edgesToPaint, NodeData center)
 +paintComponent(Graphics g)
-+createAndShowGui(DirectedWeightedGraph g)
++createAndShowGui(DirectedWeightedGraph g, ArrayList<EdgeData> toPaint, NodeData center)
 +drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h)
 }
 
 class Graph {
+-HashMap<Integer,NodeData> nodes
+-HashMap<Integer,HashMap<String,EdgeData>> nodeEdges
+-ArrayList<EdgeData> allEdges
+-final String name
+-int MC =0
 +Graph()
 +Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name)
 +Graph(Graph other)
@@ -77,6 +108,8 @@ class Graph {
 }
 
 class nodeToJson {
+- String pos
+- int id
 +nodeToJson(NodeData node)
 +getPos()
 +getId()
@@ -86,6 +119,9 @@ class nodeToJson {
 }
 
 class edgeToJson {
+- int src
+- double w
+- int dest
 +edgeToJson(EdgeData edge)
 +getSrc()
 +w()
@@ -97,6 +133,10 @@ class edgeToJson {
 }
 
 class minHeap {
+ - int capacity
+ - int currentSize
+ - pair[] mH
+ - int[] indexes
 +minHeap(int capacity)
 +display()
 +insert(pair x)
@@ -109,6 +149,8 @@ class minHeap {
 }
 
 class pair {
+-int node
+-double dist
 +pair(int n, double dist)
 +pair()
 +getNode()
@@ -120,6 +162,12 @@ class pair {
 }
 
 class Node {
+-int key
+-GeoLocation loc
+-String info
+-ArrayList<Integer> EdgesToNode
+-ArrayList<Integer> EdgesFromNode
+-int tag
 +Node(int key, GeoLocation location)
 +Node(int key,double x, double y, double z)
 +Node(LinkedTreeMap<?,?> node)
@@ -143,6 +191,10 @@ class Node {
 }
 
 class Edge {
+-int src
+-int dest
+-double w
+-String info
 +Edge(int src, int dest, double weight)
 +Edge(LinkedTreeMap<?,?> edge)
 +Edge(Edge other)
@@ -157,6 +209,9 @@ class Edge {
 }
 
 class Location {
+-double x;
+-double y;
+- double z;
 +Location(double x, double y, double z)
 +x()
 +y()

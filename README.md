@@ -22,7 +22,8 @@
 
 ## Credits:
 This Projects was made by: Talia Seada (ID:), Lior Breitman (ID:), Dana Zorohov (ID: 207817529)
-
+__NOTE:__ In this projects the group members used "Code With Me" in the IntelliJ workspace so most of the commit are
+from one main computer while all the members were working on the project.
 ## Intro:
 This project is about Weighted Directional Graphs. <br>
 More info - https://github.com/benmoshe/OOP_2021/tree/main/Assignments/Ex2/src/api <br>
@@ -215,15 +216,16 @@ bfs from a node, reverse edges, again bfs from the same node. If we got an integ
 ### Class GUI:
 This class is used to draw a graph.
 
-#### The function in this class:
+#### The functions in this class:
 __createMainWindow(String path)__ - In this function we create the main window.
-
+__activateGUI(String path)__ - In this function we activate the GUI.
 
 ### Class myBoxLayout:
 In this class we create the appearance of the main window.
 
 #### The parameter of the class:
 - GraphAlgorithms GA = new GraphAlgorithms()
+- List<NodeData> cities = new ArrayList<>()
 
 #### The functions in this class:
 1. __createMainWindow(Container pane, String path)__ - In this method we create the main window.
@@ -231,17 +233,74 @@ In this class we create the appearance of the main window.
 3. __CreateFileWindow()__ - In this method we create the file window.
 4. __CreateGraphWindow()__ - In this method we create the graph window.
 5. __actionPerformed(ActionEvent e)__ - In this method we receive the action that occurs (what button was pushed) and by the event we make the action to happen.
-
+6. __openSrc()__ - 
+7. __openDest()__ -
+8. __openNode()__ - 
+9. __openNode()1_ -
+10. __openNode()2__ -
+11. __openW()__ -
+12. __openLocX()__ -
+13. __openLocY()__ -
+14. __getEdgesOfPath(List<NodeData> path)__ -
 
 ### Class showGraph:
 In this class we display a graph in the graph's window.
-//to do
+
+#### The parameters of the class:
+- __static GraphAlgorithms GA = new GraphAlgorithms()__
+- __List<GeoLocation> scores__
+- __int padding = 20__
+- __int labelPadding = 12__
+- __static int pointWidth = 7__
+- __Color pointColor = new Color(255,0,0)__
+- __Color lineColor = new Color(0,0,0)__
+- __Color indexColor = new Color(0,0,255)__
+- __ArrayList<EdgeData> paintEdges = new ArrayList<>()__
+- __NodeData center__
+- __HashMap<Integer,GeoLocation> locations = new HashMap<>()__
+- __HashMap<Integer,Point> points = new HashMap<>()__
+
+#### The functions in this class:
+1. __showGraph(List<GeoLocation> scores,ArrayList<EdgeData> edgesToPaint, NodeData center)__ - Constructor
+2. __paintComponent(Graphics g)__ -
+3. __createAndShowGui(DirectedWeightedGraph g, ArrayList<EdgeData> toPaint, NodeData center)__ -
+4. __drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h)__ -
 
 ### Class minHeap:
-//to do
+This class represents the Data Structure min heap.
+
+#### The parameters of the class:
+- __int capacity__
+- __int currentSize__
+- __pair[] mH__
+- __int[] indexes - used to decrease the distance__
+
+#### The functions in this class:
+1. __minHeap(int capacity)__ - Constructor
+2. __insert(pair x)__ - Inserting a pair to the heap.
+3. __bubbleUp(int pos)__ -
+4. __extractMin()__ - 
+5. __sinkDown(int k)__ - 
+6. __swap(int a, int b)__ -
+7. __isEmpty()__ -
+8. __heapSize()__ - 
 
 ### Class pair:
-//to do
+This class represents a pair of node and dist
+
+#### The parameters of the class:
+- __int node__
+- __double dist__
+
+#### The functions in this class:
+1. pair(int n, double dist) - constructor
+2. pair() - Default constructor
+3. getNode() - Returns the node 
+4. getDist() - Returns the dist
+5. setNode(int node) - Setting a new node
+6. setDist(double dist) - Setting new dist
+7. compareTo(pair other) - Compares to other pair
+8. equals(Object o) - Checks if the object is equal to pair
 
 ## How to interact with the project:
 ### Download:
