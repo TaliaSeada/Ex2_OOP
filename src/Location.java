@@ -1,5 +1,8 @@
 import api.GeoLocation;
 
+/**
+ * this class implements the GeoLocation interface
+ */
 public class Location implements GeoLocation {
     private double x;
     private double y;

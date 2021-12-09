@@ -2,6 +2,9 @@
 // even if you are working with just swings.
 import javax.swing.*;
 class GUI {
+    /**
+     * this class activate the GUI of this project
+     */
     public static void main(String args[]) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             String path = "data/G1.json";

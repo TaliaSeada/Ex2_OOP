@@ -4,6 +4,9 @@ import com.google.gson.internal.LinkedTreeMap;
 
 import java.util.ArrayList;
 
+/**
+ * this class implements the NodeData interface
+ */
 public class Node implements NodeData {
     private int key;
     private GeoLocation loc;
@@ -63,6 +66,7 @@ public class Node implements NodeData {
         return this.EdgesFromNode;
     }
 
+    // this function adds an edge to the correct list (if the edge go out or come in)
     public void addEdge(Edge edge) {
         if(edge.getSrc() == this.key) {
             EdgesFromNode.add(edge.getDest());
@@ -71,7 +75,7 @@ public class Node implements NodeData {
             EdgesToNode.add(edge.getSrc());
         }
     }
-
+    // this function removes an edge from the correct list (if the edge go out or come in)
     public void removeEdge(int node,String type) {
         if(type.equals("dest")) {
             this.EdgesFromNode.remove((Integer)node);
@@ -80,7 +84,6 @@ public class Node implements NodeData {
             this.EdgesToNode.remove((Integer)node);
         }
     }
-
 
     @Override
     public int getKey() {
@@ -103,8 +106,7 @@ public class Node implements NodeData {
     }
 
     @Override
-    public void setWeight(double w) {
-    }
+    public void setWeight(double w) {}
 
     public ArrayList<Integer> getEdgeTo()
     {
@@ -134,6 +136,5 @@ public class Node implements NodeData {
     @Override
     public void setTag(int t) {
         this.tag = t;
-
     }
 }

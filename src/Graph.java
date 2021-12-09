@@ -1,4 +1,3 @@
-
 import api.DirectedWeightedGraph;
 import api.EdgeData;
 import api.NodeData;
@@ -7,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+/**
+ * this class represent the graph by implementing the DirectedWeightedGraph algorithm
+ */
 public class Graph implements DirectedWeightedGraph {
     private HashMap<Integer,NodeData> nodes;
     private HashMap<Integer,HashMap<String,EdgeData>> nodeEdges;

@@ -84,8 +84,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             then, from each hashMap of distances of every node we got, we need to take the longest path.
             then take the minimum longest path of all the nodes.
          */
-
-        //if the graph is not connected we can't get a center.
+        // if the graph is not connected we can't get a center.
         long startBFS = System.currentTimeMillis();
         boolean flag = isConnected();
         long endBFS = System.currentTimeMillis();

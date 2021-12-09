@@ -1,3 +1,6 @@
+/**
+ * this class builds a minHeap for the Dijkstra algorithm
+ */
 public class minHeap {
     int capacity;
     int currentSize;

@@ -11,7 +11,9 @@ import java.awt.geom.Point2D;
 import java.security.cert.PolicyNode;
 import java.util.*;
 import java.util.List;
-
+/**
+ * this class builds part of the GUI for this project
+ */
 public class showGraph extends JPanel {
     private static GraphAlgorithms GA = new GraphAlgorithms();
     private List<GeoLocation> scores;

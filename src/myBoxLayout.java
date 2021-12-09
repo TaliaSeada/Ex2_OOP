@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * this class builds part of the GUI for this project
+ */
 public class myBoxLayout extends JFrame implements ActionListener {
     private GraphAlgorithms GA = new GraphAlgorithms();
     List<NodeData> cities = new ArrayList<>();
@@ -19,6 +22,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
     JButton graphActions = new JButton("Graph");
     JButton algoActions = new JButton("algorithms");
 
+    JButton load = new JButton("load a file");
     JButton save = new JButton("save to file");
     JButton show = new JButton("show graph");
     JButton AddNode = new JButton("Add node");
@@ -124,11 +128,15 @@ public class myBoxLayout extends JFrame implements ActionListener {
         fileLayout.setAutoCreateContainerGaps(true);
 
         save.addActionListener(this);
+        JTextField path = new JTextField("Enter path of file");
+
+        load.addActionListener(this);
 
         fileLayout.setHorizontalGroup(
                 fileLayout.createSequentialGroup()
                         .addGroup(fileLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(filePath))
+                                .addComponent(filePath)
+                                .addComponent(load))
                         .addComponent(save)
 
 
@@ -136,7 +144,8 @@ public class myBoxLayout extends JFrame implements ActionListener {
         fileLayout.setVerticalGroup(
                 fileLayout.createSequentialGroup()
                         .addGroup(fileLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(save))
+                                .addComponent(save)
+                                .addComponent(load))
                         .addComponent(filePath)
         );
 
@@ -181,6 +190,15 @@ public class myBoxLayout extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this.fileActions) {
             fileFrame.setVisible(true);
+        }
+        if (e.getSource() == this.load) {
+            String Path = filePath.getText();
+            if(!GA.load(Path)) {
+                filePath.setText("invalid path");
+            }
+            else {
+                fileFrame.dispose();
+            }
         }
         if (e.getSource() == this.save) {
             String Path = filePath.getText();
@@ -254,7 +272,13 @@ public class myBoxLayout extends JFrame implements ActionListener {
             showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
         }
         if (e.getSource() == this.center) {
-            showGraph.createAndShowGui(this.GA.getGraph(), null, this.GA.center());
+            if(this.GA.center() != null){
+                showGraph.createAndShowGui(this.GA.getGraph(), null, this.GA.center());
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "There is no center");
+            }
+
         }
 
         if (e.getSource() == this.tsp_path) {
