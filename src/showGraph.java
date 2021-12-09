@@ -22,20 +22,27 @@ public class showGraph extends JPanel {
     private Color lineColor = new Color(0,0,0);
     private Color indexColor = new Color(0,0,255);
     public ArrayList<EdgeData> paintEdges = new ArrayList<>();
+    private NodeData center;
+    public HashMap<Integer,GeoLocation> locations = new HashMap<>();
+    public HashMap<Integer,Point> points = new HashMap<>();
 
     // constructor
-    public showGraph(List<GeoLocation> scores,ArrayList<EdgeData> edgesToPaint) {
+    public showGraph(List<GeoLocation> scores,ArrayList<EdgeData> edgesToPaint, NodeData center) {
         this.paintEdges = edgesToPaint;
         this.scores = scores;
+        this.center = center;
+        Iterator<NodeData> iter = GA.getGraph().nodeIter();
+        while(iter.hasNext())
+        {
+            NodeData n = iter.next();
+            locations.put(n.getKey(),n.getLocation());
+        }
     }
 
-//    public int PointIndex(List<Point> points, int x, int y)
-//    {
-//        for(int i =0; i < points.size();i++)
-//        {
+//    public int PointIndex(List<Point> points, int x, int y) {
+//        for(int i =0; i < points.size();i++) {
 //            Point p = points.get(i);
-//            if(p.x == x && p.y == y)
-//            {
+//            if(p.x == x && p.y == y) {
 //                return i;
 //            }
 //        }
@@ -95,16 +102,18 @@ public class showGraph extends JPanel {
 
         g2.setColor(Color.CYAN);
 
-
-        for(EdgeData edge: this.paintEdges)
+        if(paintEdges != null)
         {
-            int x1 = graphPoints.get(edge.getSrc()).x;
-            int y1 = graphPoints.get(edge.getSrc()).y;
-            int x2 = graphPoints.get(edge.getDest()).x;
-            int y2 = graphPoints.get(edge.getDest()).y;
+            for(EdgeData edge: this.paintEdges) {
+                int x1 = points.get(edge.getSrc()).x;
+                int y1 = points.get(edge.getSrc()).y;
+                int x2 = points.get(edge.getDest()).x;
+                int y2 = points.get(edge.getDest()).y;
 
-            drawArrowLine(g2,x1,y1,x2,y2,7,4);
+                drawArrowLine(g2,x1,y1,x2,y2,7,4);
+            }
         }
+
 
         g2.setStroke(oldStroke);
         g2.setColor(pointColor);
@@ -118,11 +127,16 @@ public class showGraph extends JPanel {
             g2.fillOval(x, y, ovalW, ovalH);
 
             g2.setColor(indexColor);
+            g2.setFont(new Font("Serif", Font.PLAIN, 14));
             g2.drawString(i+"", x-15, y+15);
+            if(this.center != null && this.center.getKey() == i) {
+                g2.setColor(Color.BLACK);
+                g2.drawString("center", x + 10, y - 10);
+            }
         }
     }
 
-    public static void createAndShowGui(DirectedWeightedGraph g, ArrayList<EdgeData> toPaint) {
+    public static void createAndShowGui(DirectedWeightedGraph g, ArrayList<EdgeData> toPaint, NodeData center) {
         GA.init(g);
         List<GeoLocation> scores = new ArrayList<>();
         Iterator<NodeData> iter = g.nodeIter();
@@ -132,7 +146,7 @@ public class showGraph extends JPanel {
         }
 
         /* Main panel */
-        showGraph mainPanel = new showGraph(scores,toPaint);
+        showGraph mainPanel = new showGraph(scores,toPaint,center);
         mainPanel.setPreferredSize(new Dimension(800, 600));
 
         /* creating the frame */

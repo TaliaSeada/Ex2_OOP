@@ -198,7 +198,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
             graphFrame.setVisible(true);
         }
         if (e.getSource() == this.show) {
-            showGraph.createAndShowGui(this.GA.getGraph(), new ArrayList<>());
+            showGraph.createAndShowGui(this.GA.getGraph(), new ArrayList<>(), null);
         }
         if (e.getSource() == this.removeEdges) {
             String src = openSrc();
@@ -241,17 +241,17 @@ public class myBoxLayout extends JFrame implements ActionListener {
             String src = openSrc();
             String dest = openDest();
             List<NodeData> path = this.GA.shortestPath(Integer.parseInt(src), Integer.parseInt(dest));
-            showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path));
+            showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
         }
         if (e.getSource() == this.center) {
-
+            showGraph.createAndShowGui(this.GA.getGraph(), null, this.GA.center());
         }
 
         if (e.getSource() == this.tsp_path) {
             Iterator<NodeData> iter = GA.getGraph().nodeIter();
             ArrayList<Integer> option = new ArrayList<>();
 
-            while(iter.hasNext()){
+            while (iter.hasNext()) {
                 option.add(iter.next().getKey());
             }
             Object[] options = option.toArray();
@@ -263,12 +263,18 @@ public class myBoxLayout extends JFrame implements ActionListener {
                     null,
                     options,
                     null);
-            cities.add(new Node(n, GA.getGraph().getNode(n).getLocation()));
+            NodeData no = GA.getGraph().getNode(n);
+            if (!cities.contains(no)){
+                cities.add(no);
+            }
         }
         if (e.getSource() == this.drawTSP) {
-            if(cities.size() != 0) {
+            if(cities.size() == 1){
+                JOptionPane.showMessageDialog(null, "Insert More Than One Node");
+            }
+            else if(cities.size() != 0) {
                 List<NodeData> path = this.GA.tsp(cities);
-                showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path));
+                showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
                 cities = new ArrayList<>();
             }
             else{

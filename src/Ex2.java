@@ -13,7 +13,7 @@ public class Ex2 {
     public static DirectedWeightedGraph getGrapg(String json_file) {
         GraphAlgorithms GA = new GraphAlgorithms();
         GA.load(json_file);
-        DirectedWeightedGraph ans = (Graph)GA.getGraph();
+        DirectedWeightedGraph ans = (Graph) GA.getGraph();
         return ans;
     }
     /**

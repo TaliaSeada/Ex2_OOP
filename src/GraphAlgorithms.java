@@ -142,7 +142,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         ArrayList<HashMap> result = dijkstra(cities.get(0).getKey());
         HashMap<Integer, Double> dist = result.get(0);
-        System.out.println(dist);
         HashMap<Integer, Node> path = result.get(1);
 
         passed.add(cities.get(0).getKey());
@@ -164,7 +163,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             int prevDest = dest;
             result = dijkstra(dest);
             dist = result.get(0);
-            System.out.println(dist);
             path = result.get(1);
             passed.add(dest);
 
