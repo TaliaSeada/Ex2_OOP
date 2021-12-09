@@ -1,4 +1,3 @@
-import api.DirectedWeightedGraph;
 import api.EdgeData;
 import api.GeoLocation;
 import api.NodeData;
@@ -13,6 +12,7 @@ import java.util.List;
 
 public class myBoxLayout extends JFrame implements ActionListener {
     private GraphAlgorithms GA = new GraphAlgorithms();
+    List<NodeData> cities = new ArrayList<>();
 
     // Buttons
     JButton fileActions = new JButton("file");
@@ -30,7 +30,8 @@ public class myBoxLayout extends JFrame implements ActionListener {
     JButton shortestPathDist = new JButton("Get the shortest path distance between two nodes");
     JButton shortestPath = new JButton("Show the shortest path on the graph");
     JButton center = new JButton("Show the center node on the graph");
-    JButton tsp_path = new JButton("Show the shortest path on the graph for a given list of nodes");
+    JButton tsp_path = new JButton("insert nodes for TSP");
+    JButton drawTSP = new JButton("Draw TSP path");
 
     // texts
     JTextField filePath = new JTextField("enter path to file");
@@ -45,7 +46,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
     GroupLayout fileLayout = new GroupLayout(fileFrame.getContentPane());
     BoxLayout graphLayout = new BoxLayout(graphFrame.getContentPane(), BoxLayout.Y_AXIS);
     BoxLayout algoLayout = new BoxLayout(algoFrame.getContentPane(), BoxLayout.Y_AXIS);
-
 
 
     public void createMainWindow(Container pane, String path) {
@@ -106,6 +106,10 @@ public class myBoxLayout extends JFrame implements ActionListener {
         tsp_path.setAlignmentX(Component.CENTER_ALIGNMENT);
         tsp_path.addActionListener(this);
         algoFrame.getContentPane().add(tsp_path);
+
+        drawTSP.setAlignmentX(Component.CENTER_ALIGNMENT);
+        drawTSP.addActionListener(this);
+        algoFrame.getContentPane().add(drawTSP);
 
         algoFrame.setVisible(true);
     }
@@ -194,7 +198,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
             graphFrame.setVisible(true);
         }
         if (e.getSource() == this.show) {
-            showGraph.createAndShowGui(this.GA.getGraph(),new ArrayList<>());
+            showGraph.createAndShowGui(this.GA.getGraph(), new ArrayList<>());
         }
         if (e.getSource() == this.removeEdges) {
             String src = openSrc();
@@ -215,7 +219,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
             String node = openNode();
             String x = openLocX();
             String y = openLocY();
-            GeoLocation loc = new Location(Double.parseDouble(x),Double.parseDouble(y),0.0);
+            GeoLocation loc = new Location(Double.parseDouble(x), Double.parseDouble(y), 0.0);
             NodeData n = new Node(Integer.parseInt(node), loc);
             this.GA.getGraph().addNode(n);
         }
@@ -237,13 +241,39 @@ public class myBoxLayout extends JFrame implements ActionListener {
             String src = openSrc();
             String dest = openDest();
             List<NodeData> path = this.GA.shortestPath(Integer.parseInt(src), Integer.parseInt(dest));
-            showGraph.createAndShowGui(this.GA.getGraph(),getEdgesOfPath(path));
+            showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path));
         }
         if (e.getSource() == this.center) {
 
         }
-        if (e.getSource() == this.tsp_path) {
 
+        if (e.getSource() == this.tsp_path) {
+            Iterator<NodeData> iter = GA.getGraph().nodeIter();
+            ArrayList<Integer> option = new ArrayList<>();
+
+            while(iter.hasNext()){
+                option.add(iter.next().getKey());
+            }
+            Object[] options = option.toArray();
+            int n = JOptionPane.showOptionDialog(graphFrame,
+                    "choose Nodes",
+                    "A Silly Question",
+                    JOptionPane.CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    null);
+            cities.add(new Node(n, GA.getGraph().getNode(n).getLocation()));
+        }
+        if (e.getSource() == this.drawTSP) {
+            if(cities.size() != 0) {
+                List<NodeData> path = this.GA.tsp(cities);
+                showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path));
+                cities = new ArrayList<>();
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Insert Nodes!");
+            }
         }
 
     }
@@ -259,6 +289,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
+
     public String openDest() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -270,6 +301,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
+
     public String openNode() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -281,6 +313,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
+
     public String openNode1() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -292,6 +325,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
+
     public String openNode2() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -303,6 +337,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
+
     public String openW() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -314,6 +349,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0.0");
         return s;
     }
+
     public String openLocX() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -325,6 +361,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0.0");
         return s;
     }
+
     public String openLocY() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -337,10 +374,10 @@ public class myBoxLayout extends JFrame implements ActionListener {
         return s;
     }
 
-    public ArrayList<EdgeData> getEdgesOfPath(List<NodeData> path)
-    {
+
+    public ArrayList<EdgeData> getEdgesOfPath(List<NodeData> path) {
         ArrayList<EdgeData> pathEdges = new ArrayList<>();
-        for(int i =0; i < path.size()-1;i++) {
+        for (int i = 0; i < path.size() - 1; i++) {
             EdgeData edge = this.GA.getGraph().getEdge(path.get(i).getKey(), path.get(i + 1).getKey());
             pathEdges.add(edge);
         }

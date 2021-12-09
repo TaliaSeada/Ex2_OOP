@@ -10,7 +10,6 @@ class GUI {
             }
         });
 
-
     }
 
     public static void activateGUI(String path){
