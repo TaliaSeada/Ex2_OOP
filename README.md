@@ -215,9 +215,9 @@ bfs from a node, reverse edges, again bfs from the same node. If we got an integ
 ### Class GUI:
 This class is used to draw a graph.
 
-#### The function in this class:
+#### The functions in this class:
 __createMainWindow(String path)__ - In this function we create the main window.
-
+__activateGUI(String path)__ - In this function we activate the GUI.
 
 ### Class myBoxLayout:
 In this class we create the appearance of the main window.
@@ -238,10 +238,40 @@ In this class we display a graph in the graph's window.
 //to do
 
 ### Class minHeap:
-//to do
+This class represents the Data Structure min heap.
+
+#### The parameters of the class:
+- int capacity
+- int currentSize
+- pair[] mH 
+- int[] indexes - used to decrease the distance
+
+#### The functions in this class:
+1. __minHeap(int capacity)__ - Constructor
+2. __insert(pair x)__ - Inserting a pair to the heap.
+3. __bubbleUp(int pos)__ -
+4. __extractMin()__ - 
+5. __sinkDown(int k)__ - 
+6. __swap(int a, int b)__ -
+7. __isEmpty()__ -
+8. __heapSize()__ - 
 
 ### Class pair:
-//to do
+This class represents a pair of node and dist
+
+#### The parameters of the class:
+- int node
+- double dist
+
+#### The functions in this class:
+1. pair(int n, double dist) - constructor
+2. pair() - Default constructor
+3. getNode() - Returns the node 
+4. getDist() - Returns the dist
+5. setNode(int node) - Setting a new node
+6. setDist(double dist) - Setting new dist
+7. compareTo(pair other) - Compares to other pair
+8. equals(Object o) - Checks if the object is equal to pair
 
 ## How to interact with the project:
 ### Download:
