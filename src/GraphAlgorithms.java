@@ -56,6 +56,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     public double shortestPathDist(int src, int dest) {
         ArrayList<HashMap> result = dijkstra(src);
         HashMap<Integer, Double> dists = result.get(0);
+        if(dists.get(dest) == Double.MAX_VALUE){
+            System.out.println("no Path");
+            return -1;
+        }
         return dists.get(dest);
     }
 
@@ -63,6 +67,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     public List<NodeData> shortestPath(int src, int dest) {
         List<NodeData> path = new ArrayList<>();
         HashMap<Integer, Node> lastPath = dijkstra(src).get(1);
+        if(shortestPathDist(src,dest) == -1)
+        {
+            System.out.println("no Path!");
+            return null;
+        }
         int firstInPath = lastPath.get(dest).getKey();
         path.add(this.graph.getNode(dest));
         path.add(lastPath.get(dest));
@@ -144,11 +153,17 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         ArrayList<HashMap> result = dijkstra(cities.get(0).getKey());
         HashMap<Integer, Double> dist = result.get(0);
         HashMap<Integer, Node> path = result.get(1);
-
         passed.add(cities.get(0).getKey());
 
         ArrayList<NodeData> currPath = new ArrayList<>();
-
+        for(int i = 0; i < cities.size();i++)
+        {
+            if(dist.get(cities.get(i).getKey()) == Double.MAX_VALUE)
+            {
+                System.out.println("no possible path");
+                return null;
+            }
+        }
         int dest = getMinPath(dist, passed, cities_keys);
         int firstInPath = path.get(dest).getKey();
         currPath.add(0, this.graph.getNode(dest));
@@ -164,6 +179,14 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             int prevDest = dest;
             result = dijkstra(dest);
             dist = result.get(0);
+            for(int i = 0; i < cities.size();i++)
+            {
+                if(dist.get(cities.get(i)) == Double.MAX_VALUE)
+                {
+                    System.out.println("no possible path");
+                    return null;
+                }
+            }
             path = result.get(1);
             passed.add(dest);
 

@@ -263,13 +263,27 @@ public class myBoxLayout extends JFrame implements ActionListener {
             String src = openSrc();
             String dest = openDest();
             double ans = this.GA.shortestPathDist(Integer.parseInt(src), Integer.parseInt(dest));
-            JOptionPane.showMessageDialog(null, ans);
+            if(ans == -1)
+            {
+                JOptionPane.showMessageDialog(null, "No Path!");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, ans);
+            }
         }
         if (e.getSource() == this.shortestPath) {
             String src = openSrc();
             String dest = openDest();
             List<NodeData> path = this.GA.shortestPath(Integer.parseInt(src), Integer.parseInt(dest));
-            showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+            if(path == null)
+            {
+                JOptionPane.showMessageDialog(null, "No Possible Path!");
+            }
+            else
+            {
+                showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+            }
         }
         if (e.getSource() == this.center) {
             if(this.GA.center() != null){
@@ -308,7 +322,12 @@ public class myBoxLayout extends JFrame implements ActionListener {
             }
             else if(cities.size() != 0) {
                 List<NodeData> path = this.GA.tsp(cities);
-                showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+                if(path != null){
+                    showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "No Possible path");
+                }
                 cities = new ArrayList<>();
             }
             else{
