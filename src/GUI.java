@@ -19,6 +19,7 @@ class GUI {
         frame.setSize(500, 500);
         myBoxLayout layout = new myBoxLayout();
         layout.createMainWindow(frame.getContentPane(), path);
+        frame.setLocationRelativeTo(null);
 
         //frame.pack();
         frame.setVisible(true);

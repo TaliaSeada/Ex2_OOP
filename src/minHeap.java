@@ -15,12 +15,6 @@ public class minHeap {
         currentSize = 0;
     }
 
-    public void display() {
-        for (int i = 0; i <= currentSize; i++) {
-            System.out.println(" " + mH[i].node + " distance " + mH[i].dist);
-        }
-        System.out.println("________________________");
-    }
 
     public void insert(pair x) {
         currentSize++;

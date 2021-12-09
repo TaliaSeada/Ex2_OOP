@@ -24,7 +24,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
     JButton removeEdges = new JButton("Disconnect 2 nodes");
 
     JButton isConnected = new JButton("Check if the graph is connected");
-    JButton shortestPathDist = new JButton("Get the shortest path distance");
+    JButton shortestPathDist = new JButton("Get the shortest path distance between two nodes");
     JButton shortestPath = new JButton("Show the shortest path on the graph");
     JButton center = new JButton("Show the center node on the graph");
     JButton tsp_path = new JButton("Show the shortest path on the graph for a given list of nodes");
@@ -44,7 +44,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
     BoxLayout algoLayout = new BoxLayout(algoFrame.getContentPane(), BoxLayout.Y_AXIS);
 
     //dialogs
-//    JDialog notImplemented = new JDialog(graphFrame, "not implemented yet");
 
 
 
@@ -81,6 +80,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
     public void CreateAlgoWindow() {
         algoFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         algoFrame.setSize(500, 500);
+        algoFrame.setLocationRelativeTo(null);
 
         algoFrame.getContentPane().setLayout(algoLayout);
 
@@ -112,6 +112,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
     public void CreateFileWindow() {
         fileFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         fileFrame.setSize(500, 500);
+        fileFrame.setLocationRelativeTo(null);
 
         fileFrame.getContentPane().setLayout(fileLayout);
         fileLayout.setAutoCreateGaps(true);
@@ -142,6 +143,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
     public void CreateGraphWindow() {
         graphFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
         graphFrame.setSize(500, 500);
+        graphFrame.setLocationRelativeTo(null);
 
         graphFrame.getContentPane().setLayout(graphLayout);
 
@@ -217,17 +219,18 @@ public class myBoxLayout extends JFrame implements ActionListener {
             this.GA.getGraph().addNode(n);
         }
         if (e.getSource() == this.algoActions) {
-            CreateAlgoWindow();
+            algoFrame.setVisible(true);
         }
         if (e.getSource() == this.isConnected) {
-            //TODO
             Boolean ans = this.GA.isConnected();
             String answer = ans ? "YES" : "NO";
-            JDialog isConnect = new JDialog(algoFrame, answer);
-            JOptionPane.showMessageDialog(null, isConnect);
+            JOptionPane.showMessageDialog(null, answer);
         }
         if (e.getSource() == this.shortestPathDist) {
-
+            String src = openSrc();
+            String dest = openDest();
+            double ans = this.GA.shortestPathDist(Integer.parseInt(src), Integer.parseInt(dest));
+            JOptionPane.showMessageDialog(null, ans);
         }
         if (e.getSource() == this.shortestPath) {
 
