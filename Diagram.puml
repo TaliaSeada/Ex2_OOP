@@ -89,12 +89,7 @@ class Graph {
 +Graph()
 +Graph(ArrayList<Edge> edges, ArrayList<Node> nodes,String name)
 +Graph(Graph other)
-+getAllEdges()
-+getNodeEdges()
-+getNodes()
-+getName()
-+getNode(int key)
-+getEdge(int src, int dest)
++getter()
 +addNode(NodeData n)
 +connect(int src, int dest, double w)
 +nodeIter()
@@ -104,17 +99,14 @@ class Graph {
 +removeEdge(int src, int dest)
 +nodeSize()
 +edgeSize()
-+getMC()
 }
 
 class nodeToJson {
 - String pos
 - int id
 +nodeToJson(NodeData node)
-+getPos()
-+getId()
-+setPos(String pos)
-+setId(int id)
++getters()
++setters()
 +toString()
 }
 
@@ -123,12 +115,9 @@ class edgeToJson {
 - double w
 - int dest
 +edgeToJson(EdgeData edge)
-+getSrc()
++getters()
 +w()
-+getDest()
-+setSrc(int src)
-+setW(double w)
-+setDest(int dest)
++setters()
 +toString()
 }
 
@@ -153,10 +142,8 @@ class pair {
 -double dist
 +pair(int n, double dist)
 +pair()
-+getNode()
-+getDist()
-+setNode(int node)
-+setDist(double dist)
++getters()
++setters()
 +compareTo(pair other)
 +equals(Object o)
 }
@@ -173,21 +160,10 @@ class Node {
 +Node(LinkedTreeMap<?,?> node)
 +Node(Node other)
 +Node(int key, GeoLocation pos, String happy)
-+getToNode()
-+getFromNode()
++getters()
 +addEdge(Edge edge)
 +removeEdge(int node,String type)
-+getKey()
-+getLocation()
-+setLocation(GeoLocation p)
-+getWeight()
-+setWeight(double w)
-+getEdgeTo()
-+getEdgeFrom()
-+getInfo()
-+setInfo(String s)
-+getTag()
-+setTag(int t)
++setters()
 }
 
 class Edge {
@@ -198,13 +174,8 @@ class Edge {
 +Edge(int src, int dest, double weight)
 +Edge(LinkedTreeMap<?,?> edge)
 +Edge(Edge other)
-+getSrc()
-+getDest()
-+getWeight()
-+getInfo()
-+setInfo(String s)
-+getTag()
-+setTag(int t)
++getters()
++setters()
 +compareTo(Edge o)
 }
 
