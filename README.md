@@ -21,16 +21,16 @@
 
 
 ## Credits:
-This Project made by: Talia Seada (ID: 211551601), Lior Breitman (ID: 212733257), Dana Zorohov (ID: 207817529)
+This Project made by: Talia Seada (ID: 211551601), Lior Breitman (ID: 212733257), Dana Zorohov (ID: 207817529).
 __NOTE:__ In this projects the group members used "Code With Me" in the IntelliJ workspace, so most of the commits are
 from one main computer, while all the members were working on the project together.
 ## Intro:
 This project is about Weighted Directional Graphs. <br>
-More info - https://github.com/benmoshe/OOP_2021/tree/main/Assignments/Ex2/src/api <br>
+For more information - https://github.com/benmoshe/OOP_2021/tree/main/Assignments/Ex2/src/api <br>
 
 ### The main Task:
-The main task of this project is to ...
-We achieve it by implementing these four algorithms: <br>
+The main task of this project is to run and display algorithms on Directed Weighted Graphs.
+We achieved it by implementing these four main algorithms: <br>
 
 #### 1. shortestPath: 
 In this algorithm we need to find the shortest path between two given nodes (return weight of path or list of nodes in this path).
@@ -53,6 +53,7 @@ Afterwards we implemented the Graph and GraphAlgorithms classes.
 
 ### Class Location:
 This class represents a geographic location <x,y,z>, (aka Point3D data).
+Implements the GeoLocation interface.
 
 #### The parameters of the class:
 - double x
@@ -73,6 +74,7 @@ This class represents a geographic location <x,y,z>, (aka Point3D data).
 ### Class Node:
 This class represents the set of operations applicable on a
 node (vertex) in a (directional) weighted graph.
+Implements the NodeData interface.
 
 #### The parameters of the class:
 - __int key__ : Represents a node's ID number
@@ -104,12 +106,13 @@ We defined tag to be colors: 0 - for Undiscovered nodes "white", 1- for discover
 
 
 ### Class nodeToJson:
-This class is used to load a node to Json file.
+This class is used to save a node to Json file.
 
 
 ### Class Edge:
 This class represents the set of operations applicable on a
 directional edge(src,dest) in a (directional) weighted graph.
+Implements the EdgeData interface
 
 #### The parameters of the class:
 - __int src__ : source node of the edge
@@ -132,11 +135,11 @@ directional edge(src,dest) in a (directional) weighted graph.
 
 
 ### Class edgeToJson:
-This class is used to load an edge to Json file.
+This class is used to save an edge to Json file.
 
 
 ### Class Graph:
-This class represents a Directional Weighted Graph
+This class represents a Directional Weighted Graph, implementing the DirectedWeightedGraph algorithm.
 
 #### The parameters of the class:
 - __HashMap<Integer,NodeData> nodes__ : holds all the nodes of this graph
@@ -171,6 +174,7 @@ This class represents a Directional Weighted Graph
 
 ### Class GraphAlgorithms:
 This class represents a Directed (positive) Weighted Graph Theory Algorithms.
+Implements the functions of the DirectedWeightedGraphAlgorithms interface.
 
 #### The parameter of the class:
 - Graph graph
@@ -199,12 +203,13 @@ bfs from a node, reverse edges, again bfs from the same node. If we got an integ
    The function stops when we passed all the nodes.
 9. __save(String file)__ - Saves this weighted (directed) graph to the given file name - in JSON format.
    Here we use the classes "nodeToJson" and "edgeToJson" to save the information into a Json file.
+
 10. __load(String file)__ - This method loads a graph to this graph algorithm.
     if the file was successfully loaded - the underlying graph of this class will be changed (to the loaded one), in case the
     graph was not loaded the original graph should remain "as is".
 
 #### The functions that we added to this class (not included in the interface):
-1. __Dijkstra(int sourceNode)__ - This method finds the shortest path between two nodes with using Dijkstra Algorithm.
+1. __Dijkstra(int sourceNode)__ - This method finds the shortest path between a given node to the rest of the graph's nodes using Dijkstra Algorithm.
 2. __bfs(int nodeKey,Graph graph)__ - This method runs over all the nodes in the graph using the BFS algorithm, and checks if these nodes have edges connected to them.
    for bfs algorithm, we will change the tags of the graphs:
    - 0 for undiscovered nodes "white".
@@ -233,15 +238,8 @@ In this class we create the appearance of the main window.
 3. __CreateFileWindow()__ - In this method we create the file window.
 4. __CreateGraphWindow()__ - In this method we create the graph window.
 5. __actionPerformed(ActionEvent e)__ - In this method we receive the action that occurs (what button was pushed) and by the event we make the action to happen.
-6. __openSrc()__ - 
-7. __openDest()__ -
-8. __openNode()__ - 
-9. __openNode()1_ -
-10. __openNode()2__ -
-11. __openW()__ -
-12. __openLocX()__ -
-13. __openLocY()__ -
-14. __getEdgesOfPath(List<NodeData> path)__ -
+6. __open()__ - All the "open" functions receive information from the user.
+7. __getEdgesOfPath(List<NodeData> path)__ 
 
 ### Class showGraph:
 In this class we display a graph in the graph's window.
@@ -262,9 +260,9 @@ In this class we display a graph in the graph's window.
 
 #### The functions in this class:
 1. __showGraph(List<GeoLocation> scores,ArrayList<EdgeData> edgesToPaint, NodeData center)__ - Constructor
-2. __paintComponent(Graphics g)__ -
-3. __createAndShowGui(DirectedWeightedGraph g, ArrayList<EdgeData> toPaint, NodeData center)__ -
-4. __drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h)__ -
+2. __paintComponent(Graphics g)__ 
+3. __createAndShowGui(DirectedWeightedGraph g, ArrayList<EdgeData> toPaint, NodeData center)__ 
+4. __drawArrowLine(Graphics g, int x1, int y1, int x2, int y2, int d, int h)__ 
 
 ### Class minHeap:
 This class represents the Data Structure min heap.
@@ -278,12 +276,12 @@ This class represents the Data Structure min heap.
 #### The functions in this class:
 1. __minHeap(int capacity)__ - Constructor
 2. __insert(pair x)__ - Inserting a pair to the heap.
-3. __bubbleUp(int pos)__ -
-4. __extractMin()__ - 
-5. __sinkDown(int k)__ - 
-6. __swap(int a, int b)__ -
-7. __isEmpty()__ -
-8. __heapSize()__ - 
+3. __bubbleUp(int pos)__ 
+4. __extractMin()__  
+5. __sinkDown(int k)__  
+6. __swap(int a, int b)__ 
+7. __isEmpty()__ 
+8. __heapSize()__  
 
 ### Class pair:
 This class represents a pair of node and dist
@@ -303,18 +301,26 @@ This class represents a pair of node and dist
 8. equals(Object o) - Checks if the object is equal to pair
 
 ## How to interact with the project:
-### Download:
-In order to download the project 
-//to do
 
-## Run:
-In order to run the project 
-//to do
+### Run:
+In order to run the project:
+1. Enter the cmd and inside the cmd enter to the file where the jar is.
+2. Write the command: java -jar Ex2.jar G1.json 
+    - Where "G1.json" you need to write the right path of the graph that you want to load.
+   
 
-## GUI:
-In order to use GUI
-//to do
 
-## Tests:
-//to do
+### GUI:
+How to use the menu window:
+1. __file__ : Here you can load a new graph to the program, or save the current graph to json file.
+2. __Graph__ : Here you can interact with your graph
+   - show graph - the graph will appear
+   - Add node - adds new node to the graph
+   - remove node - removes node from the graph
+   - connect between 2 nodes - creates new edge between 2 chosen nodes
+   - disconnect 2 nodes - deletes edge that connected between this 2 nodes.
+3. __Algorithms__ : Here you can choose which algorithm to run on the graph.
+
+
+
 
