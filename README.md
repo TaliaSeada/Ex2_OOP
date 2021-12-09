@@ -21,9 +21,9 @@
 
 
 ## Credits:
-This Projects was made by: Talia Seada (ID:), Lior Breitman (ID:), Dana Zorohov (ID: 207817529)
-__NOTE:__ In this projects the group members used "Code With Me" in the IntelliJ workspace so most of the commit are
-from one main computer while all the members were working on the project.
+This Project made by: Talia Seada (ID: 211551601), Lior Breitman (ID: 212733257), Dana Zorohov (ID: 207817529)
+__NOTE:__ In this projects the group members used "Code With Me" in the IntelliJ workspace, so most of the commits are
+from one main computer, while all the members were working on the project together.
 ## Intro:
 This project is about Weighted Directional Graphs. <br>
 More info - https://github.com/benmoshe/OOP_2021/tree/main/Assignments/Ex2/src/api <br>
