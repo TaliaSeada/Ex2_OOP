@@ -8,10 +8,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.security.cert.PolicyNode;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 public class showGraph extends JPanel {
     private static GraphAlgorithms GA = new GraphAlgorithms();
@@ -22,13 +21,25 @@ public class showGraph extends JPanel {
     private Color pointColor = new Color(255,0,0);
     private Color lineColor = new Color(0,0,0);
     private Color indexColor = new Color(0,0,255);
-
-
+    public ArrayList<EdgeData> paintEdges = new ArrayList<>();
 
     // constructor
-    public showGraph(List<GeoLocation> scores) {
+    public showGraph(List<GeoLocation> scores,ArrayList<EdgeData> edgesToPaint) {
+        this.paintEdges = edgesToPaint;
         this.scores = scores;
     }
+
+//    public int PointIndex(List<Point> points, int x, int y)
+//    {
+//        for(int i =0; i < points.size();i++)
+//        {
+//            Point p = points.get(i);
+//            if(p.x == x && p.y == y)
+//            {
+//                return i;
+//            }
+//        }
+//    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -58,6 +69,7 @@ public class showGraph extends JPanel {
         double xScale = ((double) getWidth() - (3 * padding) - labelPadding) / (min_x - max_x);
         double yScale = ((double) getHeight() - 2 * padding - labelPadding) / (min_y - max_y);
 
+        HashMap<Integer, Point> points = new HashMap<>();
         List<Point> graphPoints = new ArrayList<>();
         for (int i = 0; i < scores.size(); i++) {
             int x1 = (int) ((min_x - scores.get(i).x()) * xScale + padding);
@@ -81,6 +93,19 @@ public class showGraph extends JPanel {
             }
         }
 
+        g2.setColor(Color.CYAN);
+
+
+        for(EdgeData edge: this.paintEdges)
+        {
+            int x1 = graphPoints.get(edge.getSrc()).x;
+            int y1 = graphPoints.get(edge.getSrc()).y;
+            int x2 = graphPoints.get(edge.getDest()).x;
+            int y2 = graphPoints.get(edge.getDest()).y;
+
+            drawArrowLine(g2,x1,y1,x2,y2,7,4);
+        }
+
         g2.setStroke(oldStroke);
         g2.setColor(pointColor);
 
@@ -97,10 +122,8 @@ public class showGraph extends JPanel {
         }
     }
 
-    public static void createAndShowGui(DirectedWeightedGraph g) {
+    public static void createAndShowGui(DirectedWeightedGraph g, ArrayList<EdgeData> toPaint) {
         GA.init(g);
-//        GA.load("data/G1.json");
-//        g = GA.getGraph();
         List<GeoLocation> scores = new ArrayList<>();
         Iterator<NodeData> iter = g.nodeIter();
         while(iter.hasNext()){
@@ -109,8 +132,9 @@ public class showGraph extends JPanel {
         }
 
         /* Main panel */
-        showGraph mainPanel = new showGraph(scores);
+        showGraph mainPanel = new showGraph(scores,toPaint);
         mainPanel.setPreferredSize(new Dimension(800, 600));
+
         /* creating the frame */
         JFrame frame = new JFrame("Graph");
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

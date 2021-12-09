@@ -13,6 +13,14 @@ class GUI {
 
     }
 
+    public static void activateGUI(String path){
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createMainWindow(path);
+            }
+        });
+    }
+
     public static void createMainWindow(String path) {
         JFrame frame = new JFrame("Graph gui");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

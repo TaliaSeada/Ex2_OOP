@@ -1,4 +1,5 @@
 import api.DirectedWeightedGraph;
+import api.EdgeData;
 import api.GeoLocation;
 import api.NodeData;
 
@@ -6,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class myBoxLayout extends JFrame implements ActionListener {
     private GraphAlgorithms GA = new GraphAlgorithms();
@@ -42,8 +45,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
     GroupLayout fileLayout = new GroupLayout(fileFrame.getContentPane());
     BoxLayout graphLayout = new BoxLayout(graphFrame.getContentPane(), BoxLayout.Y_AXIS);
     BoxLayout algoLayout = new BoxLayout(algoFrame.getContentPane(), BoxLayout.Y_AXIS);
-
-    //dialogs
 
 
 
@@ -193,7 +194,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
             graphFrame.setVisible(true);
         }
         if (e.getSource() == this.show) {
-            showGraph.createAndShowGui(this.GA.getGraph());
+            showGraph.createAndShowGui(this.GA.getGraph(),new ArrayList<>());
         }
         if (e.getSource() == this.removeEdges) {
             String src = openSrc();
@@ -233,8 +234,10 @@ public class myBoxLayout extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, ans);
         }
         if (e.getSource() == this.shortestPath) {
-
-            showGraph.createAndShowGui(this.GA.getGraph());
+            String src = openSrc();
+            String dest = openDest();
+            List<NodeData> path = this.GA.shortestPath(Integer.parseInt(src), Integer.parseInt(dest));
+            showGraph.createAndShowGui(this.GA.getGraph(),getEdgesOfPath(path));
         }
         if (e.getSource() == this.center) {
 
@@ -332,5 +335,16 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 null,
                 "0.0");
         return s;
+    }
+
+    public ArrayList<EdgeData> getEdgesOfPath(List<NodeData> path)
+    {
+        ArrayList<EdgeData> pathEdges = new ArrayList<>();
+        for(int i =0; i < path.size()-1;i++) {
+            EdgeData edge = this.GA.getGraph().getEdge(path.get(i).getKey(), path.get(i + 1).getKey());
+            pathEdges.add(edge);
+        }
+
+        return pathEdges;
     }
 }
