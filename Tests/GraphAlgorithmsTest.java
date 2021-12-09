@@ -75,18 +75,18 @@ class GraphAlgorithmsTest {
     }
 
     @Test
-    void testDijkstra(){
-        GraphAlgorithms GA = new GraphAlgorithms();
-        GA.load("data/G1.json");
-    }
-
-    @Test
     void test_shortestPathDist(){
         GraphAlgorithms GA = new GraphAlgorithms();
         GA.load("data/myGraph.json");
+        double pathDist = GA.shortestPathDist(0,7);
+        assertEquals(57,pathDist);
 
 
+        pathDist = GA.shortestPathDist(8,3);
+        assertEquals(11,pathDist);
 
+        pathDist = GA.shortestPathDist(3,8);
+        assertEquals(41,pathDist);
     }
 
     @Test
