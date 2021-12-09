@@ -321,6 +321,8 @@ How to use the menu window:
    - disconnect 2 nodes - deletes edge that connected between this 2 nodes.
 3. __Algorithms__ : Here you can choose which algorithm to run on the graph.
 
+### Diagram:
+   ![Diagram](https://user-images.githubusercontent.com/93203695/145441291-0e573b08-9612-4079-89b5-08e942ef4768.png)
 
 
 
