@@ -118,15 +118,18 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public void connect(int src, int dest, double w) {
-        Edge edgeData = new Edge(src,dest,w);
-        String key = src + "-" + dest;
-        this.nodeEdges.get(src).put(key,edgeData);
-        Node source = (Node)this.nodes.get(src);
-        Node destination = (Node)this.nodes.get(dest);
-        source.addEdge(edgeData);
-        destination.addEdge(edgeData);
-        this.allEdges.add(edgeData);
-        MC++;
+        if(this.nodeEdges.get(src).get(src + "-" + dest) != null)
+        {
+            Edge edgeData = new Edge(src,dest,w);
+            String key = src + "-" + dest;
+            this.nodeEdges.get(src).put(key,edgeData);
+            Node source = (Node)this.nodes.get(src);
+            Node destination = (Node)this.nodes.get(dest);
+            source.addEdge(edgeData);
+            destination.addEdge(edgeData);
+            this.allEdges.add(edgeData);
+            MC++;
+        }
     }
 
     @Override
