@@ -1,28 +1,15 @@
 public class Main {
     public static void main(String[] args) {
         GraphAlgorithms graph = new GraphAlgorithms();
-//        graph.load("C:\\10000Nodes.json");
-       graph.load("data/G4.json");
-       graph.getGraph().removeNode(362);
-        graph.getGraph().removeNode(56);
-        graph.getGraph().removeNode(320);
-        graph.getGraph().removeNode(264);
-        graph.getGraph().removeNode(407);
-        graph.getGraph().removeNode(288);
-        graph.getGraph().removeNode(325);
-        graph.getGraph().removeNode(645);
-        graph.getGraph().removeNode(55);
-        graph.getGraph().removeNode(203);
+        graph.load("C:\\100000Nodes.json");
 
-
-
-
-
-
-
-
-
+        long start = System.currentTimeMillis();
         System.out.println(graph.center().getKey());
-        //System.out.println(args[0]);
+        long end = System.currentTimeMillis();
+        System.out.println("time = " + (end - start));
+
+//        System.out.println(Ex2.getGrapgAlgo(args[0]).getGraph());
+//        System.out.println(Ex2.getGrapg(args[0]));
+//        Ex2.runGUI(args[0]);
     }
 }
