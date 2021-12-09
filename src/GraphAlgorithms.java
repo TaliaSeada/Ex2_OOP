@@ -12,8 +12,9 @@ import api.NodeData;
 import com.google.gson.*;
 import com.google.gson.internal.LinkedTreeMap;
 
-import javax.swing.text.html.HTMLDocument;
-
+/**
+ * this class implements the functions of the DirectedWeightedGraphAlgorithms interface
+ */
 public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     private Graph graph;
 
@@ -49,7 +50,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
         int bfs_reverse = bfs(key,createOppositeGraph());
         return bfs_reverse != Integer.MAX_VALUE;
-        // else
     }
 
     @Override
@@ -103,6 +103,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         return null;
     }
 
+    // this function returns the index of the minimum distance
     private int getMinValueIndex(HashMap<Integer, Double> dist) {
         int index = 0;
         double minValue = Double.MAX_VALUE;
@@ -114,7 +115,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
         return index;
     }
-
+    // this function returns the maximum distance value
     private Double getMaxValue(HashMap<Integer, Double> dist) {
         double max = Double.MIN_VALUE;
         for (Integer key : dist.keySet()) {
@@ -200,6 +201,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         return finalList;
     }
+    // this function returns the minimum distance
     private int getMinPath(HashMap<Integer, Double> dist, ArrayList<Integer> visited, ArrayList<Integer> q) {
         double min = Double.MAX_VALUE;
         int res = 0;
@@ -217,6 +219,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
     @Override
     public boolean save(String file) {
+        /*
+            for this function we've created a new classes to convert the nodes and edges to the format of the json file
+            then we used the gson to convert the java file we have into json files
+         */
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             FileWriter writer =  new FileWriter(file);
@@ -225,14 +231,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             ArrayList<edgeToJson> edges = new ArrayList<>();
             for (Integer key : this.graph.getNodes().keySet()) {
                 NodeData CurrNode = this.graph.getNodes().get(key);
-//                nodeToJson node = new nodeToJson(CurrNode);
                 nodes.add(new nodeToJson(CurrNode));
             }
             toWrite.put("Nodes", nodes);
 
             for (int i = 0; i < this.graph.getAllEdges().size(); i++) {
-//                api.EdgeData e = this.graph.getAllEdges().get(i);
-//                edgeToJson edge = new edgeToJson(this.graph.getAllEdges().get(i));
                 edges.add(new edgeToJson(this.graph.getAllEdges().get(i)));
             }
             toWrite.put("Edges", edges);
@@ -344,36 +347,12 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             }
 
         }
-//        ArrayList<Integer> keysToRemove = new ArrayList<>();
-//        for(Integer key: minDists.keySet())
-//        {
-//            if(!this.graph.getNodes().keySet().contains(key))
-//            {
-//                keysToRemove.add(key);
-//            }
-//        }
-//        for(int i =0; i < keysToRemove.size();i++)
-//        {
-//            minDists.remove(keysToRemove.get(i));
-//        }
-//        keysToRemove = new ArrayList<>();
-//        for(Integer key: lastPath.keySet())
-//        {
-//            if(!this.graph.getNodes().keySet().contains(key))
-//            {
-//                keysToRemove.add(key);
-//            }
-//        }
-//        for(int i =0; i < keysToRemove.size();i++)
-//        {
-//            lastPath.remove(keysToRemove.get(i));
-//        }
         result.add(minDists);
         result.add(lastPath);
         return result;
     }
 
-    public void decreaseKey(minHeap MinHeap, double newKey, int vertex){
+    private void decreaseKey(minHeap MinHeap, double newKey, int vertex){
         int index = MinHeap.indexes[vertex];
         pair node = MinHeap.mH[index];
         node.dist = newKey;
@@ -390,8 +369,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
          */
         HashMap<Integer,Integer> distances = new HashMap<>();
         HashMap<Integer, EdgeData> lastEdge = new HashMap<>();
-        //ArrayList<Integer> distances = new ArrayList<>();
-        //ArrayList<EdgeData> lastEdge = new ArrayList<>();
         //lastEdge.get(i) represents the last edge in the path from node i to the node we do bfs on
         for (Integer key:this.graph.getNodes().keySet()){
             distances.put(key,Integer.MAX_VALUE);
@@ -428,6 +405,9 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         return maxDistance;
     }
 
+    /*
+        this function reverses the edges of the graph of this class
+     */
     public Graph createOppositeGraph() {
         ArrayList<Edge> edges = new ArrayList<>();
         ArrayList<Node> nodes = new ArrayList<>();
