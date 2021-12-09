@@ -76,25 +76,24 @@ public class showGraph extends JPanel {
         double xScale = ((double) getWidth() - (3 * padding) - labelPadding) / (min_x - max_x);
         double yScale = ((double) getHeight() - 2 * padding - labelPadding) / (min_y - max_y);
 
-        HashMap<Integer, Point> points = new HashMap<>();
         List<Point> graphPoints = new ArrayList<>();
-        for (int i = 0; i < scores.size(); i++) {
-            int x1 = (int) ((min_x - scores.get(i).x()) * xScale + padding);
-            int y1 = (int) ((min_y - scores.get(i).y()) * yScale + padding);
-            graphPoints.add(new Point(x1, y1));
+        for (Integer key:locations.keySet()) {
+            int x1 = (int) ((min_x - locations.get(key).x()) * xScale + padding);
+            int y1 = (int) ((min_y - locations.get(key).y()) * yScale + padding);
+            points.put(key,new Point(x1,y1));
         }
 
         Stroke oldStroke = g2.getStroke();
         g2.setColor(lineColor);
 
-        for (int i = 0; i < graphPoints.size() - 1; i++) {
+        for (Integer i: points.keySet()) {
             Iterator<EdgeData> edges = GA.getGraph().edgeIter(i);
             while(edges.hasNext()) {
                 EdgeData edge = edges.next();
-                int x1 = graphPoints.get(i).x;
-                int y1 = graphPoints.get(i).y;
-                int x2 = graphPoints.get(edge.getDest()).x;
-                int y2 = graphPoints.get(edge.getDest()).y;
+                int x1 = points.get(i).x;
+                int y1 = points.get(i).y;
+                int x2 = points.get(edge.getDest()).x;
+                int y2 = points.get(edge.getDest()).y;
 
                 drawArrowLine(g2,x1,y1,x2,y2,7,4);
             }
@@ -118,10 +117,10 @@ public class showGraph extends JPanel {
         g2.setStroke(oldStroke);
         g2.setColor(pointColor);
 
-        for (int i = 0; i < graphPoints.size(); i++) {
+        for (Integer i:this.points.keySet()) {
             g2.setColor(pointColor);
-            int x = graphPoints.get(i).x - pointWidth / 2;
-            int y = graphPoints.get(i).y - pointWidth / 2;
+            int x = points.get(i).x - pointWidth / 2;
+            int y = points.get(i).y - pointWidth / 2;
             int ovalW = pointWidth;
             int ovalH = pointWidth;
             g2.fillOval(x, y, ovalW, ovalH);
