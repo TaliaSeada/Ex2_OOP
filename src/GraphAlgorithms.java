@@ -285,13 +285,22 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
     }
 
-    private ArrayList<HashMap> dijkstra(int sourceNode){
+    public ArrayList<HashMap> dijkstra(int sourceNode){
         ArrayList<HashMap> result = new ArrayList<>();
         HashMap<Integer,Double> minDists = new HashMap<>();
         HashMap<Integer,NodeData> lastPath = new HashMap<>();
 
-        pair [] heapNodes = new pair[this.graph.getNodes().keySet().size()];
-        for (int i = 0; i < this.graph.getNodes().keySet().size() ; i++) {
+        int maxKey = -1;
+        for(Integer key:this.graph.getNodes().keySet())
+        {
+            if(key > maxKey){
+                maxKey = key;
+            }
+        }
+        maxKey++;
+
+        pair [] heapNodes = new pair[maxKey];
+        for (Integer i: this.graph.getNodes().keySet()) {
             if(i == sourceNode){
                 minDists.put(sourceNode,0.0);
             }
@@ -299,6 +308,11 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
                 minDists.put(i,Double.MAX_VALUE);
             }
             lastPath.put(i,null);
+
+        }
+
+        for(int i =0; i < maxKey;i++)
+        {
             heapNodes[i] = new pair();
             heapNodes[i].node = i;
             heapNodes[i].dist = Double.MAX_VALUE;
@@ -306,26 +320,56 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
         heapNodes[sourceNode].dist = 0;
 
-        minHeap MinHeap = new minHeap(this.graph.getNodes().keySet().size());
-        for (int i = 0; i < this.graph.getNodes().keySet().size() ; i++) {
+        minHeap MinHeap = new minHeap(maxKey);
+        for (int i = 0; i < maxKey ; i++) {
             MinHeap.insert(heapNodes[i]);
         }
-        while(!MinHeap.isEmpty()){
+        int counter = 0;
+        while(counter != this.graph.getNodes().size()){
             pair extractedNode = MinHeap.extractMin();
+            counter++;
             int curr = extractedNode.node;
             Iterator<EdgeData> edges = this.graph.edgeIter(curr);
-            while(edges.hasNext()){
-                EdgeData edge = edges.next();
-                int dest = edge.getDest();
-                double newDist = heapNodes[curr].dist + edge.getWeight();
-                if(heapNodes[dest].dist > newDist){
-                    decreaseKey(MinHeap, newDist, dest);
-                    heapNodes[dest].dist = newDist;
-                    minDists.put(dest,newDist);
-                    lastPath.put(dest,this.graph.getNode(curr));
+            if(edges != null)
+            {
+                while(edges.hasNext()){
+                    EdgeData edge = edges.next();
+                    int dest = edge.getDest();
+                    double newDist = heapNodes[curr].dist + edge.getWeight();
+                    if(heapNodes[dest].dist > newDist){
+                        decreaseKey(MinHeap, newDist, dest);
+                        heapNodes[dest].dist = newDist;
+                        minDists.put(dest,newDist);
+                        lastPath.put(dest,this.graph.getNode(curr));
+                    }
                 }
             }
+
         }
+//        ArrayList<Integer> keysToRemove = new ArrayList<>();
+//        for(Integer key: minDists.keySet())
+//        {
+//            if(!this.graph.getNodes().keySet().contains(key))
+//            {
+//                keysToRemove.add(key);
+//            }
+//        }
+//        for(int i =0; i < keysToRemove.size();i++)
+//        {
+//            minDists.remove(keysToRemove.get(i));
+//        }
+//        keysToRemove = new ArrayList<>();
+//        for(Integer key: lastPath.keySet())
+//        {
+//            if(!this.graph.getNodes().keySet().contains(key))
+//            {
+//                keysToRemove.add(key);
+//            }
+//        }
+//        for(int i =0; i < keysToRemove.size();i++)
+//        {
+//            lastPath.remove(keysToRemove.get(i));
+//        }
         result.add(minDists);
         result.add(lastPath);
         return result;
@@ -346,16 +390,18 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             1 for discovered but not finished "grey"
             2 for finished nodes "black"
          */
-        ArrayList<Integer> distances = new ArrayList<>();
-        ArrayList<EdgeData> lastEdge = new ArrayList<>();
+        HashMap<Integer,Integer> distances = new HashMap<>();
+        HashMap<Integer, EdgeData> lastEdge = new HashMap<>();
+        //ArrayList<Integer> distances = new ArrayList<>();
+        //ArrayList<EdgeData> lastEdge = new ArrayList<>();
         //lastEdge.get(i) represents the last edge in the path from node i to the node we do bfs on
-        for (int i = 0; i < graph.getNodes().size(); i++) {
-            distances.add(Integer.MAX_VALUE); //infinite
-            lastEdge.add(null);
+        for (Integer key:this.graph.getNodes().keySet()){
+            distances.put(key,Integer.MAX_VALUE);
+            lastEdge.put(key,null);
         }
         // mark the node as visit (now)
         graph.getNode(nodeKey).setTag(1);
-        distances.set(nodeKey, 0);
+        distances.put(nodeKey, 0);
         LinkedList<Integer> queue = new LinkedList<>();
 
         queue.add(nodeKey);
@@ -365,17 +411,17 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             for (Integer key : currNode.getEdgeTo()) {
                 if (graph.getNodes().get(key).getTag() != 1 && graph.getNodes().get(key).getTag() != 2) {
                     graph.getNodes().get(key).setTag(1);
-                    distances.set(key, distances.get(currNode.getKey()) + 1);
-                    lastEdge.set(key, graph.getEdge(currNode.getKey(), key));
+                    distances.put(key, distances.get(currNode.getKey()) + 1);
+                    lastEdge.put(key, graph.getEdge(currNode.getKey(), key));
                     queue.add(key);
                 }
             }
             graph.getNode(currNode.getKey()).setTag(2);
         }
         int maxDistance = Integer.MIN_VALUE;
-        for (Integer distance : distances) {
-            if (distance > maxDistance) {
-                maxDistance = distance;
+        for (Integer key: distances.keySet()) {
+            if (distances.get(key) > maxDistance) {
+                maxDistance = distances.get(key) ;
             }
         }
         for(Integer key : graph.getNodes().keySet()){

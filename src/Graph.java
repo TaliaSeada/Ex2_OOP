@@ -140,6 +140,10 @@ public class Graph implements DirectedWeightedGraph {
 
     @Override
     public Iterator<EdgeData> edgeIter(int node_id) throws RuntimeException{
+        if(!this.nodeEdges.containsKey(node_id))
+        {
+            return null;
+        }
         HashMap<String, EdgeData> edges = this.nodeEdges.get(node_id);
         return edges.values().iterator();
     }
