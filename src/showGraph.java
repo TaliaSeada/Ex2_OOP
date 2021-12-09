@@ -41,15 +41,6 @@ public class showGraph extends JPanel {
         }
     }
 
-//    public int PointIndex(List<Point> points, int x, int y) {
-//        for(int i =0; i < points.size();i++) {
-//            Point p = points.get(i);
-//            if(p.x == x && p.y == y) {
-//                return i;
-//            }
-//        }
-//    }
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
