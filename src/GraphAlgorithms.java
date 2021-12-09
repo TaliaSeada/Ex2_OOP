@@ -285,7 +285,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
     }
 
-    public ArrayList<HashMap> dijkstra(int sourceNode){
+    private ArrayList<HashMap> dijkstra(int sourceNode){
         ArrayList<HashMap> result = new ArrayList<>();
         HashMap<Integer,Double> minDists = new HashMap<>();
         HashMap<Integer,NodeData> lastPath = new HashMap<>();
@@ -332,7 +332,6 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
     }
 
     public void decreaseKey(minHeap MinHeap, double newKey, int vertex){
-
         int index = MinHeap.indexes[vertex];
         pair node = MinHeap.mH[index];
         node.dist = newKey;

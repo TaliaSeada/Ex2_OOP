@@ -21,6 +21,8 @@ public class showGraph extends JPanel {
     private static int pointWidth = 7;
     private Color pointColor = new Color(255,0,0);
     private Color lineColor = new Color(0,0,0);
+    private Color indexColor = new Color(0,0,255);
+
 
 
     // constructor
@@ -83,11 +85,15 @@ public class showGraph extends JPanel {
         g2.setColor(pointColor);
 
         for (int i = 0; i < graphPoints.size(); i++) {
+            g2.setColor(pointColor);
             int x = graphPoints.get(i).x - pointWidth / 2;
             int y = graphPoints.get(i).y - pointWidth / 2;
             int ovalW = pointWidth;
             int ovalH = pointWidth;
             g2.fillOval(x, y, ovalW, ovalH);
+
+            g2.setColor(indexColor);
+            g2.drawString(i+"", x-15, y+15);
         }
     }
 

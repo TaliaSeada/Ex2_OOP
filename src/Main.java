@@ -6,12 +6,13 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         GraphAlgorithms graph = new GraphAlgorithms();
-        graph.load("data/G2.json");
-        List<NodeData> check = new ArrayList<>();
-        check.add(graph.getGraph().getNode(0));
-        check.add(graph.getGraph().getNode(3));
-        check.add(graph.getGraph().getNode(8));
-        check.add(graph.getGraph().getNode(12));
+//        graph.load("C:\\10000Nodes.json");
+        graph.load("Data/G1.json");
+//        List<NodeData> check = new ArrayList<>();
+//        check.add(graph.getGraph().getNode(0));
+//        check.add(graph.getGraph().getNode(3));
+//        check.add(graph.getGraph().getNode(8));
+//        check.add(graph.getGraph().getNode(12));
 
         //System.out.println(graph.isConnected());
         long start = System.currentTimeMillis();

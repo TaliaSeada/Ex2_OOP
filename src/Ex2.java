@@ -14,9 +14,6 @@ public class Ex2 {
         GraphAlgorithms GA = new GraphAlgorithms();
         GA.load(json_file);
         DirectedWeightedGraph ans = (Graph)GA.getGraph();
-        // ****** Add your code here ******
-        //
-        // ********************************
         return ans;
     }
     /**
@@ -27,9 +24,6 @@ public class Ex2 {
     public static DirectedWeightedGraphAlgorithms getGrapgAlgo(String json_file) {
         DirectedWeightedGraphAlgorithms ans = new GraphAlgorithms();
         ans.load(json_file);
-        // ****** Add your code here ******
-        //
-        // ********************************
         return ans;
     }
     /**
@@ -40,8 +34,5 @@ public class Ex2 {
     public static void runGUI(String json_file) {
         DirectedWeightedGraphAlgorithms alg = getGrapgAlgo(json_file);
 
-        // ****** Add your code here ******
-        //
-        // ********************************
     }
 }

@@ -1,9 +1,12 @@
 import api.DirectedWeightedGraph;
+import api.GeoLocation;
+import api.NodeData;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 public class myBoxLayout extends JFrame implements ActionListener {
     private GraphAlgorithms GA = new GraphAlgorithms();
@@ -12,14 +15,23 @@ public class myBoxLayout extends JFrame implements ActionListener {
     JButton fileActions = new JButton("file");
     JButton graphActions = new JButton("Graph");
     JButton algoActions = new JButton("algorithms");
+
     JButton save = new JButton("save to file");
     JButton show = new JButton("show graph");
     JButton AddNode = new JButton("Add node");
     JButton RemoveNode = new JButton("remove Node");
     JButton Connect2Nodes = new JButton("Connect between 2 nodes");
     JButton removeEdges = new JButton("Disconnect 2 nodes");
+
+    JButton isConnected = new JButton("Check if the graph is connected");
+    JButton shortestPathDist = new JButton("Get the shortest path distance");
+    JButton shortestPath = new JButton("Show the shortest path on the graph");
+    JButton center = new JButton("Show the center node on the graph");
+    JButton tsp_path = new JButton("Show the shortest path on the graph for a given list of nodes");
+
     // texts
     JTextField filePath = new JTextField("enter path to file");
+
     // frames
     JFrame fileFrame = new JFrame("file actions window");
     JFrame graphFrame = new JFrame("graph window");
@@ -28,10 +40,12 @@ public class myBoxLayout extends JFrame implements ActionListener {
 
     //layouts
     GroupLayout fileLayout = new GroupLayout(fileFrame.getContentPane());
-    BoxLayout graphLayout = new BoxLayout(graphFrame.getContentPane(),BoxLayout.Y_AXIS);
+    BoxLayout graphLayout = new BoxLayout(graphFrame.getContentPane(), BoxLayout.Y_AXIS);
+    BoxLayout algoLayout = new BoxLayout(algoFrame.getContentPane(), BoxLayout.Y_AXIS);
 
     //dialogs
-    JDialog notImplemented = new JDialog(graphFrame,"not implemented yet");
+//    JDialog notImplemented = new JDialog(graphFrame, "not implemented yet");
+
 
 
     public void createMainWindow(Container pane, String path) {
@@ -68,6 +82,31 @@ public class myBoxLayout extends JFrame implements ActionListener {
         algoFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         algoFrame.setSize(500, 500);
 
+        algoFrame.getContentPane().setLayout(algoLayout);
+
+        isConnected.setAlignmentX(Component.CENTER_ALIGNMENT);
+        isConnected.addActionListener(this);
+        algoFrame.getContentPane().add(isConnected);
+
+        shortestPathDist.setAlignmentX(Component.CENTER_ALIGNMENT);
+        shortestPathDist.addActionListener(this);
+        algoFrame.getContentPane().add(shortestPathDist);
+
+        shortestPath.setAlignmentX(Component.CENTER_ALIGNMENT);
+        shortestPath.addActionListener(this);
+        algoFrame.getContentPane().add(shortestPath);
+
+
+        center.setAlignmentX(Component.CENTER_ALIGNMENT);
+        center.addActionListener(this);
+        algoFrame.getContentPane().add(center);
+
+
+        tsp_path.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tsp_path.addActionListener(this);
+        algoFrame.getContentPane().add(tsp_path);
+
+        algoFrame.setVisible(true);
     }
 
     public void CreateFileWindow() {
@@ -104,9 +143,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
         graphFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
         graphFrame.setSize(500, 500);
 
-
         graphFrame.getContentPane().setLayout(graphLayout);
-
 
         show.setAlignmentX(Component.CENTER_ALIGNMENT);
         show.addActionListener(this);
@@ -135,43 +172,161 @@ public class myBoxLayout extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == this.fileActions){
+        if (e.getSource() == this.fileActions) {
             fileFrame.setVisible(true);
         }
-        if(e.getSource() == this.save){
+        if (e.getSource() == this.save) {
             String Path = filePath.getText();
             String[] split = Path.split("\\.");
             if (split.length == 0 || !split[split.length - 1].equals("json")) {
                 filePath.setText("invalid path");
-            }
-            else {
+            } else {
                 GA.save(Path);
                 JOptionPane.showMessageDialog(null, "Saved!");
                 filePath.setText("enter path file");
                 fileFrame.setVisible(false);
             }
         }
-        if(e.getSource() == this.graphActions){
+        if (e.getSource() == this.graphActions) {
             graphFrame.setVisible(true);
         }
-        if(e.getSource() == this.show){
+        if (e.getSource() == this.show) {
             showGraph.createAndShowGui(this.GA.getGraph());
         }
-        if(e.getSource() == this.removeEdges){
-            this.GA.getGraph().removeEdge(1,0);
-            this.GA.getGraph().removeEdge(0,1);
+        if (e.getSource() == this.removeEdges) {
+            String src = openSrc();
+            String dest = openDest();
+            this.GA.getGraph().removeEdge(Integer.parseInt(src), Integer.parseInt(dest));
         }
-        if(e.getSource() == this.RemoveNode){
-
+        if (e.getSource() == this.RemoveNode) {
+            String node = openNode();
+            this.GA.getGraph().removeNode(Integer.parseInt(node));
         }
-        if(e.getSource() == this.Connect2Nodes){
-
+        if (e.getSource() == this.Connect2Nodes) {
+            String node1 = openNode1();
+            String node2 = openNode2();
+            String w = openW();
+            this.GA.getGraph().connect(Integer.parseInt(node1), Integer.parseInt(node2), Double.parseDouble(w));
         }
-        if(e.getSource() == this.AddNode){
-
+        if (e.getSource() == this.AddNode) {
+            String node = openNode();
+            String x = openLocX();
+            String y = openLocY();
+            GeoLocation loc = new Location(Double.parseDouble(x),Double.parseDouble(y),0.0);
+            NodeData n = new Node(Integer.parseInt(node), loc);
+            this.GA.getGraph().addNode(n);
         }
-        if(e.getSource() == this.algoActions){
+        if (e.getSource() == this.algoActions) {
             CreateAlgoWindow();
         }
+        if (e.getSource() == this.isConnected) {
+            //TODO
+            Boolean ans = this.GA.isConnected();
+            String answer = ans ? "YES" : "NO";
+            JDialog isConnect = new JDialog(algoFrame, answer);
+            JOptionPane.showMessageDialog(null, isConnect);
+        }
+        if (e.getSource() == this.shortestPathDist) {
+
+        }
+        if (e.getSource() == this.shortestPath) {
+
+        }
+        if (e.getSource() == this.center) {
+
+        }
+        if (e.getSource() == this.tsp_path) {
+
+        }
+
+    }
+
+    public String openSrc() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert source node:\n",
+                "Source",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
+    }
+    public String openDest() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert destination node:\n",
+                "Destination",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
+    }
+    public String openNode() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert node:\n",
+                "Node",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
+    }
+    public String openNode1() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert first node:\n",
+                "Source",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
+    }
+    public String openNode2() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert second node:\n",
+                "Destination",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0");
+        return s;
+    }
+    public String openW() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert weight of edge:\n",
+                "Weight",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0.0");
+        return s;
+    }
+    public String openLocX() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert x-axis location of node:\n",
+                "X",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0.0");
+        return s;
+    }
+    public String openLocY() {
+        String s = (String) JOptionPane.showInputDialog(
+                graphFrame,
+                "insert y-axis location of node:\n",
+                "Y",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "0.0");
+        return s;
     }
 }
