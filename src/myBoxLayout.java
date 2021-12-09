@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -263,13 +264,27 @@ public class myBoxLayout extends JFrame implements ActionListener {
             String src = openSrc();
             String dest = openDest();
             double ans = this.GA.shortestPathDist(Integer.parseInt(src), Integer.parseInt(dest));
-            JOptionPane.showMessageDialog(null, ans);
+            if(ans == -1)
+            {
+                JOptionPane.showMessageDialog(null, "No Path!");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, ans);
+            }
         }
         if (e.getSource() == this.shortestPath) {
             String src = openSrc();
             String dest = openDest();
             List<NodeData> path = this.GA.shortestPath(Integer.parseInt(src), Integer.parseInt(dest));
-            showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+            if(path == null)
+            {
+                JOptionPane.showMessageDialog(null, "No Possible Path!");
+            }
+            else
+            {
+                showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+            }
         }
         if (e.getSource() == this.center) {
             if(this.GA.center() != null){
@@ -284,9 +299,11 @@ public class myBoxLayout extends JFrame implements ActionListener {
         if (e.getSource() == this.tsp_path) {
             Iterator<NodeData> iter = GA.getGraph().nodeIter();
             ArrayList<Integer> option = new ArrayList<>();
-
+            HashMap<Integer, Integer> realNode = new HashMap<>();
             while (iter.hasNext()) {
-                option.add(iter.next().getKey());
+                NodeData node = iter.next();
+                option.add(node.getKey());
+                realNode.put(option.size()-1,node.getKey());
             }
             Object[] options = option.toArray();
             int n = JOptionPane.showOptionDialog(graphFrame,
@@ -297,7 +314,7 @@ public class myBoxLayout extends JFrame implements ActionListener {
                     null,
                     options,
                     null);
-            NodeData no = GA.getGraph().getNode(n);
+            NodeData no = GA.getGraph().getNode(realNode.get(n));
             if (!cities.contains(no)){
                 cities.add(no);
             }
@@ -308,7 +325,12 @@ public class myBoxLayout extends JFrame implements ActionListener {
             }
             else if(cities.size() != 0) {
                 List<NodeData> path = this.GA.tsp(cities);
-                showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+                if(path != null){
+                    showGraph.createAndShowGui(this.GA.getGraph(), getEdgesOfPath(path), null);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "No Possible path");
+                }
                 cities = new ArrayList<>();
             }
             else{
