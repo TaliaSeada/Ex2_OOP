@@ -285,6 +285,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
     }
 
+
+    //this function gets a source nodes and calculates the shortest path from it to every other
+    //node on the graph, and returns the distances, and also the last node that we got from to
+    // every other node
     public ArrayList<HashMap> dijkstra(int sourceNode){
         ArrayList<HashMap> result = new ArrayList<>();
         HashMap<Integer,Double> minDists = new HashMap<>();
