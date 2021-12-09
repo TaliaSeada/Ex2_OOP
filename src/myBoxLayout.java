@@ -203,11 +203,21 @@ public class myBoxLayout extends JFrame implements ActionListener {
         if (e.getSource() == this.removeEdges) {
             String src = openSrc();
             String dest = openDest();
-            this.GA.getGraph().removeEdge(Integer.parseInt(src), Integer.parseInt(dest));
+            if(GA.getGraph().getEdge(Integer.parseInt(src), Integer.parseInt(dest)) != null) {
+                this.GA.getGraph().removeEdge(Integer.parseInt(src), Integer.parseInt(dest));
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Edge Doe's Not Exist" );
+            }
         }
         if (e.getSource() == this.RemoveNode) {
             String node = openNode();
-            this.GA.getGraph().removeNode(Integer.parseInt(node));
+            if(GA.getGraph().getNode(Integer.parseInt(node)) != null) {
+                this.GA.getGraph().removeNode(Integer.parseInt(node));
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Node Doe's Not Exist" );
+            }
         }
         if (e.getSource() == this.Connect2Nodes) {
             String node1 = openNode1();
@@ -295,7 +305,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
-
     public String openDest() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -307,7 +316,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
-
     public String openNode() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -319,7 +327,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
-
     public String openNode1() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -331,7 +338,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
-
     public String openNode2() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -343,7 +349,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0");
         return s;
     }
-
     public String openW() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -355,7 +360,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0.0");
         return s;
     }
-
     public String openLocX() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -367,7 +371,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0.0");
         return s;
     }
-
     public String openLocY() {
         String s = (String) JOptionPane.showInputDialog(
                 graphFrame,
@@ -379,7 +382,6 @@ public class myBoxLayout extends JFrame implements ActionListener {
                 "0.0");
         return s;
     }
-
 
     public ArrayList<EdgeData> getEdgesOfPath(List<NodeData> path) {
         ArrayList<EdgeData> pathEdges = new ArrayList<>();
