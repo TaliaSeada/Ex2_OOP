@@ -146,7 +146,10 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         ArrayList<ArrayList<NodeData>> eachPath = new ArrayList<>();
         ArrayList<Integer> cities_keys = new ArrayList<>();
         for (NodeData city : cities) {
-            cities_keys.add(city.getKey());
+            if(city != null)
+            {
+                cities_keys.add(city.getKey());
+            }
         }
         ArrayList<Integer> passed = new ArrayList<>();
 
@@ -181,7 +184,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
             dist = result.get(0);
             for(int i = 0; i < cities.size();i++)
             {
-                if(dist.get(cities.get(i)) == Double.MAX_VALUE)
+                if(dist.get(cities.get(i).getKey()) == Double.MAX_VALUE)
                 {
                     System.out.println("no possible path");
                     return null;
