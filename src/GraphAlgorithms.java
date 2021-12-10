@@ -459,12 +459,12 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         return new Graph(edges, nodes, this.graph.getName());
     }
 
-    private List<NodeData> createListForTSP(int sizeOfList)
+    public List<NodeData> createListForTSP(int sizeOfList)
     {
         List<NodeData> nodes = new ArrayList<>();
         while(nodes.size() != sizeOfList)
         {
-            int currNode = ThreadLocalRandom.current().nextInt(0,this.graph.getNodes().size()+1);
+            int currNode = ThreadLocalRandom.current().nextInt(0,this.graph.getNodes().size());
             if(!nodes.contains(this.graph.getNode(currNode)))
             {
                 nodes.add(this.graph.getNode(currNode));
@@ -477,7 +477,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
 
 
 
-    private Graph createRandomGraph(int numOfNodes)
+    public Graph createRandomGraph(int numOfNodes)
     {
         Graph graph = new Graph();
         Random r = new Random();
@@ -495,7 +495,7 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         {
             for(int i =0; i < 10;i++)
             {
-                int randomNode = ThreadLocalRandom.current().nextInt(0,numOfNodes+1);
+                int randomNode = ThreadLocalRandom.current().nextInt(0,numOfNodes);
                 double weight = rangeMin + (rangeMax-rangeMin) * r.nextDouble();
                 graph.connect(key,randomNode,weight);
             }
