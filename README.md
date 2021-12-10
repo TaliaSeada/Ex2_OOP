@@ -324,5 +324,8 @@ How to use the menu window:
 ### Diagram:
    ![Diagram](https://user-images.githubusercontent.com/93203695/145441291-0e573b08-9612-4079-89b5-08e942ef4768.png)
 
+### Results:
+   ![תוצאות](https://user-images.githubusercontent.com/78349342/145578850-8def8b95-ae18-4ac7-88c4-2c79483daeab.png)
+   
 
 
