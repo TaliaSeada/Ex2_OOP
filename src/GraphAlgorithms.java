@@ -4,6 +4,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import api.DirectedWeightedGraph;
 import api.DirectedWeightedGraphAlgorithms;
@@ -456,6 +457,50 @@ public class GraphAlgorithms implements DirectedWeightedGraphAlgorithms {
         }
 
         return new Graph(edges, nodes, this.graph.getName());
+    }
+
+    private List<NodeData> createListForTSP(int sizeOfList)
+    {
+        List<NodeData> nodes = new ArrayList<>();
+        while(nodes.size() != sizeOfList)
+        {
+            int currNode = ThreadLocalRandom.current().nextInt(0,this.graph.getNodes().size()+1);
+            if(!nodes.contains(this.graph.getNode(currNode)))
+            {
+                nodes.add(this.graph.getNode(currNode));
+            }
+        }
+        return nodes;
+    }
+
+
+
+
+
+    private Graph createRandomGraph(int numOfNodes)
+    {
+        Graph graph = new Graph();
+        Random r = new Random();
+        int rangeMin = 100;
+        int rangeMax = 110;
+        for(int i =0; i < numOfNodes;i++)
+        {
+            double x = rangeMin + ( rangeMax-rangeMin ) * r.nextDouble();
+            double y = rangeMin + ( rangeMax-rangeMin ) * r.nextDouble();
+            double z = 0.0;
+            NodeData node = new Node(i,x,y,z);
+            graph.addNode(node);
+        }
+        for(Integer key: graph.getNodes().keySet())
+        {
+            for(int i =0; i < 10;i++)
+            {
+                int randomNode = ThreadLocalRandom.current().nextInt(0,numOfNodes+1);
+                double weight = rangeMin + (rangeMax-rangeMin) * r.nextDouble();
+                graph.connect(key,randomNode,weight);
+            }
+        }
+        return graph;
     }
 
 }
