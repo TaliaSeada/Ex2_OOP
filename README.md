@@ -1,6 +1,5 @@
 # Second Assignment - OOP Course
 ## Table Of Content:
-### Credits
 ### Intro
 ### Implementation
 - Class Node
